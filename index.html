@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0F172A" />
-  <meta name="description" content="VidyaLite ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â offline-first adaptive learning for rural schools." />
+  <meta name="description" content="VidyaLite ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â offline-first adaptive learning for rural schools." />
   <link rel="manifest" href="manifest.json" />
   <title>VidyaLite | Learning made simple, anywhere.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,7 +45,7 @@
       <div class="flex items-center gap-2">
         <button id="login-student-btn" onclick="setRole('student')" class="px-4 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">Student Login</button>
         <button id="login-teacher-btn" onclick="setRole('teacher')" class="px-4 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">Teacher Login</button>
-        <a href="#learn" id="start-learning-btn" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition">Start Learning</a>
+        <a href="#learn" id="start-learning-btn" onclick="showView('learn')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition">Start Learning</a>
       </div>
     </div>
   </header>
@@ -62,7 +62,7 @@
           <h1 id="ui-welcome" class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mt-5">Learning made simple, <span class="text-amber-400">anywhere</span>.</h1>
           <p id="ui-subtitle" class="text-base sm:text-lg text-slate-300 leading-relaxed mt-5 max-w-2xl">VidyaLite helps students practise maths offline, adapt questions to their pace, and lets teachers see exactly where learners need help.</p>
           <div class="flex flex-wrap items-center gap-4 mt-7">
-            <a href="#learn" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 transition">
+            <a href="#learn" onclick="showView('learn')" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 transition">
               <i data-lucide="play" class="w-5 h-5 fill-current"></i>
               <span id="cta-start">Start Learning</span>
             </a>
@@ -204,8 +204,8 @@
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
             <h3 class="font-display font-bold text-lg text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="book-open" class="w-5 h-5 text-amber-500"></i>Recommended Lessons</h3>
             <ul id="recommended-list" class="space-y-3 text-sm text-slate-700">
-              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Fractions ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Easy</span><span class="text-xs font-bold text-emerald-600">Ready</span></li>
-              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Decimals ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Medium</span><span class="text-xs font-bold text-amber-600">Continue</span></li>
+              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Fractions Ãƒâ€šÃ‚Â· Easy</span><span class="text-xs font-bold text-emerald-600">Ready</span></li>
+              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Decimals Ãƒâ€šÃ‚Â· Medium</span><span class="text-xs font-bold text-amber-600">Continue</span></li>
             </ul>
           </div>
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
@@ -230,7 +230,7 @@
             <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
-            <span id="topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Fractions ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Grade 6</span>
+            <span id="topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Fractions Ãƒâ€šÃ‚Â· Grade 6</span>
             <span id="difficulty-badge" class="text-xs font-sans font-semibold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Medium</span>
           </div>
         </div>
@@ -255,7 +255,7 @@
                   <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
                   <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
                 </div>
-                <span id="audio-caption">Playing cached regional voice packÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦</span>
+                <span id="audio-caption">Playing cached regional voice packÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</span>
               </div>
               <span class="font-mono text-[11px] text-amber-400">Offline Audio</span>
             </div>
@@ -288,36 +288,30 @@
                 <div class="flex items-center gap-2.5">
                   <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i data-lucide="database" class="w-5 h-5"></i></div>
                   <div>
-                    <h4 class="font-display font-bold text-base text-white">Local Progress</h4>
-                    <p class="text-xs text-slate-400">Adaptive scoring stored on-device</p>
+                    <h4 class="font-display font-bold text-base text-white">Local Progress Store</h4>
+                    <p class="text-xs text-slate-400">Saved on-device via IndexedDB</p>
                   </div>
                 </div>
                 <span id="packet-size-badge" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-emerald-400">0.4 KB pending</span>
               </div>
-              <div class="grid grid-cols-3 gap-3 mb-5">
-                <div class="bg-slate-900 rounded-2xl p-3 text-center border border-slate-800">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-500">Elo Rating</p>
-                  <p id="progress-elo" class="font-display text-xl font-extrabold text-white mt-1">1050</p>
+              <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+                <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
+                  <span>delta_progress.json</span>
+                  <span id="sync-queue-count">0 pending</span>
                 </div>
-                <div class="bg-slate-900 rounded-2xl p-3 text-center border border-slate-800">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-500">Streak</p>
-                  <p id="progress-streak" class="font-display text-xl font-extrabold text-white mt-1">4</p>
-                </div>
-                <div class="bg-slate-900 rounded-2xl p-3 text-center border border-slate-800">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-500">Accuracy</p>
-                  <p id="progress-acc" class="font-display text-xl font-extrabold text-white mt-1">80%</p>
-                </div>
+                <pre id="delta-json-preview" class="text-emerald-300 leading-relaxed">{
+  "student_id": "STU_ASHA_06",
+  "elo_rating": 1050,
+  "pending_events": [],
+  "compressed_bytes": 412
+}</pre>
               </div>
               <div class="mt-5 space-y-3">
                 <button onclick="simulateSyncNow()" id="sync-now-btn" class="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition shadow-lg shadow-emerald-500/20">
                   <i data-lucide="refresh-cw" id="sync-icon" class="w-4 h-4"></i>
                   <span id="ui-sync">Sync Now</span>
                 </button>
-                <p id="sync-status-msg" class="text-xs text-center text-slate-400">Local sync simulation - progress is stored in browser IndexedDB (no remote server).</p>
-                <div class="flex items-center justify-between text-[11px] text-slate-500">
-                  <span>Delta packets</span>
-                  <span id="sync-queue-count">0 pending</span>
-                </div>
+                <p id="sync-status-msg" class="text-xs text-center text-slate-400">Local sync simulation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â progress is stored in browser IndexedDB (no remote server).</p>
               </div>
             </div>
             <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-3xl p-5 text-xs sm:text-sm text-indigo-200 space-y-2">
@@ -452,7 +446,8 @@
 
     function el(id) { return document.getElementById(id); }
     function t(key) { const l = uiStrings[state.lang] || uiStrings.en; return (l && l[key]) || uiStrings.en[key] || key; }
-    function setLanguage(lang, shouldPersist) { state.lang = lang; if (shouldPersist) { try { localStorage.setItem('vidyalite_lang', lang); } catch (e) {} } const sub = document.getElementById('ui-submit'); if (sub) sub.textContent = t('submit'); renderAll(); }
+    function updateUIStrings() { const w = document.getElementById('ui-welcome'); const s = document.getElementById('ui-subtitle'); const c1 = document.getElementById('cta-start'); const c2 = document.getElementById('cta-how'); const st = document.getElementById('start-learning-btn'); const ls = document.getElementById('login-student-btn'); const lt = document.getElementById('login-teacher-btn'); const dd = document.getElementById('dash-title'); if (w) w.textContent = t('welcome'); if (s) s.textContent = t('subtitle'); if (c1) c1.textContent = t('startLearning'); if (c2) c2.textContent = t('howItWorks'); document.querySelectorAll('[data-nav]').forEach(a => { a.textContent = t(a.getAttribute('data-nav')); }); if (st) st.textContent = t('startLearning'); if (ls) ls.textContent = 'Student Login'; if (lt) lt.textContent = 'Teacher Login'; if (dd) dd.textContent = state.role === 'teacher' ? t('teacherDashboard') : t('student'); }
+    function setLanguage(lang, shouldPersist) { state.lang = lang; if (shouldPersist) { try { localStorage.setItem('vidyalite_lang', lang); } catch (e) {} } const sub = document.getElementById('ui-submit'); if (sub) sub.textContent = t('submit'); updateUIStrings(); renderAll(); }
     function showView(id) { document.querySelectorAll('section').forEach(s => { s.classList.toggle('hidden', s.id !== id); }); }
     function setRole(role) { state.role = role; const sb = document.getElementById('login-student-btn'); const tb = document.getElementById('login-teacher-btn'); if (sb) { sb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'student' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } if (tb) { tb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'teacher' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } }
     function onClassChange() { state.grade = parseInt(document.getElementById('class-select').value, 10); }
