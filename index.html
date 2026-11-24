@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0F172A" />
+  <link rel="manifest" href="manifest.json" />
+  <title>VidyaLite | Offline-First Adaptive Learning · Team PIXEL</title>
+  <!-- Google Fonts: Inter, Plus Jakarta Sans, Noto Sans Kannada, Noto Sans Devanagari -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              indigo: '#1E1B4B',
+              navy: '#0F172A',
+              saffron: '#F59E0B',
+              amber: '#D97706',
+              emerald: '#10B981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom subtle grid & glow aesthetics */
+    .hero-pattern {
+      background-color: #0F172A;
+      background-image: radial-gradient(rgba(99, 102, 241, 0.16) 1px, transparent 1px),
+                        radial-gradient(rgba(245, 158, 11, 0.1) 1px, #0F172A 1px);
+      background-size: 36px 36px;
+      background-position: 0 0, 18px 18px;
+    }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.75; }
+      70% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(0.95); opacity: 0; }
+    }
+    .pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      background: inherit;
+      animation: pulseRing 2s infinite;
+      z-index: -1;
+    }
+    @keyframes soundWave {
+      0%, 100% { height: 6px; }
+      50% { height: 18px; }
+    }
+    .wave-bar {
+      animation: soundWave 0.7s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-amber-200 selection:text-indigo-950">
+
+  <!-- Sticky Navigation Bar -->
+  <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-slate-950 font-extrabold text-lg shadow-lg shadow-amber-500/20">
+          V
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-xl tracking-tight text-white">Vidya<span class="text-amber-400">Lite</span></span>
+          <span class="hidden sm:inline-block ml-2 text-[11px] font-medium px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+            Team PIXEL
+          </span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+        <a href="#problem" class="hover:text-amber-400 transition">Problem</a>
+        <a href="#live-demo" class="hover:text-amber-400 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Live Simulator
+        </a>
+        <a href="#architecture" class="hover:text-amber-400 transition">Architecture</a>
+        <a href="#tech-stack" class="hover:text-amber-400 transition">Tech Stack</a>
+        <a href="#comparison" class="hover:text-amber-400 transition">Why Us</a>
+        <a href="#business" class="hover:text-amber-400 transition">Impact & Business</a>
+      </nav>
+
+      <a href="#live-demo" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-xs sm:text-sm transition shadow-md shadow-amber-500/20">
+        <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+        <span>Launch Demo</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero-pattern text-white relative overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-24 border-b border-slate-800">
+    <!-- Subtle Ambient Orbs -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-24 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Event & Team Pill Badges -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/90 border border-indigo-500/40 text-indigo-200 text-xs sm:text-sm font-medium">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+          wHACKiest 2026 · Track 4: Mystery Track (UnlockED)
+        </span>
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 text-xs sm:text-sm font-medium">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-emerald-400"></i>
+          Team PIXEL (ID: <code class="text-amber-400 font-mono">a0fe650e</code>) · AMC Engineering College, Bengaluru
+        </span>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-10 items-center">
+        <!-- Left Content -->
+        <div class="lg:col-span-7 space-y-6">
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12]">
+            <span class="text-amber-400">VidyaLite</span> — Offline-First Adaptive Learning for Rural Schools
+          </h1>
+          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+            A lightweight Progressive Web App (PWA) that teaches and tests <strong class="text-white">without internet</strong>, adapts question difficulty to each learner in <strong class="text-amber-300">ಕನ್ನಡ (Kannada), हिंदी (Hindi), and English</strong>, and syncs tiny compressed delta packets when connectivity returns.
+          </p>
+
+          <!-- Interactive CTAs -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#live-demo" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 transition transform hover:-translate-y-0.5">
+              <i data-lucide="smartphone" class="w-5 h-5"></i>
+              Try Interactive Student Demo
+            </a>
+            <a href="#architecture" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-white font-semibold text-sm sm:text-base transition">
+              <i data-lucide="cpu" class="w-5 h-5 text-indigo-400"></i>
+              Explore Architecture
+            </a>
+          </div>
+
+          <!-- Key Metrics Strip -->
+          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800/90 max-w-xl">
+            <div>
+              <p class="text-2xl sm:text-3xl font-display font-extrabold text-emerald-400">0 KB</p>
+              <p class="text-xs sm:text-sm text-slate-400">Data needed during class</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-display font-extrabold text-amber-400">3 Langs</p>
+              <p class="text-xs sm:text-sm text-slate-400">Kannada, Hindi & English</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-display font-extrabold text-indigo-400">&lt; 5 KB</p>
+              <p class="text-xs sm:text-sm text-slate-400">Compressed delta sync</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Visual Card: Student Flow Summary -->
+        <div class="lg:col-span-5">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-2xl backdrop-blur-sm">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="relative flex h-3 w-3 pulse-ring bg-emerald-500 rounded-full"></span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Offline-First Student Loop</span>
+              </div>
+              <span class="text-xs text-slate-400 font-mono">PWA v1.0 MVP</span>
+            </div>
+
+            <ol class="space-y-3.5 text-sm">
+              <li class="flex items-start gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <div>
+                  <p class="font-semibold text-white">Choose Regional Language</p>
+                  <p class="text-xs text-slate-400">Instant UI + ElevenLabs audio packs in ಕನ್ನಡ, हिंदी, or English.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <span class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <div>
+                  <p class="font-semibold text-white">Quick Diagnostic & Adaptive Practice</p>
+                  <p class="text-xs text-slate-400">On-device Elo/IRT model calibrates Class 5–8 Maths difficulty.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <span class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <div>
+                  <p class="font-semibold text-white">Instant AI Hints & Local Storage</p>
+                  <p class="text-xs text-slate-400">Step-by-step hints & scores saved safely in IndexedDB offline.</p>
+                </div>
+              </li>
+              <li class="flex items-start gap-3 p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">4</span>
+                <div>
+                  <p class="font-semibold text-white">Auto-Sync to Teacher Heatmap</p>
+                  <p class="text-xs text-slate-400">Tiny delta packets update the multi-grade teacher dashboard.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. THE PROBLEM & WHY IT MATTERS -->
+  <section id="problem" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-100 px-3 py-1 rounded-full">The Challenge</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+        Why Rural Classrooms Are Left Behind by Conventional EdTech
+      </h2>
+      <p class="text-slate-600 mt-3 text-base sm:text-lg">
+        Rural primary and secondary students lose critical learning time when connectivity drops and one-size-fits-all digital tools fail multi-grade realities.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">
+          <i data-lucide="wifi-off" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Unreliable Connectivity</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Video-heavy apps buffer endlessly or consume expensive mobile data, halting learning whenever rural networks drop.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+          <i data-lucide="users-round" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Multi-Grade Classrooms</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          A single rural teacher often manages Grades 5–8 simultaneously, making individual 1-on-1 remediation nearly impossible.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
+          <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">ASER Foundational Gaps</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          ASER reports repeatedly reveal persistent gaps in foundational numeracy and reading that widen without targeted practice.
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
+          <i data-lucide="tv" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Static Broadcast Limits</h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          DIKSHA and TV/radio lessons are passive and one-size-fits-all—lacking regional adaptive practice and teacher-level gap insights.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. INTERACTIVE STUDENT & TEACHER DEMO SIMULATOR -->
+  <section id="live-demo" class="py-16 sm:py-20 bg-slate-900 text-white border-y border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div>
+          <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-3.5 py-1.5 rounded-full">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            Interactive Dual-View MVP Simulator
+          </span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-3">
+            Experience VidyaLite Live
+          </h2>
+          <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">
+            Practice Class 5–8 Maths offline in Kannada, Hindi, or English, trigger AI hints & voice read-aloud, and sync your delta packet to see the Teacher Weak-Topic Heatmap update in real time!
+          </p>
+        </div>
+
+        <!-- Mode Switcher Pill -->
+        <div class="inline-flex p-1.5 rounded-2xl bg-slate-800 border border-slate-700 self-start lg:self-auto">
+          <button id="tab-student" onclick="switchDemoTab('student')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition bg-amber-500 text-slate-950 shadow-md">
+            <i data-lucide="smartphone" class="w-4 h-4"></i>
+            <span>Student Offline PWA</span>
+          </button>
+          <button id="tab-teacher" onclick="switchDemoTab('teacher')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition text-slate-300 hover:text-white">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Teacher Heatmap</span>
+            <span id="unsynced-badge" class="hidden ml-1 px-2 py-0.5 text-[11px] rounded-full bg-emerald-500 text-slate-950 font-extrabold">New</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: STUDENT OFFLINE PWA SIMULATOR -->
+      <div id="view-student" class="grid lg:grid-cols-12 gap-8 items-start">
+        <!-- Left: Realistic Mobile PWA Frame -->
+        <div class="lg:col-span-7 bg-slate-950 border-2 border-slate-800 rounded-[2rem] p-5 sm:p-7 shadow-2xl relative">
+          <!-- Top Status Bar: Offline Indicator + Language Toggle -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-5 border-b border-slate-800">
+            <div class="flex flex-wrap items-center gap-2">
+              <div id="network-pill" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-semibold">
+                <i data-lucide="wifi-off" id="network-icon" class="w-3.5 h-3.5"></i>
+                <span id="network-status-text">Checking Network · IndexedDB Ready</span>
+              </div>
+              <button onclick="toggleSimulatedOffline()" id="offline-sim-toggle" class="px-2.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-semibold text-slate-300 transition" title="Toggle simulated offline mode for testing">
+                Test Offline: OFF
+              </button>
+            </div>
+
+            <!-- Language Toggle -->
+            <div class="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800" role="group" aria-label="Select Language">
+              <button onclick="setLanguage('en')" id="lang-en" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">English</button>
+              <button onclick="setLanguage('kn')" id="lang-kn" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">ಕನ್ನಡ</button>
+              <button onclick="setLanguage('hi')" id="lang-hi" class="px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">हिंदी</button>
+            </div>
+          </div>
+
+          <!-- Student Header & Adaptive Elo Meter -->
+          <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 mb-6">
+            <div>
+              <p id="ui-student-greeting" class="text-xs text-slate-400">Student: Asha (Grade 6 · Rural Govt School)</p>
+              <h3 id="ui-module-title" class="font-display font-bold text-base sm:text-lg text-white mt-0.5">
+                Class 5–8 Adaptive Mathematics
+              </h3>
+              <p id="recommended-revision-pill" class="inline-flex items-center gap-1.5 mt-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[11px] font-semibold text-amber-300">
+                <i data-lucide="target" class="w-3 h-3"></i>
+                <span id="recommended-revision-text">Recommended Revision: Fractions (46% accuracy)</span>
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="text-right">
+                <p id="ui-elo-label" class="text-[11px] uppercase tracking-wider text-slate-400">Adaptive Elo</p>
+                <p class="font-mono font-extrabold text-lg text-emerald-400"><span id="elo-score">1050</span> <span id="difficulty-badge" class="text-xs font-sans font-semibold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300">Medium</span></p>
+                <p id="student-stats-summary" class="text-[11px] text-slate-400 mt-0.5">0 done · 0% acc</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Question Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5">
+            <div class="flex items-center justify-between gap-2">
+              <span id="q-topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                Fractions · Grade 6
+              </span>
+              <!-- ElevenLabs Simulated Voice Read-Aloud Button -->
+              <button onclick="triggerVoiceReadAloud()" id="voice-btn" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-amber-300 transition">
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+                <span id="ui-listen-btn">Listen (ElevenLabs Voice)</span>
+              </button>
+            </div>
+
+            <!-- Simulated Audio Waveform Banner (Hidden by default) -->
+            <div id="audio-banner" class="hidden items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs">
+              <div class="flex items-center gap-2.5">
+                <div class="flex items-end gap-1 h-4">
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
+                </div>
+                <span id="audio-caption" class="font-medium">Playing cached regional voice pack...</span>
+              </div>
+              <span class="font-mono text-[11px] text-amber-400">Offline Audio</span>
+            </div>
+
+            <!-- Question Text -->
+            <p id="question-text" class="text-lg sm:text-xl font-bold text-white leading-snug">
+              Loading question...
+            </p>
+
+            <!-- Options Grid -->
+            <div id="options-grid" class="grid sm:grid-cols-2 gap-3 pt-1">
+              <!-- Options injected via JS -->
+            </div>
+
+            <!-- Feedback & AI Hint Box -->
+            <div id="feedback-box" class="hidden rounded-2xl p-4 border text-sm space-y-2.5">
+              <div class="flex items-center justify-between">
+                <p id="feedback-title" class="font-bold"></p>
+                <button onclick="nextQuestion()" id="next-q-btn" class="px-3.5 py-1.5 rounded-xl bg-white text-slate-950 font-bold text-xs hover:bg-slate-200 transition">
+                  Next Question →
+                </button>
+              </div>
+              <p id="feedback-desc" class="text-xs sm:text-sm opacity-90"></p>
+
+              <!-- AI Hint Section -->
+              <div id="ai-hint-container" class="hidden pt-2 border-t border-white/10">
+                <button onclick="revealAiHint()" id="show-hint-btn" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-300 hover:text-amber-200">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span id="ui-hint-trigger">Unlock AI Step-by-Step Hint</span>
+                </button>
+                <p id="ai-hint-text" class="hidden mt-2 p-3 rounded-xl bg-slate-950/70 border border-amber-500/30 text-amber-100 text-xs leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Local IndexedDB Storage & Delta Sync Inspector -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                  <i data-lucide="database" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-display font-bold text-base text-white">Local IndexedDB Queue</h4>
+                  <p class="text-xs text-slate-400">Stored on-device until network returns</p>
+                </div>
+              </div>
+              <span id="packet-size-badge" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-emerald-400">
+                0.4 KB queued
+              </span>
+            </div>
+
+            <!-- Live JSON Delta Packet Preview -->
+            <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+              <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
+                <span>delta_packet_a0fe650e.json</span>
+                <span id="sync-queue-count">0 attempts buffered</span>
+              </div>
+              <pre id="delta-json-preview" class="text-emerald-300 leading-relaxed">{
+  "student_id": "STU_ASHA_06",
+  "elo_rating": 1050,
+  "pending_events": [],
+  "compressed_bytes": 412
+}</pre>
+            </div>
+
+            <!-- Simulate Sync Now Button -->
+            <div class="mt-5 space-y-3">
+              <button onclick="simulateSyncNow()" id="sync-now-btn" class="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition shadow-lg shadow-emerald-500/20">
+                <i data-lucide="refresh-cw" id="sync-icon" class="w-4 h-4"></i>
+                <span>Simulate Sync Now (Local IndexedDB Sync)</span>
+              </button>
+              <p id="sync-status-msg" class="text-xs text-center text-slate-400">
+                Local Sync Simulation — Progress is saved in browser IndexedDB (no remote server).
+              </p>
+            </div>
+          </div>
+
+          <!-- Quick Instructions Card -->
+          <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-3xl p-5 text-xs sm:text-sm text-indigo-200 space-y-2">
+            <p class="font-bold text-white flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-amber-400"></i>
+              How Adaptive Elo Works On-Device:
+            </p>
+            <ul class="list-disc list-inside space-y-1 text-indigo-200/90 text-xs">
+              <li><strong>Correct answer:</strong> Elo increases (+25) and serves a harder question.</li>
+              <li><strong>Incorrect answer:</strong> Elo adjusts (-20), unlocks an AI Hint, and logs a weak-topic signal for the teacher.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: TEACHER WEAK-TOPIC HEATMAP DASHBOARD (Hidden initially) -->
+      <div id="view-teacher" class="hidden space-y-6">
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+          <!-- Dashboard Top Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-slate-800">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300 text-xs font-bold">Multi-Grade View</span>
+                <span class="text-xs text-slate-400">Govt Higher Primary School, Bengaluru Rural</span>
+              </div>
+              <h3 class="font-display text-2xl font-extrabold text-white mt-1">
+                Teacher Weak-Topic Heatmap (Grades 5–8 Maths)
+              </h3>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="px-4 py-2 rounded-2xl bg-slate-900 border border-slate-800 text-xs">
+                <span class="text-slate-400">Completed:</span>
+                <span id="teacher-completed-count" class="font-bold text-white ml-1">0</span>
+                <span class="text-slate-600 mx-1.5">|</span>
+                <span class="text-slate-400">Accuracy:</span>
+                <span id="teacher-overall-accuracy" class="font-bold text-emerald-400 ml-1">68%</span>
+                <span class="text-slate-600 mx-1.5">|</span>
+                <span class="text-slate-400">Weak Topic:</span>
+                <span id="teacher-weak-topic" class="font-bold text-rose-400 ml-1">Fractions</span>
+              </div>
+              <div class="px-4 py-2 rounded-2xl bg-slate-900 border border-slate-800 text-xs">
+                <span class="text-slate-400">Sync Mode:</span>
+                <span id="teacher-last-sync" class="font-bold text-emerald-400 ml-1">Local IndexedDB Simulation</span>
+              </div>
+              <button onclick="switchDemoTab('student')" class="px-4 py-2 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition">
+                ← Back to Student PWA
+              </button>
+            </div>
+          </div>
+
+          <!-- Heatmap Legend -->
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-5 text-xs">
+            <p class="text-slate-400">
+              Cell values show <strong class="text-white">Mastery %</strong> aggregated from offline delta packets. Red/Amber cells highlight topics needing classroom intervention.
+            </p>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-500/80"></span> &lt;50% Critical Gap</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500/80"></span> 50–74% Needs Practice</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500/80"></span> ≥75% Mastered</span>
+            </div>
+          </div>
+
+          <!-- Interactive Heatmap Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-xs uppercase tracking-wider text-slate-400">
+                  <th class="py-3.5 px-4">Grade / Cohort</th>
+                  <th class="py-3.5 px-4 text-center">Fractions</th>
+                  <th class="py-3.5 px-4 text-center">Decimals</th>
+                  <th class="py-3.5 px-4 text-center">Basic Algebra</th>
+                  <th class="py-3.5 px-4 text-center">Geometry</th>
+                  <th class="py-3.5 px-4 text-right">Recommended Action</th>
+                </tr>
+              </thead>
+              <tbody id="heatmap-tbody" class="divide-y divide-slate-800/80 text-sm">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Synced Delta Log Feed -->
+          <div class="mt-6 pt-5 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-2.5 text-xs text-slate-300">
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+              <span id="teacher-live-insight">Live Insight: Grade 6 Fractions accuracy reflects recent student delta packets.</span>
+            </div>
+            <span class="text-xs font-mono text-slate-500">Total Bandwidth Used: 1.8 KB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SYSTEM ARCHITECTURE & PROCESS FLOW -->
+  <section id="architecture" class="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full">System Design</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+        VidyaLite Offline-First Architecture
+      </h2>
+      <p class="text-slate-600 mt-3 text-base sm:text-lg">
+        Local-first execution on low-end Android phones paired with lightweight delta synchronization and cloud AI/voice pipelines.
+      </p>
+    </div>
+
+    <!-- Interactive Architecture Pipeline -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-lg">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-stretch">
+        <!-- Node 1: Student Device -->
+        <button onclick="selectArchNode(0)" id="arch-node-0" class="arch-node text-left p-5 rounded-2xl border-2 border-amber-500 bg-amber-50/60 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-amber-700 bg-amber-200/70 px-2 py-0.5 rounded">1 · Edge / Offline</span>
+              <i data-lucide="smartphone" class="w-5 h-5 text-amber-600"></i>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900">Student Device</h3>
+            <p class="text-xs text-slate-600 mt-1">React PWA · Service Worker · IndexedDB</p>
+          </div>
+          <p class="text-[11px] font-semibold text-amber-700 mt-4">⇄ Bi-directional Sync</p>
+        </button>
+
+        <!-- Node 2: Sync API -->
+        <button onclick="selectArchNode(1)" id="arch-node-1" class="arch-node text-left p-5 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">2 · Sync Layer</span>
+              <i data-lucide="server" class="w-5 h-5 text-indigo-600"></i>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900">Sync API</h3>
+            <p class="text-xs text-slate-600 mt-1">FastAPI (Python) · AWS Lambda / EC2</p>
+          </div>
+          <p class="text-[11px] font-semibold text-indigo-600 mt-4">⇄ Delta Packet Merge</p>
+        </button>
+
+        <!-- Node 3: Data Store -->
+        <button onclick="selectArchNode(2)" id="arch-node-2" class="arch-node text-left p-5 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-sky-700 bg-sky-100 px-2 py-0.5 rounded">3 · Persistence</span>
+              <i data-lucide="hard-drive" class="w-5 h-5 text-sky-600"></i>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900">Data Store</h3>
+            <p class="text-xs text-slate-600 mt-1">PostgreSQL / SQLite · Progress + Content</p>
+          </div>
+          <p class="text-[11px] font-semibold text-sky-600 mt-4">→ Feeds AI & Analytics</p>
+        </button>
+
+        <!-- Node 4: AI/ML & Voice -->
+        <button onclick="selectArchNode(3)" id="arch-node-3" class="arch-node text-left p-5 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-2 py-0.5 rounded">4 · Intelligence</span>
+              <i data-lucide="brain-circuit" class="w-5 h-5 text-purple-600"></i>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900">AI/ML & Voice</h3>
+            <p class="text-xs text-slate-600 mt-1">Elo/IRT + Small LLM · ElevenLabs Audio</p>
+          </div>
+          <p class="text-[11px] font-semibold text-purple-600 mt-4">→ Content Packs & Insights</p>
+        </button>
+
+        <!-- Node 5: Teacher Dashboard -->
+        <button onclick="selectArchNode(4)" id="arch-node-4" class="arch-node text-left p-5 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">5 · Classroom View</span>
+              <i data-lucide="bar-chart-2" class="w-5 h-5 text-emerald-600"></i>
+            </div>
+            <h3 class="font-display font-bold text-base text-slate-900">Teacher Dashboard</h3>
+            <p class="text-xs text-slate-600 mt-1">React · Multi-Grade Weak-Topic Heatmap</p>
+          </div>
+          <p class="text-[11px] font-semibold text-emerald-600 mt-4">✓ Actionable Remediation</p>
+        </button>
+      </div>
+
+      <!-- Architecture Detail Inspector Panel -->
+      <div id="arch-detail-panel" class="mt-6 p-5 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span id="arch-detail-tag" class="text-xs font-mono text-amber-400">STEP 1 · EDGE DEVICE LAYER</span>
+          <h4 id="arch-detail-title" class="font-display font-bold text-lg mt-0.5">Student Device (React PWA + Service Worker + IndexedDB)</h4>
+          <p id="arch-detail-desc" class="text-sm text-slate-300 mt-1">
+            Caches NCERT/state-board lesson packs, regional ElevenLabs audio clips, and the lightweight Elo adaptive engine directly on the phone. Every answer writes locally to IndexedDB with zero network dependency.
+          </p>
+        </div>
+        <div class="shrink-0 text-xs font-mono bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-700 text-emerald-400">
+          Latency: &lt; 15ms (Local)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TECH STACK GRID -->
+  <section id="tech-stack" class="py-16 sm:py-20 bg-slate-100 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Technology Stack</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+          Built for Low-End Hardware & Low-Bandwidth Networks
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Frontend -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+              <i data-lucide="layout" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Frontend</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">React + Vite PWA, Tailwind</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Installable, ultra-lightweight responsive interface engineered to run smoothly on entry-level Android phones.
+          </p>
+        </div>
+
+        <!-- Offline Layer -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+              <i data-lucide="cloud-off" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Offline Layer</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">Service Workers + IndexedDB</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Pre-caches lesson bundles and buffers student responses locally with timestamp-based conflict resolution.
+          </p>
+        </div>
+
+        <!-- Backend -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Backend</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">FastAPI (Python)</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            High-throughput async sync API handling compressed delta payloads and seamless ML/LLM service orchestration.
+          </p>
+        </div>
+
+        <!-- Database -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+              <i data-lucide="database" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Database</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">PostgreSQL / SQLite</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Structured storage for curriculum packs and synced student telemetry; SQLite supports portable local edge nodes.
+          </p>
+        </div>
+
+        <!-- AI / ML -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">AI / ML</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">Elo / IRT + Small LLM</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Item-Response Theory / Elo rating dynamically selects optimal difficulty while a small LLM generates concise hints.
+          </p>
+        </div>
+
+        <!-- Voice + Cloud -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+              <i data-lucide="mic" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Voice + Cloud</span>
+              <h3 class="font-display font-bold text-lg text-slate-900">ElevenLabs + AWS (S3/EC2)</h3>
+            </div>
+          </div>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Natural regional-language voice synthesis in Kannada & Hindi packaged into compressed S3 content bundles.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. COMPETITIVE COMPARISON MATRIX -->
+  <section id="comparison" class="py-16 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-100 px-3 py-1 rounded-full">Novelty & USP</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+        Why VidyaLite Wins for Rural Classrooms
+      </h2>
+      <p class="text-slate-600 mt-2 text-base">
+        Combining on-device adaptation, delta sync, and regional voice in a tiny offline footprint.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-900 text-white text-xs sm:text-sm uppercase tracking-wider">
+              <th class="py-4 px-6">Capability / Feature</th>
+              <th class="py-4 px-6 bg-amber-500 text-slate-950 font-extrabold">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="award" class="w-4 h-4"></i>
+                  <span>VidyaLite (Ours)</span>
+                </div>
+              </th>
+              <th class="py-4 px-6 text-slate-300">Video Learning Apps</th>
+              <th class="py-4 px-6 text-slate-300">DIKSHA / TV-Radio</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-sm sm:text-base">
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-semibold text-slate-900">Works fully offline</td>
+              <td class="py-4 px-6 bg-amber-50/70 font-bold text-emerald-700">
+                <span class="inline-flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Yes (100% Local-First)</span>
+              </td>
+              <td class="py-4 px-6 text-rose-600 font-medium">No</td>
+              <td class="py-4 px-6 text-amber-600 font-medium">Partial</td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-semibold text-slate-900">Adapts per child</td>
+              <td class="py-4 px-6 bg-amber-50/70 font-bold text-emerald-700">
+                <span class="inline-flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Yes (On-Device Elo/IRT)</span>
+              </td>
+              <td class="py-4 px-6 text-slate-600">Partial / Paid</td>
+              <td class="py-4 px-6 text-rose-600 font-medium">No (One-size-fits-all)</td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-semibold text-slate-900">Regional-language voice</td>
+              <td class="py-4 px-6 bg-amber-50/70 font-bold text-emerald-700">
+                <span class="inline-flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Yes (Kannada, Hindi, Eng)</span>
+              </td>
+              <td class="py-4 px-6 text-slate-600">Limited</td>
+              <td class="py-4 px-6 text-amber-600 font-medium">Partial</td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-semibold text-slate-900">Teacher insights</td>
+              <td class="py-4 px-6 bg-amber-50/70 font-bold text-emerald-700">
+                <span class="inline-flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Yes (Weak-Topic Heatmap)</span>
+              </td>
+              <td class="py-4 px-6 text-slate-600">Limited</td>
+              <td class="py-4 px-6 text-rose-600 font-medium">No</td>
+            </tr>
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-semibold text-slate-900">Data needed</td>
+              <td class="py-4 px-6 bg-amber-50/70 font-extrabold text-emerald-700">
+                <span class="inline-flex items-center gap-1.5"><i data-lucide="zap" class="w-5 h-5 text-amber-600"></i> Very Low (Delta Sync)</span>
+              </td>
+              <td class="py-4 px-6 text-rose-600 font-medium">High (Streaming Video)</td>
+              <td class="py-4 px-6 text-amber-600 font-medium">Medium</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. IMPACT, FEASIBILITY & BUSINESS MODEL -->
+  <section id="business" class="py-16 sm:py-20 bg-slate-900 text-white border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-full">Execution & Sustainability</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-3">
+          24-Hour MVP Scope, Feasibility & Go-To-Market
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+        <!-- Card 1: 24-Hour MVP Scope -->
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center mb-5">
+              <i data-lucide="clock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">24-Hour Hackathon MVP</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0 mt-1"></i>
+                <span><strong>Class 5–8 Maths Module:</strong> Curated diagnostic & practice problem bank.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0 mt-1"></i>
+                <span><strong>Adaptive Question Engine:</strong> Real-time Elo difficulty calibration.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0 mt-1"></i>
+                <span><strong>Kannada + English UI & Caching:</strong> Full offline Service Worker + IndexedDB support.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0 mt-1"></i>
+                <span><strong>Teacher Heatmap:</strong> Single-screen multi-grade gap visualization.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
+            Built with open-source tools & low-cost cloud tiers.
+          </div>
+        </div>
+
+        <!-- Card 2: Impact & Technical Feasibility -->
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center mb-5">
+              <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Impact & Feasibility</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                <span><strong>Measurable Outcomes:</strong> More daily practice time and early detection of foundational learning gaps.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                <span><strong>Curriculum Quality:</strong> NCERT & Karnataka state-board aligned content packs reviewed with local teachers.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0 mt-1"></i>
+                <span><strong>Resilient Sync:</strong> Local-first writes with timestamp-based delta merging prevent data loss on flaky networks.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
+            Modular content packs allow rapid expansion to Science & Literacy.
+          </div>
+        </div>
+
+        <!-- Card 3: Business Model & GTM -->
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center mb-5">
+              <i data-lucide="trending-up" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white mb-3">Business Model & Growth</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0 mt-1"></i>
+                <span><strong>100% Free for Students:</strong> Zero financial barrier for rural learners and families.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0 mt-1"></i>
+                <span><strong>B2B / B2G & CSR Revenue:</strong> School licences, state education departments, NGOs, and CSR education grants.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check" class="w-4 h-4 text-indigo-400 shrink-0 mt-1"></i>
+                <span><strong>Bengaluru Rural Pilot:</strong> Launch with partner schools near Bengaluru, validate learning gains, and scale district-by-district.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400">
+            Partnerships with NGOs, state boards & language-tech providers.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. TEAM PIXEL FOOTER -->
+  <footer class="bg-slate-950 text-slate-300 border-t border-slate-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-8 border-b border-slate-800">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 font-extrabold flex items-center justify-center">V</div>
+            <span class="font-display font-extrabold text-xl text-white">Vidya<span class="text-amber-400">Lite</span></span>
+          </div>
+          <p class="text-sm text-slate-400 mt-2">
+            AMC Engineering College, Bengaluru · wHACKiest 2026 Online Ideathon (26–27 Nov 2026)
+          </p>
+          <p class="text-xs text-slate-500 mt-1">
+            Track 4 – Mystery Track (UnlockED): Low-Bandwidth Adaptive Learning for Rural Schools · Team ID: <span class="text-amber-400 font-mono">a0fe650e</span>
+          </p>
+        </div>
+
+        <!-- Team Members Cards -->
+        <div class="grid sm:grid-cols-3 gap-3 w-full lg:w-auto">
+          <div class="px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">Member 1 (Lead)</span>
+            <p class="font-bold text-white text-sm">Divya Kumari</p>
+            <p class="text-xs font-mono text-slate-400">1AM24CS067</p>
+          </div>
+          <div class="px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Member 2</span>
+            <p class="font-bold text-white text-sm">Divya Gowda</p>
+            <p class="text-xs font-mono text-slate-400">1AM24CS066</p>
+          </div>
+          <div class="px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400">Member 3</span>
+            <p class="font-bold text-white text-sm">Divya</p>
+            <p class="text-xs font-mono text-slate-400">1AM24CS065</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>© 2026 Team PIXEL · AMC Engineering College, Bengaluru. Built for wHACKiest 2026 (Ramaiah Institute of Technology / CodeRIT).</p>
+        <a href="#" class="text-slate-400 hover:text-amber-400 transition">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // Initialize Lucide icons safely
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 0. PWA SERVICE WORKER REGISTRATION
+    // ==========================================
+    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.protocol === 'http:')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {
+          // Graceful fallback in sandboxed preview environments
+        });
+      });
+    }
+
+    // ==========================================
+    // 1. MULTILINGUAL QUESTION BANK & UI STRINGS
+    // ==========================================
+    const uiStrings = {
+      en: {
+        greeting: "Student: Asha (Grade 6 · Rural Govt School)",
+        moduleTitle: "Class 5–8 Adaptive Mathematics",
+        eloLabel: "Adaptive Elo",
+        listenBtn: "Listen (Pre-cached Voice)",
+        hintTrigger: "Show Predefined Step-by-Step Hint (Zero API Cost)",
+        correctTitle: "Correct! Elo Rating Increased (+25)",
+        wrongTitle: "Not quite! Elo Adjusted (-20)",
+        nextBtn: "Next Question →"
+      },
+      kn: {
+        greeting: "ವಿದ್ಯಾರ್ಥಿ: ಆಶಾ (6ನೇ ತರಗತಿ · ಗ್ರಾಮೀಣ ಸರ್ಕಾರಿ ಶಾಲೆ)",
+        moduleTitle: "ತರಗತಿ 5–8 ಹೊಂದಾಣಿಕೆಯ ಗಣಿತ (Adaptive Maths)",
+        eloLabel: "ಎಲೋ ರೇಟಿಂಗ್",
+        listenBtn: "ಕೇಳಿ (ಕನ್ನಡ ಧ್ವನಿ)",
+        hintTrigger: "ಹಂತ-ಹಂತದ ಸುಳಿವು ಪಡೆಯಿರಿ (Zero API Cost)",
+        correctTitle: "ಸರಿಯಾದ ಉತ್ತರ! ಎಲೋ ರೇಟಿಂಗ್ ಹೆಚ್ಚಾಗಿದೆ (+25)",
+        wrongTitle: "ತಪ್ಪಾಗಿದೆ! ಕೆಳಗಿನ ಸುಳಿವನ್ನು ನೋಡಿ (-20)",
+        nextBtn: "ಮುಂದಿನ ಪ್ರಶ್ನೆ →"
+      },
+      hi: {
+        greeting: "छात्रा: आशा (कक्षा 6 · ग्रामीण सरकारी स्कूल)",
+        moduleTitle: "कक्षा 5–8 अनुकूली गणित (Adaptive Maths)",
+        eloLabel: "एलो रेटिंग",
+        listenBtn: "सुनें (हिंदी आवाज़)",
+        hintTrigger: "चरण-दर-चरण संकेत देखें (Zero API Cost)",
+        correctTitle: "सही उत्तर! एलो रेटिंग बढ़ी (+25)",
+        wrongTitle: "गलत उत्तर! नीचे संकेत देखें (-20)",
+        nextBtn: "अगला प्रश्न →"
+      }
+    };
+
+    const seedQuestions = [
+      {
+        id: "Q_FRAC_01",
+        topicKey: "Fractions",
+        grade: 6,
+        difficulty: "Easy",
+        eloTarget: 980,
+        topicLabel: { en: "Fractions · Grade 6", kn: "ಭಿನ್ನರಾಶಿಗಳು · ತರಗತಿ 6", hi: "भिन्न (Fractions) · कक्षा 6" },
+        text: {
+          en: "Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much of the roti did they eat together?",
+          kn: "ರಾಜು ಒಂದು ರೊಟ್ಟಿಯ 1/4 ಭಾಗವನ್ನು ಮತ್ತು ಮೀನಾ ಅದೇ ರೊಟ್ಟಿಯ 2/4 ಭಾಗವನ್ನು ತಿಂದರು. ಇಬ್ಬರೂ ಸೇರಿ ಎಷ್ಟು ರೊಟ್ಟಿ ತಿಂದರು?",
+          hi: "राजू ने एक रोटी का 1/4 भाग खाया और मीना ने उसी रोटी का 2/4 भाग खाया। दोनों ने मिलकर कुल कितनी रोटी खाई?"
+        },
+        options: {
+          en: ["3/4", "3/8", "1/2", "2/8"],
+          kn: ["3/4", "3/8", "1/2", "2/8"],
+          hi: ["3/4", "3/8", "1/2", "2/8"]
+        },
+        correctIndex: 0,
+        hint: {
+          en: "Since both fractions have the same denominator (4), simply add the numerators: 1 + 2 = 3, keeping 4 at the bottom → 3/4.",
+          kn: "ಎರಡೂ ಭಿನ್ನರಾಶಿಗಳ ಛೇದ (4) ಒಂದೇ ಆಗಿರುವುದರಿಂದ, ಅಂಶಗಳನ್ನು ಮಾತ್ರ ಕೂಡಿಸಿ: 1 + 2 = 3, ಆದ್ದರಿಂದ ಉತ್ತರ 3/4.",
+          hi: "चूँकि दोनों भिन्नों का हर (4) समान है, केवल अंशों को जोड़ें: 1 + 2 = 3, इसलिए उत्तर 3/4 होगा।"
+        }
+      },
+      {
+        id: "Q_FRAC_02",
+        topicKey: "Fractions",
+        grade: 6,
+        difficulty: "Medium",
+        eloTarget: 1050,
+        topicLabel: { en: "Fractions · Grade 6", kn: "ಭಿನ್ನರಾಶಿಗಳು · ತರಗತಿ 6", hi: "भिन्न (Fractions) · कक्षा 6" },
+        text: {
+          en: "A water tank is 2/3 full. After watering the school garden, 1/6 of the tank's capacity is used. What fraction of the tank is still full?",
+          kn: "ಒಂದು ನೀರಿನ ಟ್ಯಾಂಕ್ 2/3 ರಷ್ಟು ತುಂಬಿದೆ. ಶಾಲೆಯ ತೋಟಕ್ಕೆ ನೀರು ಹಾಕಿದ ನಂತರ ಟ್ಯಾಂಕ್ ಸಾಮರ್ಥ್ಯದ 1/6 ಭಾಗ ಬಳಕೆಯಾಯಿತು. ಈಗ ಎಷ್ಟು ಭಾಗ ನೀರು ಉಳಿದಿದೆ?",
+          hi: "एक पानी की टंकी 2/3 भरी है। स्कूल के बगीचे में पानी देने के बाद टंकी की क्षमता का 1/6 भाग उपयोग हो गया। अब टंकी का कितना भाग भरा है?"
+        },
+        options: {
+          en: ["1/2", "1/3", "3/6", "1/6"],
+          kn: ["1/2", "1/3", "3/6", "1/6"],
+          hi: ["1/2", "1/3", "3/6", "1/6"]
+        },
+        correctIndex: 0,
+        hint: {
+          en: "Convert 2/3 into sixths so denominators match: 2/3 = 4/6. Now subtract 4/6 − 1/6 = 3/6, which simplifies to 1/2.",
+          kn: "2/3 ಅನ್ನು 6 ರ ಛೇದಕ್ಕೆ ಬದಲಾಯಿಸಿ: 2/3 = 4/6. ಈಗ 4/6 − 1/6 = 3/6, ಇದನ್ನು ಸಂಕ್ಷಿಪ್ತಗೊಳಿಸಿದಾಗ 1/2 ಬರುತ್ತದೆ.",
+          hi: "2/3 को समान हर में बदलें: 2/3 = 4/6। अब 4/6 − 1/6 = 3/6 घटाएँ, जो सरल करने पर 1/2 होता है।"
+        }
+      },
+      {
+        id: "Q_ALG_03",
+        topicKey: "Basic Algebra",
+        grade: 7,
+        difficulty: "Hard",
+        eloTarget: 1120,
+        topicLabel: { en: "Basic Algebra · Grade 7", kn: "ಬೀಜಗಣಿತ · ತರಗತಿ 7", hi: "बीजगणित · कक्षा 7" },
+        text: {
+          en: "If 3x + 5 = 20, what is the value of 2x − 1?",
+          kn: "3x + 5 = 20 ಆದರೆ, 2x − 1 ರ ಬೆಲೆ ಎಷ್ಟು?",
+          hi: "यदि 3x + 5 = 20 है, तो 2x − 1 का मान क्या होगा?"
+        },
+        options: {
+          en: ["9", "5", "11", "7"],
+          kn: ["9", "5", "11", "7"],
+          hi: ["9", "5", "11", "7"]
+        },
+        correctIndex: 0,
+        hint: {
+          en: "First solve 3x + 5 = 20 → 3x = 15 → x = 5. Then substitute x = 5 into 2x − 1 → 2(5) − 1 = 9.",
+          kn: "ಮೊದಲು 3x + 5 = 20 ಬಿಡಿಸಿ → 3x = 15 → x = 5. ನಂತರ 2(5) − 1 = 9.",
+          hi: "पहले 3x + 5 = 20 हल करें → 3x = 15 → x = 5। अब 2(5) − 1 = 9 निकालें।"
+        }
+      },
+      {
+        id: "Q_DEC_04",
+        topicKey: "Decimals",
+        grade: 5,
+        difficulty: "Medium",
+        eloTarget: 1030,
+        topicLabel: { en: "Decimals · Grade 5", kn: "ದಶಮಾಂಶಗಳು · ತರಗತಿ 5", hi: "दशमलव · कक्षा 5" },
+        text: {
+          en: "A notebook costs ₹18.50 and a pencil costs ₹6.75. How much do both cost together?",
+          kn: "ಒಂದು ನೋಟ್‌ಬುಕ್ ಬೆಲೆ ₹18.50 ಮತ್ತು ಪೆನ್ಸಿಲ್ ಬೆಲೆ ₹6.75. ಎರಡಕ್ಕೂ ಒಟ್ಟು ಎಷ್ಟು ಹಣವಾಗುತ್ತದೆ?",
+          hi: "एक नोटबुक की कीमत ₹18.50 है और एक पेंसिल की कीमत ₹6.75 है। दोनों की कुल कीमत कितनी है?"
+        },
+        options: {
+          en: ["₹25.25", "₹24.25", "₹25.75", "₹24.85"],
+          kn: ["₹25.25", "₹24.25", "₹25.75", "₹24.85"],
+          hi: ["₹25.25", "₹24.25", "₹25.75", "₹24.85"]
+        },
+        correctIndex: 0,
+        hint: {
+          en: "Align the decimal points: 18.50 + 6.75. Add paise first (50 + 75 = 125 paise = ₹1.25), plus ₹24 = ₹25.25.",
+          kn: "ದಶಮಾಂಶ ಬಿಂದುಗಳನ್ನು ನೇರವಾಗಿ ಜೋಡಿಸಿ: 18.50 + 6.75 = ₹25.25.",
+          hi: "दशमलव बिंदु को एक सीध में रखें: 18.50 + 6.75 = ₹25.25।"
+        }
+      },
+      {
+        id: "Q_GEO_05",
+        topicKey: "Geometry",
+        grade: 8,
+        difficulty: "Hard",
+        eloTarget: 1100,
+        topicLabel: { en: "Geometry · Grade 8", kn: "ರೇಖಾಗಣಿತ · ತರಗತಿ 8", hi: "ज्यामिति · कक्षा 8" },
+        text: {
+          en: "A rectangular school field is 30 m long and 20 m wide. How many meters of fencing are needed to go around it once?",
+          kn: "ಆಯತಾಕಾರದ ಶಾಲಾ ಮೈದಾನವು 30 ಮೀ ಉದ್ದ ಮತ್ತು 20 ಮೀ ಅಗಲವಿದೆ. ಅದರ ಸುತ್ತಲೂ ಒಂದು ಸುತ್ತು ಬೇಲಿ ಹಾಕಲು ಎಷ್ಟು ಮೀಟರ್ ತಂತಿ ಬೇಕು?",
+          hi: "एक आयताकार स्कूल का मैदान 30 मीटर लंबा और 20 मीटर चौड़ा है। इसके चारों ओर एक बार बाड़ लगाने के लिए कितने मीटर तार की आवश्यकता होगी?"
+        },
+        options: {
+          en: ["100 m", "600 m", "50 m", "80 m"],
+          kn: ["100 ಮೀ", "600 ಮೀ", "50 ಮೀ", "80 ಮೀ"],
+          hi: ["100 मीटर", "600 मीटर", "50 मीटर", "80 मीटर"]
+        },
+        correctIndex: 0,
+        hint: {
+          en: "Perimeter of a rectangle = 2 × (Length + Width) = 2 × (30 + 20) = 2 × 50 = 100 m.",
+          kn: "ಆಯತದ ಸುತ್ತಳತೆ = 2 × (ಉದ್ದ + ಅಗಲ) = 2 × (30 + 20) = 100 ಮೀ.",
+          hi: "आयत का परिमाप = 2 × (लंबाई + चौड़ाई) = 2 × (30 + 20) = 100 मीटर।"
+        }
+      }
+    ];
+
+    // ==========================================
+    // 2. REAL INDEXEDDB PERSISTENCE LAYER
+    // ==========================================
+    const DB_NAME = 'vidyalite_db';
+    const DB_VERSION = 1;
+    let dbInstance = null;
+
+    function openVidyaDB() {
+      return new Promise((resolve, reject) => {
+        if (dbInstance) return resolve(dbInstance);
+        if (!('indexedDB' in window)) return reject(new Error('IndexedDB unavailable'));
+
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('questions')) {
+            db.createObjectStore('questions', { keyPath: 'id' });
+          }
+          if (!db.objectStoreNames.contains('answers')) {
+            db.createObjectStore('answers', { keyPath: 'eventId' });
+          }
+          if (!db.objectStoreNames.contains('student_progress')) {
+            db.createObjectStore('student_progress', { keyPath: 'studentId' });
+          }
+          if (!db.objectStoreNames.contains('sync_queue')) {
+            db.createObjectStore('sync_queue', { keyPath: 'eventId' });
+          }
+        };
+        req.onsuccess = (e) => {
+          dbInstance = e.target.result;
+          resolve(dbInstance);
+        };
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    function idbGetAll(storeName) {
+      return openVidyaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readonly');
+        const req = tx.objectStore(storeName).getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      }));
+    }
+
+    function idbGet(storeName, key) {
+      return openVidyaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readonly');
+        const req = tx.objectStore(storeName).get(key);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error);
+      }));
+    }
+
+    function idbPut(storeName, value) {
+      return openVidyaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readwrite');
+        const req = tx.objectStore(storeName).put(value);
+        req.onsuccess = () => resolve(value);
+        req.onerror = () => reject(req.error);
+      }));
+    }
+
+    function idbDelete(storeName, key) {
+      return openVidyaDB().then(db => new Promise((resolve, reject) => {
+        const tx = db.transaction(storeName, 'readwrite');
+        const req = tx.objectStore(storeName).delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(req.error);
+      }));
+    }
+
+    // ==========================================
+    // 3. APPLICATION STATE (HYDRATED FROM IDB)
+    // ==========================================
+    let questionBank = [...seedQuestions];
+    let currentLang = 'en';
+    let currentQIndex = 1;
+    let studentElo = 1050;
+    let answeredCurrent = false;
+    let bufferedEvents = [];
+    let processedEventIds = new Set();
+    let simulatedOffline = false;
+    let isSyncing = false;
+
+    // Default baseline topic mastery + student attempts
+    const defaultTopicStats = {
+      "Fractions": { correct: 6, total: 13 },      // ~46% initial gap
+      "Decimals": { correct: 9, total: 13 },       // ~69%
+      "Basic Algebra": { correct: 8, total: 12 },  // ~67%
+      "Geometry": { correct: 10, total: 13 }       // ~77%
+    };
+
+    let topicStats = JSON.parse(JSON.stringify(defaultTopicStats));
+    let completedQuestionsCount = 0;
+    let correctAnswersCount = 0;
+
+    // Teacher Heatmap Data (Grades 5 to 8)
+    let heatmapData = [
+      { grade: "Grade 5 (11 students)", Fractions: 78, Decimals: 64, "Basic Algebra": 81, Geometry: 76, action: "Practice Decimals word problems" },
+      { grade: "Grade 6 (10 students)", Fractions: 46, Decimals: 72, "Basic Algebra": 68, Geometry: 79, action: "Priority: Visual Fraction strips" },
+      { grade: "Grade 7 (9 students)",  Fractions: 75, Decimals: 80, "Basic Algebra": 48, Geometry: 62, action: "Priority: Linear equations group" },
+      { grade: "Grade 8 (8 students)",  Fractions: 84, Decimals: 77, "Basic Algebra": 66, Geometry: 54, action: "Review Perimeter & Area" }
+    ];
+
+    async function initAppFromIndexedDB() {
+      try {
+        await openVidyaDB();
+
+        // 1. Seed questions into IndexedDB if empty
+        const existingQs = await idbGetAll('questions');
+        if (existingQs.length === 0) {
+          for (const q of seedQuestions) {
+            await idbPut('questions', q);
+          }
+          questionBank = [...seedQuestions];
+        } else {
+          questionBank = existingQs;
+        }
+
+        // 2. Load saved student progress
+        const savedProgress = await idbGet('student_progress', 'STU_ASHA_06');
+        if (savedProgress) {
+          studentElo = savedProgress.elo ?? 1050;
+          currentLang = savedProgress.lang ?? 'en';
+          currentQIndex = Math.min(savedProgress.currentQIndex ?? 1, questionBank.length - 1);
+          topicStats = savedProgress.topicStats ?? JSON.parse(JSON.stringify(defaultTopicStats));
+          completedQuestionsCount = savedProgress.completedCount ?? 0;
+          correctAnswersCount = savedProgress.correctCount ?? 0;
+          processedEventIds = new Set(savedProgress.processedEventIds || []);
+          if (savedProgress.heatmapData) {
+            heatmapData = savedProgress.heatmapData;
+          }
+        } else {
+          await persistStudentProgress();
+        }
+
+        // 3. Load pending sync queue
+        bufferedEvents = await idbGetAll('sync_queue');
+      } catch (err) {
+        // Safe fallback if browser blocks IndexedDB in private iframe
+        questionBank = [...seedQuestions];
+      }
+
+      setLanguage(currentLang, false);
+      updateAdaptiveInsightsUI();
+      updateDeltaPacketUI();
+      renderHeatmap();
+      updateNetworkStatusUI();
+
+      // Auto-sync queued items if online on load
+      if (isEffectivelyOnline() && bufferedEvents.length > 0) {
+        simulateSyncNow(true);
+      }
+    }
+
+    async function persistStudentProgress() {
+      try {
+        await idbPut('student_progress', {
+          studentId: 'STU_ASHA_06',
+          elo: studentElo,
+          lang: currentLang,
+          currentQIndex,
+          topicStats,
+          completedCount: completedQuestionsCount,
+          correctCount: correctAnswersCount,
+          processedEventIds: Array.from(processedEventIds),
+          heatmapData,
+          updatedAt: Date.now()
+        });
+      } catch (e) {
+        // Ignore storage quota errors in restricted frames
+      }
+    }
+
+    // ==========================================
+    // 4. ONLINE / OFFLINE STATUS & AUTO-SYNC
+    // ==========================================
+    function isEffectivelyOnline() {
+      return navigator.onLine && !simulatedOffline;
+    }
+
+    function toggleSimulatedOffline() {
+      simulatedOffline = !simulatedOffline;
+      const toggleBtn = document.getElementById('offline-sim-toggle');
+      toggleBtn.textContent = simulatedOffline ? 'Test Offline: ON' : 'Test Offline: OFF';
+      toggleBtn.className = simulatedOffline
+        ? 'px-2.5 py-1.5 rounded-full bg-amber-500 text-slate-950 font-bold text-[11px] transition'
+        : 'px-2.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] font-semibold text-slate-300 transition';
+
+      updateNetworkStatusUI();
+      if (isEffectivelyOnline() && bufferedEvents.length > 0) {
+        simulateSyncNow(true);
+      }
+    }
+
+    function updateNetworkStatusUI() {
+      const netPill = document.getElementById('network-pill');
+      const netText = document.getElementById('network-status-text');
+      const online = isEffectivelyOnline();
+
+      if (online) {
+        netPill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-semibold";
+        netText.textContent = "Online · IndexedDB Persistent · Ready to Sync";
+      } else {
+        netPill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-semibold";
+        netText.textContent = "Offline Mode · IndexedDB Active · 0 KB Data Used";
+      }
+    }
+
+    window.addEventListener('online', () => {
+      updateNetworkStatusUI();
+      if (isEffectivelyOnline() && bufferedEvents.length > 0) {
+        simulateSyncNow(true);
+      }
+    });
+
+    window.addEventListener('offline', () => {
+      updateNetworkStatusUI();
+    });
+
+    // ==========================================
+    // 5. ADAPTIVE LEARNING & UI RENDERING
+    // ==========================================
+    function getTopicAccuracy(topicKey) {
+      const stat = topicStats[topicKey];
+      if (!stat || stat.total === 0) return 0;
+      return Math.round((stat.correct / stat.total) * 100);
+    }
+
+    function getWeakestTopic() {
+      const topics = Object.keys(topicStats);
+      let weakest = topics[0];
+      let lowestAcc = getTopicAccuracy(weakest);
+
+      topics.forEach(t => {
+        const acc = getTopicAccuracy(t);
+        if (acc < lowestAcc) {
+          lowestAcc = acc;
+          weakest = t;
+        }
+      });
+      return { topic: weakest, accuracy: lowestAcc };
+    }
+
+    function updateAdaptiveInsightsUI() {
+      const weakest = getWeakestTopic();
+      const overallAcc = completedQuestionsCount > 0
+        ? Math.round((correctAnswersCount / completedQuestionsCount) * 100)
+        : Math.round(
+            Object.keys(topicStats).reduce((sum, t) => sum + getTopicAccuracy(t), 0) /
+            Object.keys(topicStats).length
+          );
+
+      document.getElementById('recommended-revision-text').textContent =
+        `Recommended Revision: ${weakest.topic} (${weakest.accuracy}% accuracy)`;
+      document.getElementById('student-stats-summary').textContent =
+        `${completedQuestionsCount} done · ${overallAcc}% acc`;
+
+      // Update Teacher Dashboard summary metrics
+      document.getElementById('teacher-completed-count').textContent = completedQuestionsCount;
+      document.getElementById('teacher-overall-accuracy').textContent = `${overallAcc}%`;
+      document.getElementById('teacher-weak-topic').textContent = `${weakest.topic} (${weakest.accuracy}%)`;
+    }
+
+    function setLanguage(lang, shouldPersist = true) {
+      currentLang = lang;
+      ['en', 'kn', 'hi'].forEach(code => {
+        const btn = document.getElementById(`lang-${code}`);
+        if (code === lang) {
+          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white transition";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition";
+        }
+      });
+
+      const s = uiStrings[lang];
+      document.getElementById('ui-student-greeting').textContent = s.greeting;
+      document.getElementById('ui-module-title').textContent = s.moduleTitle;
+      document.getElementById('ui-elo-label').textContent = s.eloLabel;
+      document.getElementById('ui-listen-btn').textContent = s.listenBtn;
+      document.getElementById('ui-hint-trigger').textContent = s.hintTrigger;
+      document.getElementById('next-q-btn').textContent = s.nextBtn;
+
+      if (shouldPersist) {
+        persistStudentProgress();
+      }
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questionBank[currentQIndex];
+      if (!q) return;
+
+      document.getElementById('q-topic-tag').textContent = q.topicLabel[currentLang];
+      document.getElementById('question-text').textContent = q.text[currentLang];
+      document.getElementById('ai-hint-text').textContent = q.hint[currentLang];
+
+      // Update Elo & Difficulty pill
+      document.getElementById('elo-score').textContent = studentElo;
+      const diffBadge = document.getElementById('difficulty-badge');
+      if (studentElo < 1020) {
+        diffBadge.textContent = "Easy";
+        diffBadge.className = "text-xs font-sans font-semibold px-2 py-0.5 rounded-md bg-sky-500/20 text-sky-300";
+      } else if (studentElo < 1090) {
+        diffBadge.textContent = "Medium";
+        diffBadge.className = "text-xs font-sans font-semibold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300";
+      } else {
+        diffBadge.textContent = "Hard";
+        diffBadge.className = "text-xs font-sans font-semibold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300";
+      }
+
+      // Render Options
+      const grid = document.getElementById('options-grid');
+      grid.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options[currentLang].forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `opt-btn-${idx}`;
+        btn.onclick = () => handleOptionSelect(idx);
+        btn.className = "flex items-center gap-3 p-4 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 text-left transition group";
+        btn.innerHTML = `
+          <span class="w-7 h-7 rounded-lg bg-slate-800 group-hover:bg-indigo-600 text-slate-300 group-hover:text-white font-bold text-xs flex items-center justify-center shrink-0 transition">
+            ${letters[idx]}
+          </span>
+          <span class="font-semibold text-sm sm:text-base text-white">${optText}</span>
+        `;
+        grid.appendChild(btn);
+      });
+
+      // Reset Feedback & Audio state
+      answeredCurrent = false;
+      document.getElementById('feedback-box').classList.add('hidden');
+      document.getElementById('ai-hint-container').classList.add('hidden');
+      document.getElementById('ai-hint-text').classList.add('hidden');
+      document.getElementById('audio-banner').classList.add('hidden');
+      document.getElementById('audio-banner').classList.remove('flex');
+    }
+
+    async function handleOptionSelect(selectedIdx) {
+      if (answeredCurrent) return;
+      answeredCurrent = true;
+
+      const q = questionBank[currentQIndex];
+      const isCorrect = selectedIdx === q.correctIndex;
+      const s = uiStrings[currentLang];
+
+      // Style option buttons
+      q.options[currentLang].forEach((_, idx) => {
+        const btn = document.getElementById(`opt-btn-${idx}`);
+        btn.disabled = true;
+        if (idx === q.correctIndex) {
+          btn.className = "flex items-center gap-3 p-4 rounded-xl bg-emerald-500/20 border-2 border-emerald-500 text-left";
+        } else if (idx === selectedIdx && !isCorrect) {
+          btn.className = "flex items-center gap-3 p-4 rounded-xl bg-rose-500/20 border-2 border-rose-500 text-left";
+        } else {
+          btn.className = "flex items-center gap-3 p-4 rounded-xl bg-slate-950/50 border border-slate-800/60 opacity-50 text-left";
+        }
+      });
+
+      // Update Elo & Topic Stats deterministically
+      completedQuestionsCount += 1;
+      if (isCorrect) {
+        studentElo += 25;
+        correctAnswersCount += 1;
+      } else {
+        studentElo = Math.max(850, studentElo - 20);
+      }
+
+      if (!topicStats[q.topicKey]) {
+        topicStats[q.topicKey] = { correct: 0, total: 0 };
+      }
+      topicStats[q.topicKey].total += 1;
+      if (isCorrect) topicStats[q.topicKey].correct += 1;
+
+      // Update Feedback Box
+      const fbBox = document.getElementById('feedback-box');
+      const fbTitle = document.getElementById('feedback-title');
+      const fbDesc = document.getElementById('feedback-desc');
+      const hintContainer = document.getElementById('ai-hint-container');
+
+      fbBox.classList.remove('hidden');
+      if (isCorrect) {
+        fbBox.className = "rounded-2xl p-4 border border-emerald-500/40 bg-emerald-500/10 text-emerald-100 text-sm space-y-2.5";
+        fbTitle.textContent = s.correctTitle;
+        fbTitle.className = "font-bold text-emerald-300";
+        fbDesc.textContent = "Saved permanently to IndexedDB. Adaptive Elo engine calibrated your next question.";
+        hintContainer.classList.add('hidden');
+      } else {
+        fbBox.className = "rounded-2xl p-4 border border-rose-500/40 bg-rose-500/10 text-rose-100 text-sm space-y-2.5";
+        fbTitle.textContent = s.wrongTitle;
+        fbTitle.className = "font-bold text-rose-300";
+        fbDesc.textContent = "Saved to IndexedDB & flagged for revision. View the predefined step-by-step hint below (0 API calls).";
+        hintContainer.classList.remove('hidden');
+      }
+
+      document.getElementById('elo-score').textContent = studentElo;
+      updateAdaptiveInsightsUI();
+
+      // Create unique idempotent event record for IndexedDB answers & sync_queue
+      const eventId = `evt_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+      const answerRecord = {
+        eventId,
+        studentId: 'STU_ASHA_06',
+        q: q.id,
+        topic: q.topicKey,
+        grade: q.grade,
+        selectedIdx,
+        ok: isCorrect ? 1 : 0,
+        eloAfter: studentElo,
+        lang: currentLang,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        await idbPut('answers', answerRecord);
+        await idbPut('sync_queue', answerRecord);
+      } catch (e) {
+        // Fallback in memory if IndexedDB restricted
+      }
+
+      bufferedEvents.push(answerRecord);
+      await persistStudentProgress();
+      updateDeltaPacketUI();
+
+      // Auto-process queue if online
+      if (isEffectivelyOnline()) {
+        simulateSyncNow(true);
+      }
+    }
+
+    function revealAiHint() {
+      document.getElementById('ai-hint-text').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      const weakest = getWeakestTopic();
+      // Deterministic Elo + Weak-Topic adaptive selection (zero external API calls)
+      if (studentElo >= 1090) {
+        const hardIndices = questionBank
+          .map((q, idx) => (q.difficulty === 'Hard' ? idx : -1))
+          .filter(idx => idx !== -1);
+        currentQIndex = hardIndices.find(i => i !== currentQIndex) ?? 2;
+      } else if (studentElo < 1020) {
+        const weakEasyIdx = questionBank.findIndex(q => q.topicKey === weakest.topic && q.difficulty === 'Easy');
+        currentQIndex = weakEasyIdx !== -1 ? weakEasyIdx : 0;
+      } else {
+        // Prefer uncompleted/weakest topic at Medium difficulty
+        const weakMedIdx = questionBank.findIndex((q, idx) => idx !== currentQIndex && q.topicKey === weakest.topic);
+        currentQIndex = weakMedIdx !== -1 ? weakMedIdx : (currentQIndex + 1) % questionBank.length;
+      }
+
+      persistStudentProgress();
+      renderQuestion();
+    }
+
+    function triggerVoiceReadAloud() {
+      const banner = document.getElementById('audio-banner');
+      const caption = document.getElementById('audio-caption');
+      const langNames = { en: "English", kn: "Kannada (ಕನ್ನಡ)", hi: "Hindi (हिंदी)" };
+      caption.textContent = `Reading question aloud in ${langNames[currentLang]} via local offline speech/audio...`;
+      banner.classList.remove('hidden');
+      banner.classList.add('flex');
+
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(questionBank[currentQIndex].text[currentLang]);
+          utter.lang = currentLang === 'kn' ? 'kn-IN' : currentLang === 'hi' ? 'hi-IN' : 'en-IN';
+          window.speechSynthesis.speak(utter);
+        }
+      } catch (e) {
+        // Fallback silently to visual audio wave
+      }
+    }
+
+    function updateDeltaPacketUI() {
+      const byteSize = 380 + bufferedEvents.length * 52;
+      document.getElementById('packet-size-badge').textContent = `${(byteSize / 1024).toFixed(2)} KB queued`;
+      document.getElementById('sync-queue-count').textContent = `${bufferedEvents.length} pending in IndexedDB`;
+
+      const payload = {
+        mode: "LOCAL_INDEXEDDB_SIMULATION",
+        student_id: "STU_ASHA_06",
+        elo_rating: studentElo,
+        queued_events: bufferedEvents.slice(-3).map(e => ({
+          eventId: e.eventId,
+          q: e.q,
+          topic: e.topic,
+          ok: e.ok
+        })),
+        compressed_bytes: byteSize
+      };
+      document.getElementById('delta-json-preview').textContent = JSON.stringify(payload, null, 2);
+    }
+
+    async function simulateSyncNow(isAuto = false) {
+      if (isSyncing) return;
+      const statusMsg = document.getElementById('sync-status-msg');
+
+      if (!isEffectivelyOnline() && isAuto) {
+        statusMsg.innerHTML = `<span class="text-amber-400 font-semibold">Offline:</span> ${bufferedEvents.length} item(s) safely queued in IndexedDB.`;
+        return;
+      }
+
+      isSyncing = true;
+      const syncIcon = document.getElementById('sync-icon');
+      syncIcon.classList.add('animate-spin');
+
+      setTimeout(async () => {
+        try {
+          const queueSnapshot = [...bufferedEvents];
+          let newlyAppliedCount = 0;
+
+          for (const ev of queueSnapshot) {
+            // Idempotent deduplication check
+            if (!processedEventIds.has(ev.eventId)) {
+              processedEventIds.add(ev.eventId);
+              newlyAppliedCount += 1;
+
+              // Update Grade 6 row (Asha's cohort) & topic accuracy in Teacher Heatmap
+              const row = heatmapData.find(r => r.grade.includes('Grade 6')) || heatmapData[0];
+              if (row && row[ev.topic] !== undefined) {
+                row[ev.topic] = getTopicAccuracy(ev.topic);
+                const weakest = getWeakestTopic();
+                row.action = `Priority: Revise ${weakest.topic} (${weakest.accuracy}%)`;
+              }
+            }
+            await idbDelete('sync_queue', ev.eventId);
+          }
+
+          const sentBytes = 380 + queueSnapshot.length * 52;
+          bufferedEvents = [];
+          await persistStudentProgress();
+          updateDeltaPacketUI();
+          updateAdaptiveInsightsUI();
+          renderHeatmap();
+
+          if (newlyAppliedCount > 0) {
+            const weakest = getWeakestTopic();
+            document.getElementById('teacher-live-insight').textContent =
+              `Local Sync Simulation: Merged ${newlyAppliedCount} deduplicated IndexedDB event(s). Weakest topic: ${weakest.topic} (${weakest.accuracy}%).`;
+            document.getElementById('teacher-last-sync').textContent = `Local Sync (${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
+            document.getElementById('unsynced-badge').classList.remove('hidden');
+            statusMsg.innerHTML = `<span class="text-emerald-400 font-semibold">✓ Local Sync Complete (${(sentBytes / 1024).toFixed(2)} KB):</span> Processed ${newlyAppliedCount} queued item(s) in IndexedDB (no remote server).`;
+          } else {
+            statusMsg.innerHTML = `<span class="text-slate-300 font-semibold">✓ IndexedDB Queue Up-to-Date:</span> 0 duplicate events re-processed (local simulation).`;
+          }
+        } finally {
+          syncIcon.classList.remove('animate-spin');
+          isSyncing = false;
+          updateNetworkStatusUI();
+        }
+      }, 450);
+    }
+
+    // ==========================================
+    // 6. TEACHER HEATMAP & TAB SWITCHING
+    // ==========================================
+    function switchDemoTab(tab) {
+      const btnStudent = document.getElementById('tab-student');
+      const btnTeacher = document.getElementById('tab-teacher');
+      const viewStudent = document.getElementById('view-student');
+      const viewTeacher = document.getElementById('view-teacher');
+
+      if (tab === 'student') {
+        btnStudent.className = "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition bg-amber-500 text-slate-950 shadow-md";
+        btnTeacher.className = "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition text-slate-300 hover:text-white";
+        viewStudent.classList.remove('hidden');
+        viewTeacher.classList.add('hidden');
+      } else {
+        btnTeacher.className = "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition bg-amber-500 text-slate-950 shadow-md";
+        btnStudent.className = "flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition text-slate-300 hover:text-white";
+        viewTeacher.classList.remove('hidden');
+        viewStudent.classList.add('hidden');
+        document.getElementById('unsynced-badge').classList.add('hidden');
+        updateAdaptiveInsightsUI();
+        renderHeatmap();
+      }
+    }
+
+    function getHeatCellClass(score) {
+      if (score < 50) return "bg-rose-500/20 border-rose-500/40 text-rose-300 font-extrabold";
+      if (score < 75) return "bg-amber-500/20 border-amber-500/40 text-amber-300 font-bold";
+      return "bg-emerald-500/20 border-emerald-500/40 text-emerald-300 font-bold";
+    }
+
+    function renderHeatmap() {
+      const tbody = document.getElementById('heatmap-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      heatmapData.forEach(row => {
+        const topics = ["Fractions", "Decimals", "Basic Algebra", "Geometry"];
+        const cellsHtml = topics.map(t => {
+          const val = row[t];
+          return `
+            <td class="py-3.5 px-4 text-center">
+              <span class="inline-block min-w-[3.5rem] px-2.5 py-1.5 rounded-xl border text-xs ${getHeatCellClass(val)}">
+                ${val}%
+              </span>
+            </td>
+          `;
+        }).join('');
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-900/70 transition";
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 font-bold text-white">${row.grade}</td>
+          ${cellsHtml}
+          <td class="py-3.5 px-4 text-right text-xs text-slate-300 font-medium">${row.action}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ==========================================
+    // 7. ARCHITECTURE NODE INTERACTIVE INSPECTOR
+    // ==========================================
+    const archDetails = [
+      {
+        tag: "STEP 1 · EDGE DEVICE LAYER",
+        title: "Student Device (React PWA + Service Worker + IndexedDB)",
+        desc: "Caches NCERT/state-board lesson packs, regional audio clips, and the lightweight Elo adaptive engine directly on the phone. Every answer writes locally to IndexedDB with zero network dependency."
+      },
+      {
+        tag: "STEP 2 · LIGHTWEIGHT SYNC API",
+        title: "Sync API (FastAPI + AWS Lambda / EC2)",
+        desc: "Receives compressed JSON delta packets (< 5 KB) during brief 2G/3G windows and merges student records cleanly using idempotent event ID deduplication."
+      },
+      {
+        tag: "STEP 3 · PERSISTENT DATA STORE",
+        title: "Data Store (PostgreSQL / SQLite)",
+        desc: "Stores structured curriculum modules, item difficulty parameters, and longitudinal student mastery records across schools and districts."
+      },
+      {
+        tag: "STEP 4 · AI/ML & REGIONAL VOICE PIPELINE",
+        title: "AI/ML (Elo/IRT + Predefined Hints) & Regional Voice",
+        desc: "Calibrates question difficulty parameters deterministically on-device and serves pre-cached step-by-step hints with zero runtime API cost."
+      },
+      {
+        tag: "STEP 5 · ACTIONABLE TEACHER VIEW",
+        title: "Teacher Dashboard (React Weak-Topic Heatmap)",
+        desc: "Transforms synced IndexedDB delta packets into a single glanceable multi-grade heatmap so one teacher handling Grades 5–8 immediately sees which topic needs group remediation."
+      }
+    ];
+
+    function selectArchNode(index) {
+      for (let i = 0; i < 5; i++) {
+        const el = document.getElementById(`arch-node-${i}`);
+        if (i === index) {
+          el.className = "arch-node text-left p-5 rounded-2xl border-2 border-amber-500 bg-amber-50/60 transition flex flex-col justify-between shadow-sm";
+        } else {
+          el.className = "arch-node text-left p-5 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 transition flex flex-col justify-between";
+        }
+      }
+      document.getElementById('arch-detail-tag').textContent = archDetails[index].tag;
+      document.getElementById('arch-detail-title').textContent = archDetails[index].title;
+      document.getElementById('arch-detail-desc').textContent = archDetails[index].desc;
+    }
+
+    // Boot simulator and hydrate from IndexedDB on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initAppFromIndexedDB();
+    });
+  </script>
+</body>
+</html>
