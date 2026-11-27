@@ -17,6 +17,11 @@
   </script>
   <style>
     .hidden { display: none !important; }
+    @media (min-width: 768px) {
+      header nav[data-desktop-nav].hidden { display: flex !important; }
+      #mobile-nav, #mobile-nav-toggle { display: none !important; }
+    }
+    @media (max-width: 767px) { .desktop-actions { display: none !important; } }
     button, a, [role="button"] { cursor: pointer; }
     .flex { display: flex; }
     .hero-pattern { background-color: #0F172A; background-image: radial-gradient(rgba(99,102,241,0.16) 1px, transparent 1px), radial-gradient(rgba(245,158,11,0.1) 1px, #0F172A 1px); background-size: 36px 36px; background-position: 0 0, 18px 18px; }
@@ -38,19 +43,36 @@
           <span class="font-display font-extrabold text-xl tracking-tight text-white">Vidya<span class="text-amber-400">Lite</span></span>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+      <button id="back-nav-btn" type="button" onclick="goBack()" aria-label="Back" class="hidden inline-flex items-center gap-1.5 px-2.5 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span id="ui-back">Back</span>
+      </button>
+      <button id="mobile-nav-toggle" type="button" onclick="toggleMobileNav()" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav" class="inline-flex md:hidden items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+        <span id="ui-menu">Menu</span>
+      </button>
+      <nav data-desktop-nav aria-label="Primary navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
         <a href="#home" class="hover:text-amber-400 transition" data-nav="home">Home</a>
         <a href="#student" class="hover:text-amber-400 transition" data-nav="student">Student</a>
         <a href="#learn" class="hover:text-amber-400 transition" data-nav="learn">Learn</a>
         <a href="#teacher" class="hover:text-amber-400 transition" data-nav="teacher">Teacher</a>
         <a href="#about" class="hover:text-amber-400 transition" data-nav="about">About</a>
       </nav>
-      <div class="flex items-center gap-2">
+      <div class="desktop-actions flex items-center gap-2">
         <button id="login-student-btn" onclick="setRole('student')" class="px-4 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">Student Login</button>
         <button id="login-teacher-btn" onclick="setRole('teacher')" class="px-4 py-2 rounded-xl border border-slate-700 text-sm font-semibold text-slate-200 hover:border-amber-400 hover:text-white transition">Teacher Login</button>
         <a href="#learn" id="start-learning-btn" onclick="showView('learn')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition">Start Learning</a>
       </div>
     </div>
+    <nav id="mobile-nav" aria-label="Mobile navigation" class="hidden md:hidden border-t border-slate-800 bg-slate-950 px-4 py-3">
+      <div class="mx-auto flex max-w-7xl flex-col gap-1 text-sm font-medium text-slate-300">
+        <a href="#home" class="rounded-lg px-3 py-2 hover:bg-slate-900 hover:text-amber-400" data-nav="home">Home</a>
+        <a href="#student" class="rounded-lg px-3 py-2 hover:bg-slate-900 hover:text-amber-400" data-nav="student">Student</a>
+        <a href="#learn" class="rounded-lg px-3 py-2 hover:bg-slate-900 hover:text-amber-400" data-nav="learn">Learn</a>
+        <a href="#teacher" class="rounded-lg px-3 py-2 hover:bg-slate-900 hover:text-amber-400" data-nav="teacher">Teacher</a>
+        <a href="#about" class="rounded-lg px-3 py-2 hover:bg-slate-900 hover:text-amber-400" data-nav="about">About</a>
+      </div>
+    </nav>
   </header>
   <main>
     <section id="home" class="hero-pattern text-white relative overflow-hidden pt-12 pb-20 sm:pt-16 sm:pb-24 border-b border-slate-800">
@@ -63,7 +85,7 @@
             Offline-First Adaptive Learning
           </span>
           <h1 id="ui-welcome" class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.12] mt-5">Learning made simple, <span class="text-amber-400">anywhere</span>.</h1>
-          <p id="ui-subtitle" class="text-base sm:text-lg text-slate-300 leading-relaxed mt-5 max-w-2xl">VidyaLite helps students practise maths offline, adapt questions to their pace, and lets teachers see exactly where learners need help.</p>
+          <p id="ui-subtitle" class="text-base sm:text-lg text-slate-300 leading-relaxed mt-5 max-w-2xl">VidyaLite helps students practise multiple subjects offline, learn at their own pace, and lets teachers see where learners need help.</p>
           <div class="flex flex-wrap items-center gap-4 mt-7">
             <a href="#learn" onclick="showView('learn')" class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-amber-500/25 transition">
               <i data-lucide="play" class="w-5 h-5 fill-current"></i>
@@ -123,8 +145,8 @@
         </div>
         <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm">
           <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4"><i data-lucide="refresh-cw" class="w-6 h-6"></i></div>
-          <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Low-Data Sync</h3>
-          <p class="text-sm text-slate-600 leading-relaxed">Tiny progress packets sync only when connectivity returns, keeping data usage minimal.</p>
+          <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Practice Insights</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">Quiz results help learners and teachers see which topics need more practice.</p>
         </div>
       </div>
     </section>
@@ -135,7 +157,7 @@
           <div>
             <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-100 px-3 py-1 rounded-full">Student</span>
             <h2 id="dash-title" class="font-display text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Student Dashboard</h2>
-            <p class="text-slate-600 mt-2 max-w-2xl text-sm sm:text-base">Pick a class, topic and difficulty to begin today's practice.</p>
+            <p class="text-slate-600 mt-2 max-w-2xl text-sm sm:text-base">Choose a subject, class, topic and difficulty to begin today's practice.</p>
           </div>
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-slate-200 shadow-sm text-sm font-semibold text-slate-700">
             <i data-lucide="flame" class="w-4 h-4 text-orange-500"></i>
@@ -155,8 +177,13 @@
             </div>
             <div>
               <label for="subject-select" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Subject</label>
-              <select id="subject-select" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 focus:border-amber-500 focus:outline-none">
+              <select id="subject-select" onchange="onSubjectChange()" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 focus:border-amber-500 focus:outline-none">
                 <option value="Maths" selected>Maths</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="Social Studies">Social Studies</option>
+                <option value="Environmental Studies">Environmental Studies</option>
+                <option value="Hindi">Hindi</option>
               </select>
             </div>
             <div>
@@ -226,8 +253,8 @@
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
               Learning Module
             </span>
-            <h2 id="learn-title" class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-3">Interactive Maths Lesson</h2>
-            <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.</p>
+            <h2 id="learn-title" class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-3">Interactive Lesson</h2>
+            <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">Choose a subject, practise with questions and get helpful feedback and hints.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
             <span id="topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Fractions - Grade 6</span>
@@ -283,55 +310,11 @@
             </div>
           </div>
           <div class="lg:col-span-5 space-y-6">
-            <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i data-lucide="database" class="w-5 h-5"></i></div>
-                  <div>
-                    <h4 class="font-display font-bold text-base text-white">Local Progress Store</h4>
-                    <p class="text-xs text-slate-400">Saved on-device in your browser</p>
-                  </div>
-                </div>
-                <span id="packet-size-badge" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-emerald-400">0.4 KB pending</span>
-              </div>
-              <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
-                <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
-                  <span>delta_progress.json</span>
-                  <span id="sync-queue-count">0 pending</span>
-                </div>
-                <pre id="delta-json-preview" class="text-emerald-300 leading-relaxed">{
-  "student_id": "LOCAL_LEARNER",
-  "elo_rating": 1000,
-  "pending_events": []
-}</pre>
-              </div>
-              <div class="grid grid-cols-3 gap-2 mt-5">
-                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">ELO</p>
-                  <p id="progress-elo" class="font-display font-extrabold text-white mt-1">1000</p>
-                </div>
-                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Streak</p>
-                  <p id="progress-streak" class="font-display font-extrabold text-white mt-1">0</p>
-                </div>
-                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
-                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Accuracy</p>
-                  <p id="progress-acc" class="font-display font-extrabold text-white mt-1">0%</p>
-                </div>
-              </div>
-              <div class="mt-5 space-y-3">
-                <button onclick="simulateSyncNow()" id="sync-now-btn" class="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition shadow-lg shadow-emerald-500/20">
-                  <i data-lucide="refresh-cw" id="sync-icon" class="w-4 h-4"></i>
-                  <span id="ui-sync">Sync Now</span>
-                </button>
-                <p id="sync-status-msg" class="text-xs text-center text-slate-400">Progress is saved on this device. No remote server is used.</p>
-              </div>
-            </div>
             <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-3xl p-5 text-xs sm:text-sm text-indigo-200 space-y-2">
               <p class="font-bold text-white flex items-center gap-2"><i data-lucide="info" class="w-4 h-4 text-amber-400"></i>How Adaptive Difficulty Works:</p>
               <ul class="list-disc list-inside space-y-1 text-indigo-200/90 text-xs">
-                <li><strong>Correct answer:</strong> adaptive rating increases and a harder question is served.</li>
-                <li><strong>Incorrect answer:</strong> rating adjusts, a hint is unlocked and a weak-topic signal is kept.</li>
+                <li><strong>Correct answer:</strong> your practice level moves up for the next question.</li>
+                <li><strong>Incorrect answer:</strong> your practice level adjusts, a hint is unlocked and the topic result is recorded.</li>
               </ul>
             </div>
           </div>
@@ -389,7 +372,7 @@
             </div>
             <div class="mt-6 pt-5 border-t border-slate-800 flex items-center justify-between gap-4">
               <p id="teacher-live-insight" class="text-xs text-slate-300">Live insight: local practice progress is aggregated here.</p>
-              <span class="text-xs font-mono text-slate-500">Last sync: local IndexedDB</span>
+              <span class="text-xs font-mono text-slate-500">Progress stored in this browser</span>
             </div>
           </div>
           <div class="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
@@ -425,7 +408,7 @@
         <p class="font-display font-extrabold text-white">Vidya<span class="text-amber-400">Lite</span></p>
         <p class="text-xs text-slate-400 mt-1">Learning made simple, anywhere.</p>
       </div>
-      <p class="text-xs text-slate-500 text-center sm:text-right max-w-md">Voice and sync are simulated locally. Adaptive scoring and progress storage run on this device.</p>
+      <p class="text-xs text-slate-500 text-center sm:text-right max-w-md">Voice is simulated locally. Quiz scores and dashboard progress are saved in this browser.</p>
     </div>
   </footer>
   <script>
@@ -438,8 +421,7 @@
       kn: {"welcome":"ಕಲಿಕೆ ಸುಲಭ, ಎಲ್ಲಿಯಾದರೂ.","subtitle":"ಗ್ರಾಮೀಣ ತರಗತಿಗಳಿಗಾಗಿ ಆಫ್‌ಲೈನ್ ಆಧಾರಿತ ಹೊಂದಾಣಿಕೆಯ ಗಣಿತ ಅಭ್ಯಾಸ - ಇಂಟರ್ನೆಟ್ ಅಗತ್ಯವಿಲ್ಲ.","startLearning":"ಕಲಿಕೆ ಪ್ರಾರಂಭಿಸಿ","submit":"ಉತ್ತರ ಸಲ್ಲಿಸಿ","howItWorks":"ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ","home":"ಮುಖಪುಟ","student":"ವಿದ್ಯಾರ್ಥಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","learn":"ಕಲಿಕೆ","teacher":"ಶಿಕ್ಷಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","about":"ಪರಿಚಯ","dailyGoal":"ದೈನಂದಿನ ಕಲಿಕೆ ಗುರಿ","progress":"ಒಟ್ಟು ಪ್ರಗತಿ","accuracy":"ನಿಖರತೆ","streak":"ಕಲಿಕೆ ಸರಣಿ","recommended":"ಶಿಫಾರಸು ಮಾಡಿದ ಪಾಠಗಳು","weakTopics":"ದುರ್ಬಲ ವಿಷಯಗಳು","classLabel":"ತರಗತಿ","subjectLabel":"ವಿಷಯ","topicLabel":"ವಿಷಯಾಂಶ","difficultyLabel":"ಕಠಿಣತೆ","easy":"ಸುಲಭ","medium":"ಮಧ್ಯಮ","hard":"ಕಠಿಣ","questionLabel":"ಪ್ರಶ್ನೆ","hint":"ಸುಳಿವು","showHint":"ಹಂತ ಹಂತದ ಸುಳಿವು ತೋರಿಸಿ","next":"ಮುಂದಿನ ಪ್ರಶ್ನೆ","correct":"ಸರಿ! ಚೆನ್ನಾಗಿ ಮಾಡಿದ್ದೀರಿ!","wrong":"ಸರಿಯಿಲ್ಲ. ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ!","explanation":"ವಿವರಣೆ","listen":"ಕೇಳಿ","voicePlaying":"ಪ್ಲೇ ಆಗುತ್ತಿದೆ...","offlineStatus":"ಆಫ್‌ಲೈನ್ ಮೋಡ್","onlineStatus":"ಆನ್‌ಲೈನ್","syncNow":"ಈಗ ಸಿಂಕ್ ಮಾಡಿ","synced":"ಸಿಂಕ್ ಆಗಿದೆ","queued":"ಬಾಕಿ","teacherDashboard":"ಶಿಕ್ಷಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","classOverview":"ತರಗತಿ ಅವಲೋಕನ","heatmap":"ವಿಷಯವಾರು ಕಾರ್ಯಕ್ಷಮತೆ","struggling":"ಬೆಂಬಲ ಬೇಕಾದ ವಿದ್ಯಾರ್ಥಿಗಳು","reports":"ನಿಖರತೆ ಮತ್ತು ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ ವರದಿಗಳು","howTitle":"ವಿದ್ಯಾಲೈಟ್ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ","stepOffline":"ಆಫ್‌ಲೈನ್ ಪಾಠಗಳು","stepAdaptive":"ಹೊಂದಾಣಿಕೆಯ ಅಭ್ಯಾಸ","stepLang":"ಪ್ರಾದೇಶಿಕ ಭಾಷೆಗಳು","stepSync":"ಕಡಿಮೆ ಡೇಟಾ ಸಿಂಕ್","offlineBanner":"ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ - ಕ್ಯಾಶ್ ಮಾಡಿದ ಪಾಠಗಳಿಂದ ಅಭ್ಯಾಸ ಮಾಡಿ.","onlineBanner":"ನೀವು ಆನ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ - ಸಾಧ್ಯವಾದಾಗ ಪ್ರಗತಿ ಸಿಂಕ್ ಆಗುತ್ತದೆ."},
       hi: {"welcome":"सीखना आसान, कहीं भी।","subtitle":"ग्रामीण कक्षाओं के लिए ऑफ़लाइन-आधारित अनुकूली गणित अभ्यास - इंटरनेट की ज़रूरत नहीं।","startLearning":"सीखना शुरू करें","submit":"उत्तर जमा करें","howItWorks":"यह कैसे काम करता है","home":"होम","student":"छात्र डैशबोर्ड","learn":"सीखें","teacher":"शिक्षक डैशबोर्ड","about":"परिचय","dailyGoal":"दैनिक सीखने का लक्ष्य","progress":"कुल प्रगति","accuracy":"सटीकता","streak":"सीखने की लय","recommended":"सुझाए गए पाठ","weakTopics":"कमज़ोर विषय","classLabel":"कक्षा","subjectLabel":"विषय","topicLabel":"टॉपिक","difficultyLabel":"कठिनाई","easy":"आसान","medium":"मध्यम","hard":"कठिन","questionLabel":"प्रश्न","hint":"संकेत","showHint":"चरण-दर-चरण संकेत दिखाएँ","next":"अगला प्रश्न","correct":"सही! बहुत बढ़िया!","wrong":"सही नहीं। अभ्यास जारी रखें!","explanation":"व्याख्या","listen":"सुनें","voicePlaying":"चल रहा है...","offlineStatus":"ऑफ़लाइन मोड","onlineStatus":"ऑनलाइन","syncNow":"अभी सिंक करें","synced":"सिंक हो गया","queued":"लंबित","teacherDashboard":"शिक्षक डैशबोर्ड","classOverview":"कक्षा अवलोकन","heatmap":"विषय-वार प्रदर्शन","struggling":"सहायता चाहिए वाले छात्र","reports":"सटीकता और पूर्णता रिपोर्ट","howTitle":"विद्यालाइट कैसे काम करता है","stepOffline":"ऑफ़लाइन पाठ","stepAdaptive":"अनुकूली अभ्यास","stepLang":"क्षेत्रीय भाषाएँ","stepSync":"कम-डेटा सिंक","offlineBanner":"आप ऑफ़लाइन हैं - कैश किए गए पाठों से अभ्यास करें।","onlineBanner":"आप ऑनलाइन हैं - संभव होने पर प्रगति सिंक होगी।"},
     };
-    const state = { lang: 'en', role: null, studentName: 'Learner', grade: 6, subject: 'Maths', topic: 'Fractions', difficulty: 'Medium', elo: 1000, streak: 0, correctCount: 0, attempts: 0, answeredToday: 0, dailyGoal: 10, topicStats: {}, questions: [], currentQIndex: 0, answered: false, selectedAnswer: null, hintRevealed: false, voicePlaying: false, simulatedOffline: false, pendingSync: false };
-    const topics = ['Fractions', 'Decimals', 'Algebra', 'Geometry'];
+    const state = { lang: 'en', role: null, studentName: 'Learner', grade: 6, subject: 'Maths', topic: 'Fractions', difficulty: 'Medium', streak: 0, correctCount: 0, attempts: 0, answeredToday: 0, dailyGoal: 10, topicStats: {}, questions: [], currentQIndex: 0, answered: false, selectedAnswer: null, hintRevealed: false, voicePlaying: false, simulatedOffline: false };
     const questionsByTopic = {
       Fractions: [
         { id: 'Q_FRAC_01', topicKey: 'Fractions', grade: 6, difficulty: 'Easy', text: 'Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much did they eat together?', options: ['3/4', '3/8', '1/2', '2/8'], correctIndex: 0, explanation: 'Add the numerators: 1 + 2 = 3, so the answer is 3/4.', hint: 'Add the numerators, keep the denominator the same.' },
@@ -456,15 +438,69 @@
         { id: 'Q_GEO_01', topicKey: 'Geometry', grade: 8, difficulty: 'Hard', text: 'A rectangular school field is 30 m long and 20 m wide. How much fencing is needed to go around it once?', options: ['100 m', '600 m', '50 m', '80 m'], correctIndex: 0, explanation: 'Perimeter = 2 * (30 + 20) = 100 m.', hint: 'Perimeter of a rectangle is 2 * (length + width).' }
       ]
     };
+    const questionsBySubject = {
+      Maths: questionsByTopic,
+      Science: {
+        Plants: [
+          { id: 'Q_SCI_PLANT_01', topicKey: 'Plants', grade: 5, difficulty: 'Easy', text: 'Which part of a plant absorbs water from the soil?', options: ['Roots', 'Stem', 'Leaves', 'Flowers'], correctIndex: 0, explanation: 'Roots take in water and minerals from the soil.', hint: 'Look for the part that grows underground.' },
+          { id: 'Q_SCI_PLANT_02', topicKey: 'Plants', grade: 5, difficulty: 'Easy', text: 'Which part of a plant makes most of its food using sunlight?', options: ['Stem', 'Roots', 'Leaves', 'Flower'], correctIndex: 2, explanation: 'Leaves use sunlight to help the plant make food.', hint: 'Think of the green, flat parts of a plant.' }
+        ],
+        Matter: [
+          { id: 'Q_SCI_MATTER_01', topicKey: 'Matter', grade: 5, difficulty: 'Easy', text: 'Which state of matter keeps its own shape?', options: ['Solid', 'Liquid', 'Gas', 'Water vapour'], correctIndex: 0, explanation: 'A solid keeps its own shape unless a force changes it.', hint: 'Think of a book or a stone.' },
+          { id: 'Q_SCI_MATTER_02', topicKey: 'Matter', grade: 5, difficulty: 'Easy', text: 'What happens to ice when it gets warm?', options: ['It melts', 'It freezes', 'It turns into soil', 'It disappears'], correctIndex: 0, explanation: 'When ice gains heat, it melts and becomes liquid water.', hint: 'Think about what happens to an ice cube in the sun.' }
+        ]
+      },
+      English: {
+        Grammar: [
+          { id: 'Q_ENG_GRAMMAR_01', topicKey: 'Grammar', grade: 5, difficulty: 'Easy', text: 'Choose the correct word: She ___ to school every day.', options: ['go', 'goes', 'going', 'gone'], correctIndex: 1, explanation: 'With “she”, use “goes” in the simple present tense.', hint: 'Choose the verb form that agrees with “she”.' },
+          { id: 'Q_ENG_GRAMMAR_02', topicKey: 'Grammar', grade: 5, difficulty: 'Easy', text: 'Which sentence uses capital letters correctly?', options: ['my friend lives in delhi.', 'My friend lives in Delhi.', 'My Friend lives in delhi.', 'my Friend lives in Delhi.'], correctIndex: 1, explanation: 'Begin a sentence and proper names such as Delhi with capital letters.', hint: 'Check the first word and the name of the city.' }
+        ],
+        Vocabulary: [
+          { id: 'Q_ENG_VOCAB_01', topicKey: 'Vocabulary', grade: 5, difficulty: 'Easy', text: 'Which word is the opposite of “hot”?', options: ['cold', 'warm', 'heat', 'fire'], correctIndex: 0, explanation: '“Cold” is the opposite of “hot”.', hint: 'Think of the word for ice or snow.' },
+          { id: 'Q_ENG_VOCAB_02', topicKey: 'Vocabulary', grade: 5, difficulty: 'Easy', text: 'Which word means the same as “quick”?', options: ['fast', 'slow', 'late', 'quiet'], correctIndex: 0, explanation: '“Fast” and “quick” have similar meanings.', hint: 'Choose the word that means moving with speed.' }
+        ]
+      },
+      'Social Studies': {
+        Geography: [
+          { id: 'Q_SOC_GEO_01', topicKey: 'Geography', grade: 5, difficulty: 'Easy', text: 'In which direction does the Sun appear to rise?', options: ['East', 'West', 'North', 'South'], correctIndex: 0, explanation: 'The Sun appears to rise in the east.', hint: 'It rises in the direction opposite to where it sets.' },
+          { id: 'Q_SOC_GEO_02', topicKey: 'Geography', grade: 5, difficulty: 'Easy', text: 'Which tool helps us find places and directions?', options: ['A map', 'A thermometer', 'A clock', 'A spoon'], correctIndex: 0, explanation: 'A map shows places and can help us understand directions.', hint: 'It is a drawing that represents an area.' }
+        ],
+        Civics: [
+          { id: 'Q_SOC_CIVICS_01', topicKey: 'Civics', grade: 5, difficulty: 'Easy', text: 'Why do communities have rules?', options: ['To help everyone stay safe', 'To stop people learning', 'To make roads disappear', 'To keep everyone indoors'], correctIndex: 0, explanation: 'Fair rules help people live and work together safely.', hint: 'Choose the reason that helps the whole community.' },
+          { id: 'Q_SOC_CIVICS_02', topicKey: 'Civics', grade: 5, difficulty: 'Easy', text: 'What is a helpful thing to do when someone needs help?', options: ['Offer safe help or tell a trusted adult', 'Laugh at them', 'Ignore the problem', 'Push them'], correctIndex: 0, explanation: 'Offering safe help or asking a trusted adult supports people in the community.', hint: 'Choose an action that is kind and keeps everyone safe.' }
+        ]
+      },
+      'Environmental Studies': {
+        Conservation: [
+          { id: 'Q_ENV_WATER_01', topicKey: 'Conservation', grade: 5, difficulty: 'Easy', text: 'What is a good way to save water while brushing your teeth?', options: ['Turn off the tap', 'Leave the tap running', 'Use a new cup each time', 'Pour water on the floor'], correctIndex: 0, explanation: 'Turning off the tap while brushing prevents water waste.', hint: 'Water is not needed while you are brushing.' },
+          { id: 'Q_ENV_WATER_02', topicKey: 'Conservation', grade: 5, difficulty: 'Easy', text: 'Which choice helps save electricity at home?', options: ['Switch off lights when leaving a room', 'Keep every light on', 'Leave the refrigerator door open', 'Turn on unused fans'], correctIndex: 0, explanation: 'Switching off lights when they are not needed saves electricity.', hint: 'Think about what you can turn off when nobody is in the room.' }
+        ],
+        Recycling: [
+          { id: 'Q_ENV_RECYCLE_01', topicKey: 'Recycling', grade: 5, difficulty: 'Easy', text: 'Which item can be composted?', options: ['Fruit peels', 'Plastic bottle', 'Glass jar', 'Metal can'], correctIndex: 0, explanation: 'Fruit peels are natural waste that can break down into compost.', hint: 'Choose the item that comes from a plant.' },
+          { id: 'Q_ENV_RECYCLE_02', topicKey: 'Recycling', grade: 5, difficulty: 'Easy', text: 'Which material is usually recyclable?', options: ['Clean paper', 'Leftover soup', 'Used tissue', 'Fruit juice'], correctIndex: 0, explanation: 'Clean paper can often be recycled to make new paper products.', hint: 'Choose the dry material often used for writing or drawing.' }
+        ]
+      },
+      Hindi: {
+        Vocabulary: [
+          { id: 'Q_HI_VOCAB_01', topicKey: 'Vocabulary', grade: 5, difficulty: 'Easy', text: 'Which is the Hindi word for “water”?', options: ['पानी', 'धरती', 'आकाश', 'पेड़'], correctIndex: 0, explanation: '“पानी” is the Hindi word for water.', hint: 'Choose the word people drink when they are thirsty.' },
+          { id: 'Q_HI_VOCAB_02', topicKey: 'Vocabulary', grade: 5, difficulty: 'Easy', text: 'Which Hindi word means “sun”?', options: ['सूरज', 'पानी', 'फूल', 'किताब'], correctIndex: 0, explanation: '“सूरज” is the Hindi word for the sun.', hint: 'Choose the bright star we see in the daytime.' }
+        ],
+        Grammar: [
+          { id: 'Q_HI_GRAMMAR_01', topicKey: 'Grammar', grade: 5, difficulty: 'Easy', text: 'Which Hindi word means “book”?', options: ['किताब', 'कलम', 'विद्यालय', 'खेल'], correctIndex: 0, explanation: '“किताब” means book in Hindi.', hint: 'Choose the word you would use for a storybook.' },
+          { id: 'Q_HI_GRAMMAR_02', topicKey: 'Grammar', grade: 5, difficulty: 'Easy', text: 'Which Hindi word means “school”?', options: ['विद्यालय', 'किताब', 'कलम', 'पानी'], correctIndex: 0, explanation: '“विद्यालय” means school in Hindi.', hint: 'Choose the place where students learn.' }
+        ]
+      }
+    };
 
     function el(id) { return document.getElementById(id); }
     function t(key) { const l = uiStrings[state.lang] || uiStrings.en; return (l && l[key]) || uiStrings.en[key] || key; }
     const pageTranslations = {
       kn: {
+        'Back':'ಹಿಂದೆ','Menu':'ಮೆನು',
         'Offline-First Adaptive Learning':'ಆಫ್‌ಲೈನ್ ಆಧಾರಿತ ಹೊಂದಾಣಿಕೆಯ ಕಲಿಕೆ','Home':'ಮುಖಪುಟ','Student':'ವಿದ್ಯಾರ್ಥಿ','Learning':'ಕಲಿಕೆ','Teacher':'ಶಿಕ್ಷಕರು','About':'ಪರಿಚಯ','Student Login':'ವಿದ್ಯಾರ್ಥಿ ಲಾಗಿನ್','Teacher Login':'ಶಿಕ್ಷಕರ ಲಾಗಿನ್','Start Learning':'ಕಲಿಕೆ ಪ್ರಾರಂಭಿಸಿ',
         'How It Works':'ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ','Student Dashboard':'ವಿದ್ಯಾರ್ಥಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್','Teacher Dashboard':'ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್','Continue personalised offline practice.':'ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಆಫ್‌ಲೈನ್ ಅಭ್ಯಾಸವನ್ನು ಮುಂದುವರಿಸಿ.','View class progress & weak topics.':'ತರಗತಿಯ ಪ್ರಗತಿ ಮತ್ತು ದುರ್ಬಲ ವಿಷಯಗಳನ್ನು ವೀಕ್ಷಿಸಿ.','Choose language':'ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
         'Simple by design, powerful when it matters':'ಸರಳ ವಿನ್ಯಾಸ, ಅಗತ್ಯವಾದಾಗ ಶಕ್ತಿಯುತ','Offline Learning':'ಆಫ್‌ಲೈನ್ ಕಲಿಕೆ','Lessons and questions are cached on the device so practice continues even without internet.':'ಪಾಠಗಳು ಮತ್ತು ಪ್ರಶ್ನೆಗಳು ಸಾಧನದಲ್ಲಿ ಸಂಗ್ರಹವಾಗುತ್ತವೆ; ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದಿದ್ದರೂ ಅಭ್ಯಾಸ ಮುಂದುವರಿಯುತ್ತದೆ.','Adaptive Practice':'ಹೊಂದಾಣಿಕೆಯ ಅಭ್ಯಾಸ','Local adaptive scoring adjusts difficulty as the learner answers, keeping practice meaningful.':'ಕಲಿಯುವವರು ಉತ್ತರಿಸುವಾಗ ಸ್ಥಳೀಯ ಹೊಂದಾಣಿಕೆಯ ಅಂಕಗಳಿಕೆ ಕಠಿಣತೆಯನ್ನು ಬದಲಿಸಿ ಅಭ್ಯಾಸವನ್ನು ಪರಿಣಾಮಕಾರಿಯಾಗಿರಿಸುತ್ತದೆ.','Regional Languages':'ಪ್ರಾದೇಶಿಕ ಭಾಷೆಗಳು','Practice and instructions are available in English, Kannada and Hindi.':'ಇಂಗ್ಲಿಷ್, ಕನ್ನಡ ಮತ್ತು ಹಿಂದಿಯಲ್ಲಿ ಅಭ್ಯಾಸ ಹಾಗೂ ಸೂಚನೆಗಳು ಲಭ್ಯವಿವೆ.','Low-Data Sync':'ಕಡಿಮೆ ಡೇಟಾ ಸಿಂಕ್','Tiny progress packets sync only when connectivity returns, keeping data usage minimal.':'ಸಂಪರ್ಕ ಮರಳಿದಾಗ ಮಾತ್ರ ಸಣ್ಣ ಪ್ರಗತಿ ಮಾಹಿತಿಗಳು ಸಿಂಕ್ ಆಗುತ್ತವೆ; ಡೇಟಾ ಬಳಕೆ ಕಡಿಮೆಯಾಗಿರುತ್ತದೆ.',
-        'Pick a class, topic and difficulty to begin today\'s practice.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ತರಗತಿ, ವಿಷಯ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.','Streak: 0 days':'ಸತತ ಅಭ್ಯಾಸ: 0 ದಿನಗಳು','Class':'ತರಗತಿ','Subject':'ವಿಷಯ','Topic':'ವಿಷಯಾಂಶ','Difficulty':'ಕಠಿಣತೆ','Class 5':'5ನೇ ತರಗತಿ','Class 6':'6ನೇ ತರಗತಿ','Class 7':'7ನೇ ತರಗತಿ','Class 8':'8ನೇ ತರಗತಿ','Maths':'ಗಣಿತ','Fractions':'ಭಿನ್ನರಾಶಿಗಳು','Decimals':'ದಶಮಾಂಶಗಳು','Algebra':'ಬೀಜಗಣಿತ','Geometry':'ಜ್ಯಾಮಿತಿ','Easy':'ಸುಲಭ','Medium':'ಮಧ್ಯಮ','Hard':'ಕಠಿಣ',
+        'VidyaLite helps students practise maths offline, adapt questions to their pace, and lets teachers see exactly where learners need help.':'ವಿದ್ಯಾಲೈಟ್ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದೆ ಗಣಿತ ಅಭ್ಯಾಸ ಮಾಡಲು, ತಮ್ಮ ವೇಗಕ್ಕೆ ತಕ್ಕ ಪ್ರಶ್ನೆಗಳನ್ನು ಪಡೆಯಲು ಮತ್ತು ಶಿಕ್ಷಕರಿಗೆ ಕಲಿಕೆಯಲ್ಲಿ ನೆರವು ಬೇಕಾದ ಸ್ಥಳಗಳನ್ನು ತಿಳಿಯಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.','Class overview, topic-wise performance heatmap and student support insights.':'ತರಗತಿಯ ಅವಲೋಕನ, ವಿಷಯವಾರು ಸಾಧನೆ ನಕ್ಷೆ ಮತ್ತು ವಿದ್ಯಾರ್ಥಿ ಬೆಂಬಲದ ಮಾಹಿತಿ.','Pick a class, topic and difficulty to begin today\'s practice.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ತರಗತಿ, ವಿಷಯ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.','Streak: 0 days':'ಸತತ ಅಭ್ಯಾಸ: 0 ದಿನಗಳು','Class':'ತರಗತಿ','Subject':'ವಿಷಯ','Topic':'ವಿಷಯಾಂಶ','Difficulty':'ಕಠಿಣತೆ','Class 5':'5ನೇ ತರಗತಿ','Class 6':'6ನೇ ತರಗತಿ','Class 7':'7ನೇ ತರಗತಿ','Class 8':'8ನೇ ತರಗತಿ','Maths':'ಗಣಿತ','Fractions':'ಭಿನ್ನರಾಶಿಗಳು','Decimals':'ದಶಮಾಂಶಗಳು','Algebra':'ಬೀಜಗಣಿತ','Geometry':'ಜ್ಯಾಮಿತಿ','Easy':'ಸುಲಭ','Medium':'ಮಧ್ಯಮ','Hard':'ಕಠಿಣ',
         'Daily Goal':'ದೈನಂದಿನ ಗುರಿ','Keep today\'s practice consistent.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ನಿರಂತರವಾಗಿ ಮುಂದುವರಿಸಿ.','Progress':'ಪ್ರಗತಿ','of assigned lessons completed':'ನಿಗದಿಪಡಿಸಿದ ಪಾಠಗಳಲ್ಲಿ ಪೂರ್ಣಗೊಂಡದ್ದು','Accuracy':'ನಿಖರತೆ','from local practice attempts':'ಸ್ಥಳೀಯ ಅಭ್ಯಾಸ ಪ್ರಯತ್ನಗಳಿಂದ','Streak':'ಸತತ ಅಭ್ಯಾಸ','keep the habit alive':'ಅಭ್ಯಾಸವನ್ನು ಮುಂದುವರಿಸಿ','Recommended Lessons':'ಶಿಫಾರಸು ಮಾಡಿದ ಪಾಠಗಳು','Weak Topics':'ದುರ್ಬಲ ವಿಷಯಾಂಶಗಳು',
         'Learning Module':'ಕಲಿಕಾ ವಿಭಾಗ','Interactive Maths Lesson':'ಸಂವಾದಾತ್ಮಕ ಗಣಿತ ಪಾಠ','Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.':'ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ, ತಕ್ಷಣದ ಪ್ರತಿಕ್ರಿಯೆ ಪಡೆಯಿರಿ, ಸುಳಿವುಗಳನ್ನು ತೆರೆಯಿರಿ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊಂದಿಸಿ.','Online':'ಆನ್‌ಲೈನ್','Listen':'ಕೇಳಿ','Playing cached regional voice pack':'ಸಂಗ್ರಹಿತ ಪ್ರಾದೇಶಿಕ ಧ್ವನಿ ಪ್ಯಾಕ್ ಪ್ಲೇ ಆಗುತ್ತಿದೆ','Offline Audio':'ಆಫ್‌ಲೈನ್ ಧ್ವನಿ','Submit Answer':'ಉತ್ತರ ಸಲ್ಲಿಸಿ','Next Question':'ಮುಂದಿನ ಪ್ರಶ್ನೆ','Show Step-by-Step Hint':'ಹಂತ ಹಂತದ ಸುಳಿವು ತೋರಿಸಿ',
         'Local Progress Store':'ಸ್ಥಳೀಯ ಪ್ರಗತಿ ಸಂಗ್ರಹ','Saved on-device in your browser':'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಸಾಧನದಲ್ಲೇ ಉಳಿಸಲಾಗಿದೆ','0.4 KB pending':'0.4 KB ಬಾಕಿ','0 KB pending':'0 KB ಬಾಕಿ','0 pending':'0 ಬಾಕಿ','1 pending':'1 ಬಾಕಿ','ELO':'ELO','Sync Now':'ಈಗ ಸಿಂಕ್ ಮಾಡಿ','Progress is saved on this device. No remote server is used.':'ಪ್ರಗತಿಯನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ. ದೂರಸ್ಥ ಸರ್ವರ್ ಬಳಸಲಾಗುವುದಿಲ್ಲ.','How Adaptive Difficulty Works:':'ಹೊಂದಾಣಿಕೆಯ ಕಠಿಣತೆ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ:','Correct answer:':'ಸರಿಯಾದ ಉತ್ತರ:','adaptive rating increases and a harder question is served.':'ಹೊಂದಾಣಿಕೆಯ ರೇಟಿಂಗ್ ಹೆಚ್ಚುತ್ತದೆ ಮತ್ತು ಕಠಿಣ ಪ್ರಶ್ನೆ ನೀಡಲಾಗುತ್ತದೆ.','Incorrect answer:':'ತಪ್ಪಾದ ಉತ್ತರ:','rating adjusts, a hint is unlocked and a weak-topic signal is kept.':'ರೇಟಿಂಗ್ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ, ಸುಳಿವು ತೆರೆಯುತ್ತದೆ ಮತ್ತು ದುರ್ಬಲ ವಿಷಯದ ಸೂಚನೆ ಉಳಿಯುತ್ತದೆ.',
@@ -474,10 +510,11 @@
         'Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much did they eat together?':'ರಾಜು ಒಂದು ರೊಟ್ಟಿಯ 1/4 ಭಾಗ ತಿಂದನು ಮತ್ತು ಮೀನಾ ಅದೇ ರೊಟ್ಟಿಯ 2/4 ಭಾಗ ತಿಂದಳು. ಇಬ್ಬರೂ ಒಟ್ಟಿಗೆ ಎಷ್ಟು ತಿಂದರು?','A water tank is 2/3 full. After watering, 1/6 of the capacity is used. What fraction is still full?':'ನೀರಿನ ಟ್ಯಾಂಕ್ 2/3 ಭಾಗ ತುಂಬಿದೆ. ನೀರು ಬಳಸಿದ ನಂತರ ಸಾಮರ್ಥ್ಯದ 1/6 ಭಾಗ ಖಾಲಿಯಾಯಿತು. ಈಗ ಎಷ್ಟು ಭಾಗ ತುಂಬಿದೆ?','What is 3/4 - 1/4?':'3/4 - 1/4 ಎಷ್ಟು?','A notebook costs 118.50 and a pencil costs 16.75. How much do both cost together?':'ಒಂದು ನೋಟ್‌ಬುಕ್ ಬೆಲೆ 118.50 ಮತ್ತು ಪೆನ್ಸಿಲ್ ಬೆಲೆ 16.75. ಎರಡರ ಒಟ್ಟು ಬೆಲೆ ಎಷ್ಟು?','If 3x + 5 = 20, what is the value of 2x + 1?':'3x + 5 = 20 ಆದರೆ, 2x + 1 ರ ಮೌಲ್ಯ ಎಷ್ಟು?','A rectangular school field is 30 m long and 20 m wide. How much fencing is needed to go around it once?':'ಒಂದು ಆಯತಾಕಾರದ ಶಾಲಾ ಮೈದಾನ 30 ಮೀ ಉದ್ದ ಮತ್ತು 20 ಮೀ ಅಗಲವಿದೆ. ಅದರ ಸುತ್ತ ಒಮ್ಮೆ ಬೇಲಿ ಹಾಕಲು ಎಷ್ಟು ಉದ್ದ ಬೇಕು?'
       },
       hi: {
+        'Back':'वापस','Menu':'मेनू',
         'Offline-First Adaptive Learning':'ऑफ़लाइन अनुकूल शिक्षण','Home':'मुखपृष्ठ','Student':'छात्र','Learning':'सीखें','Teacher':'शिक्षक','About':'परिचय','Student Login':'छात्र लॉगिन','Teacher Login':'शिक्षक लॉगिन','Start Learning':'सीखना शुरू करें',
-        'How It Works':'यह कैसे काम करता है','Student Dashboard':'छात्र डैशबोर्ड','Teacher Dashboard':'शिक्षक डैशबोर्ड','Continue personalised offline practice.':'अपनी व्यक्तिगत ऑफ़लाइन अभ्यास जारी रखें।','View class progress & weak topics.':'कक्षा की प्रगति और कमज़ोर विषय देखें।','Choose language':'भाषा चुनें',
+        'How It Works':'यह कैसे काम करता है','Student Dashboard':'छात्र डैशबोर्ड','Teacher Dashboard':'शिक्षक डैशबोर्ड',        'Continue personalised offline practice.':'अपना व्यक्तिगत ऑफ़लाइन अभ्यास जारी रखें।','View class progress & weak topics.':'कक्षा की प्रगति और कमज़ोर विषय देखें।','Choose language':'भाषा चुनें',
         'Simple by design, powerful when it matters':'डिज़ाइन में सरल, ज़रूरत पर प्रभावी','Offline Learning':'ऑफ़लाइन शिक्षा','Lessons and questions are cached on the device so practice continues even without internet.':'पाठ और प्रश्न डिवाइस में सहेजे जाते हैं, ताकि इंटरनेट के बिना भी अभ्यास जारी रहे।','Adaptive Practice':'अनुकूल अभ्यास','Local adaptive scoring adjusts difficulty as the learner answers, keeping practice meaningful.':'शिक्षार्थी के उत्तरों के अनुसार स्थानीय अनुकूल अंकन कठिनाई बदलता है और अभ्यास को उपयोगी बनाए रखता है।','Regional Languages':'क्षेत्रीय भाषाएँ','Practice and instructions are available in English, Kannada and Hindi.':'अंग्रेज़ी, कन्नड़ और हिंदी में अभ्यास तथा निर्देश उपलब्ध हैं।','Low-Data Sync':'कम डेटा सिंक','Tiny progress packets sync only when connectivity returns, keeping data usage minimal.':'छोटे प्रगति पैकेट कनेक्शन लौटने पर ही सिंक होते हैं, जिससे डेटा का उपयोग कम रहता है।',
-        'Pick a class, topic and difficulty to begin today\'s practice.':'आज का अभ्यास शुरू करने के लिए कक्षा, विषय और कठिनाई चुनें।','Streak: 0 days':'लगातार अभ्यास: 0 दिन','Class':'कक्षा','Subject':'विषय','Topic':'विषय','Difficulty':'कठिनाई','Class 5':'कक्षा 5','Class 6':'कक्षा 6','Class 7':'कक्षा 7','Class 8':'कक्षा 8','Maths':'गणित','Fractions':'भिन्न','Decimals':'दशमलव','Algebra':'बीजगणित','Geometry':'ज्यामिति','Easy':'आसान','Medium':'मध्यम','Hard':'कठिन',
+        'VidyaLite helps students practise maths offline, adapt questions to their pace, and lets teachers see exactly where learners need help.':'विद्यालाइट छात्रों को बिना इंटरनेट गणित का अभ्यास करने, अपनी गति के अनुसार प्रश्न पाने और शिक्षकों को यह समझने में मदद करता है कि विद्यार्थियों को कहाँ सहायता चाहिए।','Class overview, topic-wise performance heatmap and student support insights.':'कक्षा का अवलोकन, विषयवार प्रदर्शन हीटमैप और छात्र सहायता संबंधी जानकारी।','Pick a class, topic and difficulty to begin today\'s practice.':'आज का अभ्यास शुरू करने के लिए कक्षा, विषय और कठिनाई चुनें।','Streak: 0 days':'लगातार अभ्यास: 0 दिन','Class':'कक्षा','Subject':'विषय','Topic':'विषय','Difficulty':'कठिनाई','Class 5':'कक्षा 5','Class 6':'कक्षा 6','Class 7':'कक्षा 7','Class 8':'कक्षा 8','Maths':'गणित','Fractions':'भिन्न','Decimals':'दशमलव','Algebra':'बीजगणित','Geometry':'ज्यामिति','Easy':'आसान','Medium':'मध्यम','Hard':'कठिन',
         'Daily Goal':'दैनिक लक्ष्य','Keep today\'s practice consistent.':'आज का अभ्यास नियमित रखें।','Progress':'प्रगति','of assigned lessons completed':'निर्धारित पाठ पूरे हुए','Accuracy':'सटीकता','from local practice attempts':'स्थानीय अभ्यास प्रयासों से','Streak':'लगातार अभ्यास','keep the habit alive':'अभ्यास जारी रखें','Recommended Lessons':'सुझाए गए पाठ','Weak Topics':'कमज़ोर विषय',
         'Learning Module':'अध्ययन अनुभाग','Interactive Maths Lesson':'इंटरैक्टिव गणित पाठ','Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.':'प्रश्नों के उत्तर दें, तुरंत प्रतिक्रिया पाएँ, संकेत खोलें और कठिनाई अपने-आप समायोजित करें।','Online':'ऑनलाइन','Listen':'सुनें','Playing cached regional voice pack':'सहेजा गया क्षेत्रीय वॉइस पैक चल रहा है','Offline Audio':'ऑफ़लाइन ऑडियो','Submit Answer':'उत्तर जमा करें','Next Question':'अगला प्रश्न','Show Step-by-Step Hint':'चरण-दर-चरण संकेत दिखाएँ',
         'Local Progress Store':'स्थानीय प्रगति संग्रह','Saved on-device in your browser':'आपके ब्राउज़र में डिवाइस पर सहेजा गया','0.4 KB pending':'0.4 KB लंबित','0 KB pending':'0 KB लंबित','0 pending':'0 लंबित','1 pending':'1 लंबित','ELO':'ELO','Sync Now':'अभी सिंक करें','Progress is saved on this device. No remote server is used.':'प्रगति इस डिवाइस पर सहेजी जाती है। किसी दूरस्थ सर्वर का उपयोग नहीं होता।','How Adaptive Difficulty Works:':'अनुकूल कठिनाई कैसे काम करती है:','Correct answer:':'सही उत्तर:','adaptive rating increases and a harder question is served.':'अनुकूल रेटिंग बढ़ती है और कठिन प्रश्न दिया जाता है।','Incorrect answer:':'गलत उत्तर:','rating adjusts, a hint is unlocked and a weak-topic signal is kept.':'रेटिंग समायोजित होती है, संकेत खुलता है और कमज़ोर विषय का संकेत सुरक्षित रहता है।',
@@ -487,8 +524,140 @@
         'Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much did they eat together?':'राजू ने रोटी का 1/4 भाग और मीना ने उसी रोटी का 2/4 भाग खाया। दोनों ने मिलकर कितना खाया?','A water tank is 2/3 full. After watering, 1/6 of the capacity is used. What fraction is still full?':'एक पानी की टंकी 2/3 भरी है। पानी देने के बाद क्षमता का 1/6 भाग उपयोग हुआ। अब टंकी का कितना भाग भरा है?','What is 3/4 - 1/4?':'3/4 - 1/4 कितना है?','A notebook costs 118.50 and a pencil costs 16.75. How much do both cost together?':'एक कॉपी की कीमत 118.50 और पेंसिल की कीमत 16.75 है। दोनों की कुल कीमत कितनी है?','If 3x + 5 = 20, what is the value of 2x + 1?':'यदि 3x + 5 = 20, तो 2x + 1 का मान क्या है?','A rectangular school field is 30 m long and 20 m wide. How much fencing is needed to go around it once?':'एक आयताकार स्कूल का मैदान 30 मीटर लंबा और 20 मीटर चौड़ा है। इसके चारों ओर एक बार बाड़ लगाने के लिए कितनी लंबाई चाहिए?'
       }
     };
+    const contentTranslations = {
+      kn: {
+        'Practice Insights':'ಅಭ್ಯಾಸದ ಮಾಹಿತಿ',
+        'Quiz results help learners and teachers see which topics need more practice.':'ಯಾವ ವಿಷಯಗಳಲ್ಲಿ ಇನ್ನಷ್ಟು ಅಭ್ಯಾಸ ಬೇಕೆಂದು ವಿದ್ಯಾರ್ಥಿಗಳು ಮತ್ತು ಶಿಕ್ಷಕರು ರಸಪ್ರಶ್ನೆಯ ಫಲಿತಾಂಶಗಳಿಂದ ತಿಳಿಯಬಹುದು.',
+        'Progress stored in this browser':'ಪ್ರಗತಿಯನ್ನು ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ',
+        'VidyaLite helps students practise multiple subjects offline, learn at their own pace, and lets teachers see where learners need help.':'ವಿದ್ಯಾಲೈಟ್ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಹಲವು ವಿಷಯಗಳನ್ನು ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದೆ ಅಭ್ಯಾಸ ಮಾಡಲು, ತಮ್ಮದೇ ವೇಗದಲ್ಲಿ ಕಲಿಯಲು ಮತ್ತು ಯಾವ ವಿಷಯದಲ್ಲಿ ನೆರವು ಬೇಕೆಂದು ಶಿಕ್ಷಕರಿಗೆ ತಿಳಿಯಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.',
+        'Choose a subject, class, topic and difficulty to begin today\'s practice.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ವಿಷಯ, ತರಗತಿ, ವಿಷಯಾಂಶ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Voice is simulated locally. Quiz scores and dashboard progress are saved in this browser.':'ಧ್ವನಿ ಸ್ಥಳೀಯವಾಗಿ ಅನುಕರಿಸಲಾಗುತ್ತದೆ. ರಸಪ್ರಶ್ನೆಯ ಅಂಕಗಳು ಮತ್ತು ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಪ್ರಗತಿಯನ್ನು ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಉಳಿಸಲಾಗುತ್ತದೆ.',
+        'Science':'ವಿಜ್ಞಾನ','English':'ಇಂಗ್ಲಿಷ್','Social Studies':'ಸಾಮಾಜಿಕ ಅಧ್ಯಯನ','Environmental Studies':'ಪರಿಸರ ಅಧ್ಯಯನ','Hindi':'ಹಿಂದಿ',
+        'Plants':'ಸಸ್ಯಗಳು','Matter':'ದ್ರವ್ಯ','Grammar':'ವ್ಯಾಕರಣ','Vocabulary':'ಪದಸಂಪತ್ತು','Geography':'ಭೂಗೋಳ','Civics':'ನಾಗರಿಕಶಾಸ್ತ್ರ','Conservation':'ಸಂರಕ್ಷಣೆ','Recycling':'ಮರುಬಳಕೆ',
+        'Interactive Lesson':'ಸಂವಾದಾತ್ಮಕ ಪಾಠ','Choose a subject, practise with questions and get helpful feedback and hints.':'ಒಂದು ವಿಷಯವನ್ನು ಆಯ್ಕೆಮಾಡಿ, ಪ್ರಶ್ನೆಗಳೊಂದಿಗೆ ಅಭ್ಯಾಸ ಮಾಡಿ, ಉಪಯುಕ್ತ ಪ್ರತಿಕ್ರಿಯೆ ಮತ್ತು ಸುಳಿವುಗಳನ್ನು ಪಡೆಯಿರಿ.',
+        'your practice level moves up for the next question.':'ಮುಂದಿನ ಪ್ರಶ್ನೆಗೆ ನಿಮ್ಮ ಅಭ್ಯಾಸದ ಮಟ್ಟ ಹೆಚ್ಚುತ್ತದೆ.',
+        'your practice level adjusts, a hint is unlocked and the topic result is recorded.':'ನಿಮ್ಮ ಅಭ್ಯಾಸದ ಮಟ್ಟ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ, ಸುಳಿವು ತೆರೆದುಕೊಳ್ಳುತ್ತದೆ ಮತ್ತು ವಿಷಯದ ಫಲಿತಾಂಶ ದಾಖಲಾಗುತ್ತದೆ.',
+        'Which part of a plant absorbs water from the soil?':'ಸಸ್ಯದ ಯಾವ ಭಾಗವು ಮಣ್ಣಿನಿಂದ ನೀರನ್ನು ಹೀರಿಕೊಳ್ಳುತ್ತದೆ?',
+        'Roots':'ಬೇರುಗಳು','Stem':'ಕಾಂಡ','Leaves':'ಎಲೆಗಳು','Flowers':'ಹೂಗಳು',
+        'Roots take in water and minerals from the soil.':'ಬೇರುಗಳು ಮಣ್ಣಿನಿಂದ ನೀರು ಮತ್ತು ಖನಿಜಗಳನ್ನು ಹೀರಿಕೊಳ್ಳುತ್ತವೆ.','Look for the part that grows underground.':'ನೆಲದೊಳಗೆ ಬೆಳೆಯುವ ಭಾಗವನ್ನು ಗುರುತಿಸಿ.',
+        'Which state of matter keeps its own shape?':'ದ್ರವ್ಯದ ಯಾವ ಸ್ಥಿತಿಯು ತನ್ನ ಆಕಾರವನ್ನು ಉಳಿಸಿಕೊಳ್ಳುತ್ತದೆ?',
+        'Solid':'ಘನ','Liquid':'ದ್ರವ','Gas':'ಅನಿಲ','Water vapour':'ಜಲವಾಷ್ಪ',
+        'A solid keeps its own shape unless a force changes it.':'ಬಲ ಪ್ರಯೋಗಿಸಿ ಬದಲಾಯಿಸದ ಹೊರತು ಘನ ವಸ್ತು ತನ್ನ ಆಕಾರವನ್ನು ಉಳಿಸಿಕೊಳ್ಳುತ್ತದೆ.','Think of a book or a stone.':'ಪುಸ್ತಕ ಅಥವಾ ಕಲ್ಲನ್ನು ನೆನಪಿಸಿಕೊಳ್ಳಿ.',
+        'Choose the correct word: She ___ to school every day.':'ಸರಿಯಾದ ಪದವನ್ನು ಆಯ್ಕೆಮಾಡಿ: She ___ to school every day.',
+        'With “she”, use “goes” in the simple present tense.':'ಸರಳ ವರ್ತಮಾನ ಕಾಲದಲ್ಲಿ “she” ಜೊತೆಗೆ “goes” ಬಳಸಿ.','Choose the verb form that agrees with “she”.':'“she” ಗೆ ಹೊಂದುವ ಕ್ರಿಯಾಪದದ ರೂಪವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which word is the opposite of “hot”?':'“hot” ಪದದ ವಿರುದ್ಧಾರ್ಥಕ ಪದ ಯಾವುದು?',
+        '“Cold” is the opposite of “hot”.':'“cold” ಎಂಬುದು “hot” ಪದದ ವಿರುದ್ಧಾರ್ಥಕ ಪದ.','Think of the word for ice or snow.':'ಮಂಜುಗಡ್ಡೆ ಅಥವಾ ಹಿಮವನ್ನು ಸೂಚಿಸುವ ಪದವನ್ನು ಯೋಚಿಸಿ.',
+        'In which direction does the Sun appear to rise?':'ಸೂರ್ಯನು ಯಾವ ದಿಕ್ಕಿನಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ?',
+        'East':'ಪೂರ್ವ','West':'ಪಶ್ಚಿಮ','North':'ಉತ್ತರ','South':'ದಕ್ಷಿಣ',
+        'The Sun appears to rise in the east.':'ಸೂರ್ಯನು ಪೂರ್ವ ದಿಕ್ಕಿನಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ.','It rises in the direction opposite to where it sets.':'ಸೂರ್ಯನು ಅಸ್ತಮಿಸುವ ದಿಕ್ಕಿಗೆ ವಿರುದ್ಧವಾದ ದಿಕ್ಕಿನಲ್ಲಿ ಉದಯಿಸುತ್ತಾನೆ.',
+        'Why do communities have rules?':'ಸಮುದಾಯಗಳಲ್ಲಿ ನಿಯಮಗಳು ಏಕೆ ಇರುತ್ತವೆ?',
+        'To help everyone stay safe':'ಎಲ್ಲರೂ ಸುರಕ್ಷಿತವಾಗಿರಲು ಸಹಾಯ ಮಾಡಲು','To stop people learning':'ಜನರು ಕಲಿಯುವುದನ್ನು ತಡೆಯಲು','To make roads disappear':'ರಸ್ತೆಗಳು ಮಾಯವಾಗುವಂತೆ ಮಾಡಲು','To keep everyone indoors':'ಎಲ್ಲರನ್ನೂ ಮನೆಯೊಳಗೆ ಇರಿಸಲು',
+        'Fair rules help people live and work together safely.':'ನ್ಯಾಯಸಮ್ಮತ ನಿಯಮಗಳು ಜನರು ಸುರಕ್ಷಿತವಾಗಿ ಒಟ್ಟಿಗೆ ಬದುಕಲು ಮತ್ತು ಕೆಲಸ ಮಾಡಲು ಸಹಾಯ ಮಾಡುತ್ತವೆ.','Choose the reason that helps the whole community.':'ಇಡೀ ಸಮುದಾಯಕ್ಕೆ ಸಹಾಯ ಮಾಡುವ ಕಾರಣವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'What is a good way to save water while brushing your teeth?':'ಹಲ್ಲುಜ್ಜುವಾಗ ನೀರನ್ನು ಉಳಿಸಲು ಯಾವುದು ಒಳ್ಳೆಯ ವಿಧಾನ?',
+        'Turn off the tap':'ನೀರಿನ ನಳವನ್ನು ಮುಚ್ಚಿ','Leave the tap running':'ನಳವನ್ನು ತೆರೆದಿಡಿ','Use a new cup each time':'ಪ್ರತಿ ಬಾರಿ ಹೊಸ ಲೋಟ ಬಳಸಿ','Pour water on the floor':'ನೆಲದ ಮೇಲೆ ನೀರು ಸುರಿಯಿರಿ',
+        'Turning off the tap while brushing prevents water waste.':'ಹಲ್ಲುಜ್ಜುವಾಗ ನಳವನ್ನು ಮುಚ್ಚುವುದರಿಂದ ನೀರು ವ್ಯರ್ಥವಾಗುವುದಿಲ್ಲ.','Water is not needed while you are brushing.':'ಹಲ್ಲುಜ್ಜುವಾಗ ನೀರಿನ ನಳವನ್ನು ತೆರೆದಿಡುವ ಅಗತ್ಯವಿಲ್ಲ.',
+        'Which item can be composted?':'ಯಾವ ವಸ್ತುವಿನಿಂದ ಕಾಂಪೋಸ್ಟ್ ತಯಾರಿಸಬಹುದು?',
+        'Fruit peels':'ಹಣ್ಣಿನ ಸಿಪ್ಪೆಗಳು','Plastic bottle':'ಪ್ಲಾಸ್ಟಿಕ್ ಬಾಟಲಿ','Glass jar':'ಗಾಜಿನ ಜಾಡಿ','Metal can':'ಲೋಹದ ಡಬ್ಬಿ',
+        'Fruit peels are natural waste that can break down into compost.':'ಹಣ್ಣಿನ ಸಿಪ್ಪೆಗಳು ಗೊಬ್ಬರವಾಗಿ ಕೊಳೆಯಬಲ್ಲ ನೈಸರ್ಗಿಕ ತ್ಯಾಜ್ಯ.','Choose the item that comes from a plant.':'ಸಸ್ಯದಿಂದ ಬಂದ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which is the Hindi word for “water”?':'“ನೀರು” ಎಂಬುದಕ್ಕೆ ಹಿಂದಿ ಪದ ಯಾವುದು?',
+        '“पानी” is the Hindi word for water.':'“पानी” ಎಂಬುದು ನೀರಿಗೆ ಹಿಂದಿ ಪದ.','Choose the word people drink when they are thirsty.':'ಬಾಯಾರಿಕೆಯಾದಾಗ ಜನರು ಕುಡಿಯುವ ವಸ್ತುವಿನ ಪದವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which Hindi word means “book”?':'“ಪುಸ್ತಕ” ಎಂಬ ಅರ್ಥದ ಹಿಂದಿ ಪದ ಯಾವುದು?',
+        '“किताब” means book in Hindi.':'“किताब” ಎಂದರೆ ಹಿಂದಿಯಲ್ಲಿ ಪುಸ್ತಕ.','Choose the word you would use for a storybook.':'ಕಥೆಪುಸ್ತಕವನ್ನು ಸೂಚಿಸುವ ಪದವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which part of a plant makes most of its food using sunlight?':'ಸಸ್ಯವು ಸೂರ್ಯನ ಬೆಳಕನ್ನು ಬಳಸಿ ಆಹಾರವನ್ನು ಹೆಚ್ಚಾಗಿ ಯಾವ ಭಾಗದಲ್ಲಿ ತಯಾರಿಸುತ್ತದೆ?',
+        'Leaves use sunlight to help the plant make food.':'ಎಲೆಗಳು ಸೂರ್ಯನ ಬೆಳಕಿನ ಸಹಾಯದಿಂದ ಸಸ್ಯಕ್ಕೆ ಆಹಾರ ತಯಾರಿಸುತ್ತವೆ.','Think of the green, flat parts of a plant.':'ಸಸ್ಯದ ಹಸಿರು, ಚಪ್ಪಟೆಯಾದ ಭಾಗಗಳನ್ನು ನೆನಪಿಸಿಕೊಳ್ಳಿ.',
+        'What happens to ice when it gets warm?':'ಮಂಜುಗಡ್ಡೆ ಬೆಚ್ಚಗಾದಾಗ ಏನಾಗುತ್ತದೆ?',
+        'It melts':'ಅದು ಕರಗುತ್ತದೆ','It freezes':'ಅದು ಹೆಪ್ಪುಗಟ್ಟುತ್ತದೆ','It turns into soil':'ಅದು ಮಣ್ಣಾಗುತ್ತದೆ','It disappears':'ಅದು ಮಾಯವಾಗುತ್ತದೆ',
+        'When ice gains heat, it melts and becomes liquid water.':'ಮಂಜುಗಡ್ಡೆಗೆ ಉಷ್ಣ ದೊರೆತಾಗ ಅದು ಕರಗಿ ದ್ರವ ನೀರಾಗುತ್ತದೆ.','Think about what happens to an ice cube in the sun.':'ಬಿಸಿಲಿನಲ್ಲಿ ಮಂಜುಗಡ್ಡೆಗೆ ಏನಾಗುತ್ತದೆ ಎಂದು ಯೋಚಿಸಿ.',
+        'Which sentence uses capital letters correctly?':'ದೊಡ್ಡ ಅಕ್ಷರಗಳನ್ನು ಸರಿಯಾಗಿ ಬಳಸಿರುವ ವಾಕ್ಯ ಯಾವುದು?',
+        'Begin a sentence and proper names such as Delhi with capital letters.':'ವಾಕ್ಯವನ್ನು ಮತ್ತು ದೆಹಲಿಯಂತಹ ಸ್ಥಳನಾಮಗಳನ್ನು ದೊಡ್ಡ ಅಕ್ಷರದಿಂದ ಪ್ರಾರಂಭಿಸಿ.','Check the first word and the name of the city.':'ಮೊದಲ ಪದ ಮತ್ತು ನಗರದ ಹೆಸರನ್ನು ಪರಿಶೀಲಿಸಿ.',
+        'Which word means the same as “quick”?':'“quick” ಪದದ ಅರ್ಥಕ್ಕೆ ಸಮಾನವಾದ ಪದ ಯಾವುದು?',
+        '“Fast” and “quick” have similar meanings.':'“Fast” ಮತ್ತು “quick” ಪದಗಳಿಗೆ ಸಮಾನವಾದ ಅರ್ಥವಿದೆ.','Choose the word that means moving with speed.':'ವೇಗವಾಗಿ ಚಲಿಸುವುದನ್ನು ಸೂಚಿಸುವ ಪದವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which tool helps us find places and directions?':'ಸ್ಥಳಗಳು ಮತ್ತು ದಿಕ್ಕುಗಳನ್ನು ಕಂಡುಹಿಡಿಯಲು ಯಾವ ಸಾಧನ ಸಹಾಯ ಮಾಡುತ್ತದೆ?',
+        'A map':'ನಕ್ಷೆ','A thermometer':'ಥರ್ಮಾಮೀಟರ್','A clock':'ಗಡಿಯಾರ','A spoon':'ಚಮಚ',
+        'A map shows places and can help us understand directions.':'ನಕ್ಷೆಯು ಸ್ಥಳಗಳನ್ನು ತೋರಿಸುತ್ತದೆ ಮತ್ತು ದಿಕ್ಕುಗಳನ್ನು ತಿಳಿಯಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.','It is a drawing that represents an area.':'ಇದು ಒಂದು ಪ್ರದೇಶವನ್ನು ತೋರಿಸುವ ಚಿತ್ರ.',
+        'What is a helpful thing to do when someone needs help?':'ಯಾರಿಗಾದರೂ ಸಹಾಯ ಬೇಕಾದಾಗ ಏನು ಮಾಡುವುದು ಒಳ್ಳೆಯದು?',
+        'Offer safe help or tell a trusted adult':'ಸುರಕ್ಷಿತವಾಗಿ ಸಹಾಯ ಮಾಡಿ ಅಥವಾ ನಂಬಿಕೆಯ ದೊಡ್ಡವರಿಗೆ ತಿಳಿಸಿ','Laugh at them':'ಅವರನ್ನು ನೋಡಿ ನಗಿರಿ','Ignore the problem':'ಸಮಸ್ಯೆಯನ್ನು ನಿರ್ಲಕ್ಷಿಸಿ','Push them':'ಅವರನ್ನು ತಳ್ಳಿರಿ',
+        'Offering safe help or asking a trusted adult supports people in the community.':'ಸುರಕ್ಷಿತವಾಗಿ ಸಹಾಯ ಮಾಡುವುದು ಅಥವಾ ನಂಬಿಕೆಯ ದೊಡ್ಡವರನ್ನು ಕೇಳುವುದು ಸಮುದಾಯದವರಿಗೆ ನೆರವಾಗುತ್ತದೆ.','Choose an action that is kind and keeps everyone safe.':'ದಯೆಯಿಂದ ಕೂಡಿದ್ದು ಎಲ್ಲರನ್ನೂ ಸುರಕ್ಷಿತವಾಗಿಡುವ ಕ್ರಮವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which choice helps save electricity at home?':'ಮನೆಯಲ್ಲಿ ವಿದ್ಯುತ್ ಉಳಿಸಲು ಯಾವ ಕ್ರಮ ಸಹಾಯ ಮಾಡುತ್ತದೆ?',
+        'Switch off lights when leaving a room':'ಕೊಠಡಿಯಿಂದ ಹೊರಹೋಗುವಾಗ ದೀಪಗಳನ್ನು ಆರಿಸಿ','Keep every light on':'ಎಲ್ಲ ದೀಪಗಳನ್ನೂ ಉರಿಯಲು ಬಿಡಿ','Leave the refrigerator door open':'ಫ್ರಿಜ್ ಬಾಗಿಲನ್ನು ತೆರೆದಿಡಿ','Turn on unused fans':'ಬಳಸದ ಫ್ಯಾನ್‌ಗಳನ್ನು ಆನ್ ಮಾಡಿ',
+        'Switching off lights when they are not needed saves electricity.':'ಅಗತ್ಯವಿಲ್ಲದಾಗ ದೀಪಗಳನ್ನು ಆರಿಸುವುದರಿಂದ ವಿದ್ಯುತ್ ಉಳಿಯುತ್ತದೆ.','Think about what you can turn off when nobody is in the room.':'ಕೊಠಡಿಯಲ್ಲಿ ಯಾರೂ ಇಲ್ಲದಾಗ ಯಾವುದನ್ನು ಆರಿಸಬಹುದು ಎಂದು ಯೋಚಿಸಿ.',
+        'Which material is usually recyclable?':'ಸಾಮಾನ್ಯವಾಗಿ ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ ವಸ್ತು ಯಾವುದು?',
+        'Clean paper':'ಸ್ವಚ್ಛ ಕಾಗದ','Leftover soup':'ಉಳಿದ ಸೂಪ್','Used tissue':'ಬಳಸಿದ ಟಿಶ್ಯೂ','Fruit juice':'ಹಣ್ಣಿನ ರಸ',
+        'Clean paper can often be recycled to make new paper products.':'ಹೊಸ ಕಾಗದದ ವಸ್ತುಗಳನ್ನು ತಯಾರಿಸಲು ಸ್ವಚ್ಛ ಕಾಗದವನ್ನು ಮರುಬಳಕೆ ಮಾಡಬಹುದು.','Choose the dry material often used for writing or drawing.':'ಬರೆಯಲು ಅಥವಾ ಚಿತ್ರ ಬಿಡಿಸಲು ಬಳಸುವ ಒಣ ವಸ್ತುವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which Hindi word means “sun”?':'“ಸೂರ್ಯ” ಎಂಬ ಅರ್ಥದ ಹಿಂದಿ ಪದ ಯಾವುದು?',
+        '“सूरज” is the Hindi word for the sun.':'“सूरज” ಎಂಬುದು ಸೂರ್ಯನಿಗೆ ಹಿಂದಿ ಪದ.','Choose the bright star we see in the daytime.':'ಹಗಲಿನಲ್ಲಿ ಕಾಣುವ ಪ್ರಕಾಶಮಾನ ನಕ್ಷತ್ರದ ಪದವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'Which Hindi word means “school”?':'“ಶಾಲೆ” ಎಂಬ ಅರ್ಥದ ಹಿಂದಿ ಪದ ಯಾವುದು?',
+        '“विद्यालय” means school in Hindi.':'“विद्यालय” ಎಂದರೆ ಹಿಂದಿಯಲ್ಲಿ ಶಾಲೆ.','Choose the place where students learn.':'ವಿದ್ಯಾರ್ಥಿಗಳು ಕಲಿಯುವ ಸ್ಥಳವನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+        'You are online - progress will sync when possible.':'ನೀವು ಆನ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ - ಪಾಠಗಳು ಲಭ್ಯವಿವೆ.'
+      },
+      hi: {
+        'Practice Insights':'अभ्यास की जानकारी',
+        'Quiz results help learners and teachers see which topics need more practice.':'क्विज़ के नतीजों से छात्र और शिक्षक जान सकते हैं कि किन विषयों में अधिक अभ्यास चाहिए।',
+        'Progress stored in this browser':'प्रगति इस ब्राउज़र में सहेजी जाती है',
+        'VidyaLite helps students practise multiple subjects offline, learn at their own pace, and lets teachers see where learners need help.':'विद्यालाइट छात्रों को कई विषयों का ऑफ़लाइन अभ्यास करने, अपनी गति से सीखने और शिक्षकों को यह समझने में मदद करता है कि विद्यार्थियों को कहाँ सहायता चाहिए।',
+        'Choose a subject, class, topic and difficulty to begin today\'s practice.':'आज का अभ्यास शुरू करने के लिए विषय, कक्षा, टॉपिक और कठिनाई चुनें।',
+        'Voice is simulated locally. Quiz scores and dashboard progress are saved in this browser.':'आवाज़ का अनुकरण इसी डिवाइस पर होता है। क्विज़ के अंक और डैशबोर्ड की प्रगति इस ब्राउज़र में सहेजी जाती है।',
+        'Science':'विज्ञान','English':'अंग्रेज़ी','Social Studies':'सामाजिक अध्ययन','Environmental Studies':'पर्यावरण अध्ययन','Hindi':'हिंदी',
+        'Plants':'पौधे','Matter':'पदार्थ','Grammar':'व्याकरण','Vocabulary':'शब्दावली','Geography':'भूगोल','Civics':'नागरिक शास्त्र','Conservation':'संरक्षण','Recycling':'पुनर्चक्रण',
+        'Interactive Lesson':'संवादात्मक पाठ','Choose a subject, practise with questions and get helpful feedback and hints.':'एक विषय चुनें, प्रश्नों से अभ्यास करें और उपयोगी प्रतिक्रिया तथा संकेत पाएँ।',
+        'your practice level moves up for the next question.':'अगले प्रश्न के लिए आपका अभ्यास स्तर बढ़ता है।',
+        'your practice level adjusts, a hint is unlocked and the topic result is recorded.':'आपका अभ्यास स्तर समायोजित होता है, संकेत खुलता है और विषय का परिणाम दर्ज होता है।',
+        'Which part of a plant absorbs water from the soil?':'पौधे का कौन-सा भाग मिट्टी से पानी सोखता है?',
+        'Roots':'जड़ें','Stem':'तना','Leaves':'पत्तियाँ','Flowers':'फूल',
+        'Roots take in water and minerals from the soil.':'जड़ें मिट्टी से पानी और खनिज सोखती हैं।','Look for the part that grows underground.':'उस भाग के बारे में सोचें जो मिट्टी के नीचे बढ़ता है।',
+        'Which state of matter keeps its own shape?':'पदार्थ की कौन-सी अवस्था अपना आकार बनाए रखती है?',
+        'Solid':'ठोस','Liquid':'तरल','Gas':'गैस','Water vapour':'जलवाष्प',
+        'A solid keeps its own shape unless a force changes it.':'बल लगाकर बदले जाने तक ठोस अपना आकार बनाए रखता है।','Think of a book or a stone.':'किताब या पत्थर के बारे में सोचें।',
+        'Choose the correct word: She ___ to school every day.':'सही शब्द चुनें: She ___ to school every day.',
+        'With “she”, use “goes” in the simple present tense.':'साधारण वर्तमान काल में “she” के साथ “goes” का प्रयोग करें।','Choose the verb form that agrees with “she”.':'“she” के अनुसार सही क्रिया-रूप चुनें।',
+        'Which word is the opposite of “hot”?':'“hot” का विपरीत अर्थ वाला शब्द कौन-सा है?',
+        '“Cold” is the opposite of “hot”.':'“cold”, “hot” का विपरीत अर्थ वाला शब्द है।','Think of the word for ice or snow.':'बर्फ़ या हिम के लिए इस्तेमाल होने वाले शब्द के बारे में सोचें।',
+        'In which direction does the Sun appear to rise?':'सूर्य किस दिशा में उगता दिखाई देता है?',
+        'East':'पूर्व','West':'पश्चिम','North':'उत्तर','South':'दक्षिण',
+        'The Sun appears to rise in the east.':'सूर्य पूर्व दिशा में उगता दिखाई देता है।','It rises in the direction opposite to where it sets.':'यह उस दिशा के विपरीत उगता है जहाँ यह अस्त होता है।',
+        'Why do communities have rules?':'समुदायों में नियम क्यों होते हैं?',
+        'To help everyone stay safe':'सबको सुरक्षित रखने में मदद के लिए','To stop people learning':'लोगों को सीखने से रोकने के लिए','To make roads disappear':'सड़कों को गायब करने के लिए','To keep everyone indoors':'सबको घर के अंदर रखने के लिए',
+        'Fair rules help people live and work together safely.':'न्यायसंगत नियम लोगों को सुरक्षित रूप से साथ रहने और काम करने में मदद करते हैं।','Choose the reason that helps the whole community.':'वह कारण चुनें जो पूरे समुदाय की मदद करता है।',
+        'What is a good way to save water while brushing your teeth?':'दाँत साफ़ करते समय पानी बचाने का अच्छा तरीका क्या है?',
+        'Turn off the tap':'नल बंद करें','Leave the tap running':'नल खुला छोड़ें','Use a new cup each time':'हर बार नया कप इस्तेमाल करें','Pour water on the floor':'फ़र्श पर पानी डालें',
+        'Turning off the tap while brushing prevents water waste.':'दाँत साफ़ करते समय नल बंद करने से पानी बर्बाद नहीं होता।','Water is not needed while you are brushing.':'दाँत साफ़ करते समय नल खुला रखने की ज़रूरत नहीं होती।',
+        'Which item can be composted?':'किस चीज़ से खाद बनाई जा सकती है?',
+        'Fruit peels':'फलों के छिलके','Plastic bottle':'प्लास्टिक की बोतल','Glass jar':'काँच का जार','Metal can':'धातु का डिब्बा',
+        'Fruit peels are natural waste that can break down into compost.':'फलों के छिलके प्राकृतिक कचरा हैं जो गलकर खाद बन सकते हैं।','Choose the item that comes from a plant.':'वह चीज़ चुनें जो पौधे से आती है।',
+        'Which is the Hindi word for “water”?':'“water” के लिए हिंदी शब्द कौन-सा है?',
+        '“पानी” is the Hindi word for water.':'“पानी” जल के लिए हिंदी शब्द है।','Choose the word people drink when they are thirsty.':'वह शब्द चुनें जिसे लोग प्यास लगने पर पीते हैं।',
+        'Which Hindi word means “book”?':'किस हिंदी शब्द का अर्थ “book” है?',
+        '“किताब” means book in Hindi.':'“किताब” का अर्थ हिंदी में book है।','Choose the word you would use for a storybook.':'कहानी की किताब के लिए इस्तेमाल होने वाला शब्द चुनें।',
+        'Which part of a plant makes most of its food using sunlight?':'पौधा सूर्य के प्रकाश का उपयोग करके अपना अधिकांश भोजन किस भाग में बनाता है?',
+        'Leaves use sunlight to help the plant make food.':'पत्तियाँ पौधे को सूर्य के प्रकाश से भोजन बनाने में मदद करती हैं।','Think of the green, flat parts of a plant.':'पौधे के हरे, चपटे भागों के बारे में सोचें।',
+        'What happens to ice when it gets warm?':'बर्फ़ गर्म होने पर क्या होता है?',
+        'It melts':'यह पिघलती है','It freezes':'यह जमती है','It turns into soil':'यह मिट्टी बन जाती है','It disappears':'यह गायब हो जाती है',
+        'When ice gains heat, it melts and becomes liquid water.':'बर्फ़ को गर्मी मिलने पर वह पिघलकर तरल पानी बन जाती है।','Think about what happens to an ice cube in the sun.':'धूप में बर्फ़ के टुकड़े के साथ क्या होता है, सोचें।',
+        'Which sentence uses capital letters correctly?':'किस वाक्य में बड़े अक्षरों का सही उपयोग हुआ है?',
+        'Begin a sentence and proper names such as Delhi with capital letters.':'वाक्य और दिल्ली जैसे नामों की शुरुआत बड़े अक्षरों से करें।','Check the first word and the name of the city.':'पहले शब्द और शहर के नाम को जाँचें।',
+        'Which word means the same as “quick”?':'“quick” के समान अर्थ वाला शब्द कौन-सा है?',
+        '“Fast” and “quick” have similar meanings.':'“Fast” और “quick” के अर्थ मिलते-जुलते हैं।','Choose the word that means moving with speed.':'तेज़ी से चलने का अर्थ देने वाला शब्द चुनें।',
+        'Which tool helps us find places and directions?':'जगहों और दिशाओं को जानने में कौन-सा साधन मदद करता है?',
+        'A map':'नक्शा','A thermometer':'थर्मामीटर','A clock':'घड़ी','A spoon':'चम्मच',
+        'A map shows places and can help us understand directions.':'नक्शा जगहें दिखाता है और दिशाएँ समझने में मदद करता है।','It is a drawing that represents an area.':'यह किसी क्षेत्र को दर्शाने वाला चित्र है।',
+        'What is a helpful thing to do when someone needs help?':'किसी को मदद की ज़रूरत हो तो क्या करना अच्छा है?',
+        'Offer safe help or tell a trusted adult':'सुरक्षित रूप से मदद करें या किसी भरोसेमंद बड़े को बताएँ','Laugh at them':'उन पर हँसें','Ignore the problem':'समस्या को अनदेखा करें','Push them':'उन्हें धक्का दें',
+        'Offering safe help or asking a trusted adult supports people in the community.':'सुरक्षित मदद देना या किसी भरोसेमंद बड़े से पूछना समुदाय के लोगों का साथ देता है।','Choose an action that is kind and keeps everyone safe.':'ऐसा काम चुनें जो दयालु हो और सबको सुरक्षित रखे।',
+        'Which choice helps save electricity at home?':'घर में बिजली बचाने में कौन-सा काम मदद करता है?',
+        'Switch off lights when leaving a room':'कमरे से निकलते समय बत्तियाँ बंद करें','Keep every light on':'सभी बत्तियाँ जलती रहने दें','Leave the refrigerator door open':'फ़्रिज का दरवाज़ा खुला छोड़ें','Turn on unused fans':'बिना ज़रूरत पंखे चलाएँ',
+        'Switching off lights when they are not needed saves electricity.':'ज़रूरत न होने पर बत्तियाँ बंद करने से बिजली बचती है।','Think about what you can turn off when nobody is in the room.':'सोचें कि कमरे में कोई न हो तो क्या बंद किया जा सकता है।',
+        'Which material is usually recyclable?':'किस चीज़ को आम तौर पर पुनर्चक्रित किया जा सकता है?',
+        'Clean paper':'साफ़ कागज़','Leftover soup':'बची हुई सूप','Used tissue':'इस्तेमाल किया हुआ टिश्यू','Fruit juice':'फलों का रस',
+        'Clean paper can often be recycled to make new paper products.':'नए कागज़ी उत्पाद बनाने के लिए साफ़ कागज़ का अक्सर पुनर्चक्रण किया जा सकता है।','Choose the dry material often used for writing or drawing.':'लिखने या चित्र बनाने में इस्तेमाल होने वाली सूखी चीज़ चुनें।',
+        'Which Hindi word means “sun”?':'किस हिंदी शब्द का अर्थ “sun” है?',
+        '“सूरज” is the Hindi word for the sun.':'“सूरज” सूर्य के लिए हिंदी शब्द है।','Choose the bright star we see in the daytime.':'दिन में दिखने वाले चमकीले तारे के लिए शब्द चुनें।',
+        'Which Hindi word means “school”?':'किस हिंदी शब्द का अर्थ “school” है?',
+        '“विद्यालय” means school in Hindi.':'“विद्यालय” का अर्थ हिंदी में स्कूल है।','Choose the place where students learn.':'वह जगह चुनें जहाँ विद्यार्थी पढ़ते हैं।',
+        'You are online - progress will sync when possible.':'आप ऑनलाइन हैं - पाठ उपलब्ध हैं।'
+      }
+    };
     const originalTextNodes = new WeakMap();
-    function tr(text) { return (pageTranslations[state.lang] && pageTranslations[state.lang][text]) || text; }
+    function tr(text) { return (pageTranslations[state.lang] && pageTranslations[state.lang][text]) || (contentTranslations[state.lang] && contentTranslations[state.lang][text]) || text; }
     function updateUIStrings() {
       const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       let node;
@@ -519,6 +688,14 @@
         }
       }
       document.querySelectorAll('[data-nav]').forEach(a => { a.textContent = tr(a.getAttribute('data-nav') === 'student' ? 'Student' : a.getAttribute('data-nav') === 'learn' ? 'Learning' : a.getAttribute('data-nav') === 'teacher' ? 'Teacher' : a.getAttribute('data-nav') === 'about' ? 'About' : 'Home'); });
+      const dashboardTitle = document.getElementById('dash-title');
+      if (dashboardTitle) dashboardTitle.textContent = tr(state.role === 'teacher' ? 'Teacher Dashboard' : 'Student Dashboard');
+      const languageGroup = document.querySelector('[role="group"]');
+      if (languageGroup) languageGroup.setAttribute('aria-label', state.lang === 'kn' ? 'ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ' : state.lang === 'hi' ? 'भाषा चुनें' : 'Select Language');
+      const backButton = document.getElementById('back-nav-btn');
+      if (backButton) backButton.setAttribute('aria-label', tr('Back'));
+      const menuButton = document.getElementById('mobile-nav-toggle');
+      if (menuButton) menuButton.setAttribute('aria-label', tr('Menu'));
       ['en', 'kn', 'hi'].forEach(code => {
         const button = document.getElementById('lang-' + code);
         if (!button) return;
@@ -538,15 +715,101 @@
         try { localStorage.setItem('vidyalite_lang', lang); } catch (e) {}
       }
       updateUIStrings();
+      renderAll(true);
+    }
+    let activeView = null;
+    const viewHistory = [];
+    function showView(id, fromHistory) {
+      const target = el(id);
+      if (!target || target.tagName !== 'SECTION') return;
+      if (activeView !== id && !fromHistory) {
+        if (activeView) viewHistory.push(activeView);
+        history.pushState({ view: id }, '', '#' + id);
+      }
+      activeView = id;
+      document.querySelectorAll('main section').forEach(section => {
+        section.classList.toggle('hidden', section.id !== id);
+      });
+      const backButton = el('back-nav-btn');
+      if (backButton) backButton.classList.toggle('hidden', viewHistory.length === 0);
+      window.scrollTo(0, 0);
+    }
+    function goBack() {
+      toggleMobileNav(false);
+      if (viewHistory.length) history.back();
+    }
+    function toggleMobileNav(forceOpen) {
+      const menu = el('mobile-nav');
+      const button = el('mobile-nav-toggle');
+      if (!menu || !button) return;
+      const open = typeof forceOpen === 'boolean' ? forceOpen : menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', !open);
+      button.setAttribute('aria-expanded', String(open));
+    }
+    function handleSectionLinkClick(event) {
+      const link = event.currentTarget;
+      const id = link.getAttribute('href').slice(1);
+      const target = el(id);
+      if (target && target.tagName === 'SECTION') {
+        event.preventDefault();
+        showView(id);
+        if (link.closest('#mobile-nav')) toggleMobileNav(false);
+      }
+    }
+    function handleViewPopState() {
+      const id = window.location.hash.slice(1);
+      const target = el(id);
+      if (!target || target.tagName !== 'SECTION') return;
+      const previousIndex = viewHistory.lastIndexOf(id);
+      if (previousIndex >= 0) viewHistory.splice(previousIndex);
+      else if (activeView && activeView !== id) viewHistory.push(activeView);
+      else viewHistory.length = 0;
+      showView(id, true);
+    }
+    function setRole(role) { state.role = role; const sb = document.getElementById('login-student-btn'); const tb = document.getElementById('login-teacher-btn'); if (sb) { sb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'student' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } if (tb) { tb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'teacher' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } updateUIStrings(); renderTeacherDashboard(); showView(role === 'teacher' ? 'teacher' : 'student'); }
+    function getTopicsForSubject(subject) { return Object.keys(questionsBySubject[subject] || questionsBySubject.Maths); }
+    function getTopicStatKey(subject, topic) { return subject === 'Maths' ? topic : subject + '::' + topic; }
+    function getTopicStats(subject, topic) {
+      const key = getTopicStatKey(subject, topic);
+      return state.topicStats[key] || (subject === 'Maths' && state.topicStats[topic]) || { correct: 0, attempts: 0 };
+    }
+    function getAllTopicEntries() {
+      return Object.keys(questionsBySubject).flatMap(subject =>
+        getTopicsForSubject(subject).map(topic => ({ subject, topic, key: getTopicStatKey(subject, topic) }))
+      );
+    }
+    function populateTopicOptions() {
+      const select = el('topic-select');
+      if (!select) return;
+      const availableTopics = getTopicsForSubject(state.subject);
+      if (!availableTopics.includes(state.topic)) state.topic = availableTopics[0];
+      select.innerHTML = '';
+      availableTopics.forEach(topic => {
+        const option = document.createElement('option');
+        option.value = topic;
+        option.textContent = tr(topic);
+        select.appendChild(option);
+      });
+      select.value = state.topic;
+    }
+    function onClassChange() { state.grade = parseInt(document.getElementById('class-select').value, 10); }
+    function onSubjectChange() {
+      state.subject = el('subject-select').value;
+      state.topic = getTopicsForSubject(state.subject)[0];
+      state.currentQIndex = 0;
       renderAll();
     }
-    function showView(id) { document.querySelectorAll('section').forEach(s => { s.classList.toggle('hidden', s.id !== id); }); }
-    function setRole(role) { state.role = role; const sb = document.getElementById('login-student-btn'); const tb = document.getElementById('login-teacher-btn'); if (sb) { sb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'student' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } if (tb) { tb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'teacher' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } updateUIStrings(); renderTeacherDashboard(); showView(role === 'teacher' ? 'teacher' : 'student'); }
-    function onClassChange() { state.grade = parseInt(document.getElementById('class-select').value, 10); }
     function onTopicChange() { state.topic = document.getElementById('topic-select').value; state.currentQIndex = 0; renderQuestion(); }
     function onDifficultyChange() { state.difficulty = document.getElementById('difficulty-select').value; renderQuestion(); }
-    function getCurrentQuestion() { const bank = questionsByTopic[state.topic] || questionsByTopic.Fractions; return bank[state.currentQIndex] || bank[0]; }
-    function renderQuestion() {
+    function getCurrentQuestionBank() {
+      const subjectTopics = questionsBySubject[state.subject] || questionsBySubject.Maths;
+      return subjectTopics[state.topic] || questionsByTopic.Fractions;
+    }
+    function getCurrentQuestion() {
+      const bank = getCurrentQuestionBank();
+      return bank[state.currentQIndex] || bank[0];
+    }
+    function renderQuestion(preserveState) {
       const q = getCurrentQuestion();
       const topicEl = document.getElementById('q-topic-tag');
       const badge = document.getElementById('difficulty-badge');
@@ -554,14 +817,32 @@
       const feedback = document.getElementById('feedback-box');
       const hint = document.getElementById('ai-hint-container');
       const grid = document.getElementById('options-grid');
-      if (topicEl) topicEl.textContent = tr(q.topicKey) + ' - ' + tr('Grade') + ' ' + q.grade;
+      if (topicEl) topicEl.textContent = tr(state.subject) + ' · ' + tr(q.topicKey) + ' - ' + tr('Grade') + ' ' + q.grade;
+      const topicBadge = document.getElementById('topic-tag');
+      if (topicBadge) topicBadge.textContent = (tr(state.subject) + ' · ' + tr(q.topicKey)).toUpperCase() + ' - ' + tr('Grade') + ' ' + q.grade;
       if (badge) badge.textContent = tr(state.difficulty);
       if (qTitle) qTitle.textContent = tr(q.text);
-      if (grid) { grid.innerHTML = ''; q.options.forEach((opt, idx) => { const btn = document.createElement('button'); btn.className = 'w-full text-left px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold hover:border-amber-400 transition'; btn.textContent = String(idx + 1) + '. ' + opt; btn.onclick = () => { state.selectedAnswer = idx; handleOptionSelect(idx); }; grid.appendChild(btn); }); }
-      if (feedback) feedback.classList.add('hidden');
-      if (hint) hint.classList.add('hidden');
-      state.answered = false;
-      state.hintRevealed = false;
+      if (grid) { grid.innerHTML = ''; q.options.forEach((opt, idx) => { const btn = document.createElement('button'); btn.className = 'w-full text-left px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold hover:border-amber-400 transition'; btn.textContent = String(idx + 1) + '. ' + tr(opt); btn.onclick = () => { state.selectedAnswer = idx; handleOptionSelect(idx); }; grid.appendChild(btn); }); }
+      if (preserveState && state.answered) {
+        const correct = state.selectedAnswer === q.correctIndex;
+        if (feedback) feedback.classList.remove('hidden');
+        const title = document.getElementById('feedback-title');
+        const desc = document.getElementById('feedback-desc');
+        if (title) title.textContent = correct ? t('correct') : t('wrong');
+        if (desc) desc.textContent = tr(q.explanation);
+        if (hint) hint.classList.toggle('hidden', correct);
+        const hintText = document.getElementById('ai-hint-text');
+        if (hintText) {
+          hintText.textContent = tr(q.hint);
+          hintText.classList.toggle('hidden', !state.hintRevealed);
+        }
+      } else {
+        if (feedback) feedback.classList.add('hidden');
+        if (hint) hint.classList.add('hidden');
+        state.answered = false;
+        state.selectedAnswer = null;
+        state.hintRevealed = false;
+      }
     }
     function handleOptionSelect(selectedIdx) {
       if (state.answered) return;
@@ -569,42 +850,188 @@
       state.answered = true;
       state.selectedAnswer = selectedIdx;
       const correct = selectedIdx === q.correctIndex;
-      const st = state.topicStats[q.topicKey] || { correct: 0, attempts: 0 };
+      const statKey = getTopicStatKey(state.subject, q.topicKey);
+      const st = getTopicStats(state.subject, q.topicKey);
       st.attempts++; if (correct) st.correct++;
-      state.topicStats[q.topicKey] = st;
+      state.topicStats[statKey] = st;
       const feedback = document.getElementById('feedback-box');
       const title = document.getElementById('feedback-title');
       const desc = document.getElementById('feedback-desc');
+      const hint = document.getElementById('ai-hint-container');
       if (feedback) { feedback.classList.remove('hidden'); }
       if (title) title.textContent = correct ? t('correct') : t('wrong');
       if (desc) desc.textContent = tr(q.explanation);
-      if (correct) { state.elo += 25; state.correctCount++; state.streak++; state.attempts++; state.difficulty = state.difficulty === 'Easy' ? 'Medium' : (state.difficulty === 'Medium' ? 'Hard' : 'Medium'); }
-      else { state.elo = Math.max(900, state.elo - 20); state.attempts++; state.streak = 0; state.difficulty = state.difficulty === 'Hard' ? 'Medium' : (state.difficulty === 'Medium' ? 'Easy' : 'Easy'); }
+      if (hint) hint.classList.toggle('hidden', correct);
+      if (correct) { state.correctCount++; state.streak++; state.attempts++; state.difficulty = state.difficulty === 'Easy' ? 'Medium' : (state.difficulty === 'Medium' ? 'Hard' : 'Medium'); }
+      else { state.attempts++; state.streak = 0; state.difficulty = state.difficulty === 'Hard' ? 'Medium' : (state.difficulty === 'Medium' ? 'Easy' : 'Easy'); }
       state.answeredToday++;
-      try { const pr = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null') || {}; pr.elo = state.elo; pr.correct = state.correctCount; pr.attempts = state.attempts; pr.streak = state.streak; pr.answeredToday = state.answeredToday; pr.topicStats = state.topicStats; localStorage.setItem('vidyalite_progress', JSON.stringify(pr)); } catch (e) {}
-      state.pendingSync = true;
-      updateDeltaPacketUI();
+      try { const pr = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null') || {}; pr.correct = state.correctCount; pr.attempts = state.attempts; pr.streak = state.streak; pr.answeredToday = state.answeredToday; pr.topicStats = state.topicStats; localStorage.setItem('vidyalite_progress', JSON.stringify(pr)); } catch (e) {}
       renderDashboard();
       renderTeacherDashboard();
       renderHeatmap();
       const badgeEl = document.getElementById('difficulty-badge');
-      if (badgeEl) badgeEl.textContent = state.difficulty;
+      if (badgeEl) badgeEl.textContent = tr(state.difficulty);
       const diffSel = document.getElementById('difficulty-select');
       if (diffSel) diffSel.value = state.difficulty;
     }
     function submitAnswer() { if (state.answered) return; if (state.selectedAnswer === null || state.selectedAnswer === undefined) return; handleOptionSelect(state.selectedAnswer); }
     function revealAiHint() { const hint = document.getElementById('ai-hint-text'); const cont = document.getElementById('ai-hint-container'); if (!hint || !cont) return; if (state.hintRevealed) { hint.classList.add('hidden'); cont.classList.add('hidden'); state.hintRevealed = false; return; } hint.textContent = tr(getCurrentQuestion().hint); hint.classList.remove('hidden'); cont.classList.remove('hidden'); state.hintRevealed = true; }
-    function nextQuestion() { const bank = questionsByTopic[state.topic] || questionsByTopic.Fractions; state.currentQIndex = (state.currentQIndex + 1) % bank.length; renderQuestion(); }
+    function nextQuestion() { const bank = getCurrentQuestionBank(); state.currentQIndex = (state.currentQIndex + 1) % bank.length; renderQuestion(); }
     function triggerVoiceReadAloud() { const btn = document.getElementById('voice-btn'); const banner = document.getElementById('audio-banner'); const cap = document.getElementById('audio-caption'); const listen = document.getElementById('ui-listen-btn'); if (!btn || !banner || !cap || !listen) return; if (state.voicePlaying) { state.voicePlaying = false; banner.classList.add('hidden'); banner.classList.remove('flex'); listen.textContent = t('listen'); return; } state.voicePlaying = true; banner.classList.remove('hidden'); banner.classList.add('flex'); cap.textContent = t('voicePlaying'); listen.textContent = t('voicePlaying'); }
     function updateNetworkStatusUI() { const offline = !navigator.onLine || state.simulatedOffline; const pill = document.getElementById('network-status-text'); const icon = document.getElementById('network-icon'); if (pill) pill.textContent = (offline ? t('offlineStatus') : t('onlineStatus')) + (state.simulatedOffline ? ' (test)' : ''); if (icon) icon.className = 'w-3.5 h-3.5 ' + (offline ? 'text-amber-400' : 'text-emerald-400'); }
-    function updateDeltaPacketUI() { const cnt = document.getElementById('sync-queue-count'); const badge = document.getElementById('packet-size-badge'); const elo = document.getElementById('progress-elo'); const streak = document.getElementById('progress-streak'); const acc = document.getElementById('progress-acc'); const pre = document.getElementById('delta-json-preview'); const accPct = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; if (cnt) cnt.textContent = state.pendingSync ? '1 pending' : '0 pending'; if (badge) badge.textContent = state.pendingSync ? '0.4 KB pending' : '0 KB pending'; if (elo) elo.textContent = String(state.elo); if (streak) streak.textContent = String(state.streak); if (acc) acc.textContent = accPct; if (pre) pre.textContent = JSON.stringify({ student_id: 'LOCAL_LEARNER', elo_rating: state.elo, accuracy: accPct, pending_events: state.pendingSync ? ['answer_submitted'] : [] }, null, 2); }
-    async function simulateSyncNow(isAuto) { state.pendingSync = false; const st = document.getElementById('sync-status-msg'); if (st) st.textContent = tr('Synced - progress is saved on this device.'); updateDeltaPacketUI(); }
     function getHeatCellClass(score) { if (score < 50) return 'bg-rose-500/80'; if (score < 75) return 'bg-amber-500/80'; return 'bg-emerald-500/80'; }
-    function renderHeatmap() { const tb = document.getElementById('heatmap-tbody'); if (!tb) return; tb.innerHTML = ''; topics.forEach(function (tp) { const st = state.topicStats[tp] || { correct: 0, attempts: 0 }; const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0; const row = document.createElement('tr'); const td = document.createElement('td'); td.className = 'px-3 py-3 font-semibold text-slate-200'; td.textContent = tr(tp); row.appendChild(td); const cell = document.createElement('td'); cell.colSpan = 4; cell.className = 'px-3 py-3 text-center font-bold ' + (st.attempts ? getHeatCellClass(acc) : 'bg-slate-800 text-slate-400'); cell.textContent = st.attempts ? acc + '% (' + st.correct + '/' + st.attempts + ')' : tr('no practice yet'); row.appendChild(cell); tb.appendChild(row); }); }
-    function renderDashboard() { const gp = document.getElementById('stat-progress'); const ga = document.getElementById('stat-accuracy'); const gt = document.getElementById('goal-text'); const gbar = document.getElementById('goal-bar'); const goalPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100); if (gbar) gbar.style.width = goalPct + '%'; if (gp) gp.textContent = goalPct + '%'; if (ga) ga.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; document.querySelectorAll('#stat-streak').forEach(el => { el.textContent = state.streak + ' ' + tr('days'); }); if (gt) gt.textContent = state.answeredToday + ' / ' + state.dailyGoal; const rl = document.getElementById('recommended-list'); if (rl) { rl.innerHTML = ''; topics.forEach(function (tp) { const st = state.topicStats[tp] || { correct: 0, attempts: 0 }; const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0; const li = document.createElement('li'); li.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200'; const label = !st.attempts ? 'New' : (acc >= 75 ? 'Strong' : 'Continue'); const cls = !st.attempts ? 'text-slate-500' : (acc >= 75 ? 'text-emerald-600' : 'text-amber-600'); li.innerHTML = '<span class="font-semibold text-slate-800">' + tr(tp) + '</span><span class="text-xs font-bold ' + cls + '">' + tr(label) + '</span>'; rl.appendChild(li); }); } const wl = document.getElementById('weak-list'); if (wl) { wl.innerHTML = ''; const weak = topics.filter(function (tp) { const st = state.topicStats[tp]; return st && st.attempts > 0 && (st.correct / st.attempts) < 0.6; }); if (!weak.length) { const li = document.createElement('li'); li.className = 'p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500'; li.textContent = tr('No weak topics yet - keep practising.'); wl.appendChild(li); } else { weak.forEach(function (tp) { const st = state.topicStats[tp]; const acc = Math.round((st.correct / st.attempts) * 100); const li = document.createElement('li'); li.className = 'flex items-center justify-between p-3 rounded-2xl bg-rose-50 border border-rose-200'; li.innerHTML = '<span class="font-semibold text-rose-800">' + tr(tp) + '</span><span class="text-xs font-bold text-rose-600">' + acc + '% - ' + tr('needs practice') + '</span>'; wl.appendChild(li); }); } } }
-    function renderTeacherDashboard() { const ta = document.getElementById('teacher-avg-accuracy'); const tc = document.getElementById('teacher-completion'); const ts = document.getElementById('teacher-struggling-count'); const tn = document.getElementById('teacher-class-students'); const toc = document.getElementById('teacher-overall-completion'); const toa = document.getElementById('teacher-overall-accuracy'); const accPct = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; const compPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100) + '%'; if (ta) ta.textContent = accPct; if (toc) toc.textContent = compPct; if (tc) tc.textContent = compPct; if (toa) toa.textContent = accPct; if (tn) tn.textContent = '1'; const tl = document.getElementById('teacher-struggling-list'); if (tl) { tl.innerHTML = ''; const weak = topics.filter(function (tp) { const st = state.topicStats[tp]; return st && st.attempts > 0 && (st.correct / st.attempts) < 0.6; }); if (!weak.length) { const p = document.createElement('p'); p.className = 'text-slate-400 text-xs'; p.textContent = tr('No practice data yet. Topics with low accuracy will appear here.'); tl.appendChild(p); } else { weak.forEach(function (tp) { const st = state.topicStats[tp]; const acc = Math.round((st.correct / st.attempts) * 100); const d = document.createElement('div'); d.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-900 border border-slate-800'; d.innerHTML = '<span class="font-semibold text-white">' + tr(tp) + '</span><span class="text-xs font-bold ' + (acc < 50 ? 'text-rose-500' : 'text-amber-500') + '">' + acc + '% ' + tr('accuracy') + '</span>'; tl.appendChild(d); }); } if (ts) ts.textContent = String(weak.length); } }
-    function renderAll() { renderDashboard(); renderTeacherDashboard(); renderHeatmap(); renderQuestion(); updateDeltaPacketUI(); }
-    function init() { try { state.lang = localStorage.getItem('vidyalite_lang') || 'en'; } catch (e) {} try { const saved = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null'); if (saved) { state.elo = saved.elo || state.elo; state.correctCount = saved.correct || state.correctCount; state.attempts = saved.attempts || state.attempts; state.streak = saved.streak || state.streak; state.answeredToday = saved.answeredToday || state.answeredToday; state.topicStats = saved.topicStats || state.topicStats; } } catch (e) {} setLanguage(state.lang, false); renderAll(); showView('home'); document.querySelectorAll('[data-nav]').forEach(function (a) { a.addEventListener('click', function () { showView(a.getAttribute('data-nav')); }); }); }
+    function renderHeatmap() {
+      const tb = document.getElementById('heatmap-tbody');
+      if (!tb) return;
+      tb.innerHTML = '';
+      getAllTopicEntries().forEach(({ subject, topic }) => {
+        const st = getTopicStats(subject, topic);
+        const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0;
+        const row = document.createElement('tr');
+        const td = document.createElement('td');
+        td.className = 'px-3 py-3 font-semibold text-slate-200';
+        td.textContent = tr(subject) + ' · ' + tr(topic);
+        row.appendChild(td);
+        const cell = document.createElement('td');
+        cell.colSpan = 4;
+        cell.className = 'px-3 py-3 text-center font-bold ' + (st.attempts ? getHeatCellClass(acc) : 'bg-slate-800 text-slate-400');
+        cell.textContent = st.attempts ? acc + '% (' + st.correct + '/' + st.attempts + ')' : tr('no practice yet');
+        row.appendChild(cell);
+        tb.appendChild(row);
+      });
+    }
+    function renderDashboard() {
+      const gp = document.getElementById('stat-progress');
+      const ga = document.getElementById('stat-accuracy');
+      const gt = document.getElementById('goal-text');
+      const gbar = document.getElementById('goal-bar');
+      const goalPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100);
+      if (gbar) gbar.style.width = goalPct + '%';
+      if (gp) gp.textContent = goalPct + '%';
+      if (ga) ga.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%';
+      document.querySelectorAll('#stat-streak').forEach(node => { node.textContent = state.streak + ' ' + tr('days'); });
+      if (gt) gt.textContent = state.answeredToday + ' / ' + state.dailyGoal;
+      const subjectTopics = getTopicsForSubject(state.subject);
+      const rl = document.getElementById('recommended-list');
+      if (rl) {
+        rl.innerHTML = '';
+        subjectTopics.forEach(topic => {
+          const st = getTopicStats(state.subject, topic);
+          const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0;
+          const li = document.createElement('li');
+          li.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200';
+          const name = document.createElement('span');
+          name.className = 'font-semibold text-slate-800';
+          name.textContent = tr(topic);
+          const label = document.createElement('span');
+          label.className = 'text-xs font-bold ' + (!st.attempts ? 'text-slate-500' : (acc >= 75 ? 'text-emerald-600' : 'text-amber-600'));
+          label.textContent = tr(!st.attempts ? 'New' : (acc >= 75 ? 'Strong' : 'Continue'));
+          li.append(name, label);
+          rl.appendChild(li);
+        });
+      }
+      const wl = document.getElementById('weak-list');
+      if (wl) {
+        wl.innerHTML = '';
+        const weak = subjectTopics.filter(topic => {
+          const st = getTopicStats(state.subject, topic);
+          return st.attempts > 0 && (st.correct / st.attempts) < 0.6;
+        });
+        if (!weak.length) {
+          const li = document.createElement('li');
+          li.className = 'p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500';
+          li.textContent = tr('No weak topics yet - keep practising.');
+          wl.appendChild(li);
+        } else {
+          weak.forEach(topic => {
+            const st = getTopicStats(state.subject, topic);
+            const acc = Math.round((st.correct / st.attempts) * 100);
+            const li = document.createElement('li');
+            li.className = 'flex items-center justify-between p-3 rounded-2xl bg-rose-50 border border-rose-200';
+            const name = document.createElement('span');
+            name.className = 'font-semibold text-rose-800';
+            name.textContent = tr(topic);
+            const score = document.createElement('span');
+            score.className = 'text-xs font-bold text-rose-600';
+            score.textContent = acc + '% - ' + tr('needs practice');
+            li.append(name, score);
+            wl.appendChild(li);
+          });
+        }
+      }
+    }
+    function renderTeacherDashboard() {
+      const ta = document.getElementById('teacher-avg-accuracy');
+      const tc = document.getElementById('teacher-completion');
+      const ts = document.getElementById('teacher-struggling-count');
+      const tn = document.getElementById('teacher-class-students');
+      const toc = document.getElementById('teacher-overall-completion');
+      const toa = document.getElementById('teacher-overall-accuracy');
+      const accPct = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%';
+      const compPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100) + '%';
+      if (ta) ta.textContent = accPct;
+      if (toc) toc.textContent = compPct;
+      if (tc) tc.textContent = compPct;
+      if (toa) toa.textContent = accPct;
+      if (tn) tn.textContent = '1';
+      const tl = document.getElementById('teacher-struggling-list');
+      if (!tl) return;
+      tl.innerHTML = '';
+      const weak = getAllTopicEntries().filter(({ subject, topic }) => {
+        const st = getTopicStats(subject, topic);
+        return st.attempts > 0 && (st.correct / st.attempts) < 0.6;
+      });
+      if (!weak.length) {
+        const p = document.createElement('p');
+        p.className = 'text-slate-400 text-xs';
+        p.textContent = tr('No practice data yet. Topics with low accuracy will appear here.');
+        tl.appendChild(p);
+      } else {
+        weak.forEach(({ subject, topic }) => {
+          const st = getTopicStats(subject, topic);
+          const acc = Math.round((st.correct / st.attempts) * 100);
+          const d = document.createElement('div');
+          d.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-900 border border-slate-800';
+          const name = document.createElement('span');
+          name.className = 'font-semibold text-white';
+          name.textContent = tr(subject) + ' · ' + tr(topic);
+          const score = document.createElement('span');
+          score.className = 'text-xs font-bold ' + (acc < 50 ? 'text-rose-500' : 'text-amber-500');
+          score.textContent = acc + '% ' + tr('accuracy');
+          d.append(name, score);
+          tl.appendChild(d);
+        });
+      }
+      if (ts) ts.textContent = String(weak.length);
+    }
+    function renderAll(preserveQuestion) {
+      populateTopicOptions();
+      renderDashboard();
+      renderTeacherDashboard();
+      renderHeatmap();
+      renderQuestion(preserveQuestion);
+    }
+    function init() {
+      try { state.lang = localStorage.getItem('vidyalite_lang') || 'en'; } catch (e) {}
+      try {
+        const saved = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null');
+        if (saved) {
+          state.correctCount = saved.correct || state.correctCount;
+          state.attempts = saved.attempts || state.attempts;
+          state.streak = saved.streak || state.streak;
+          state.answeredToday = saved.answeredToday || state.answeredToday;
+          state.topicStats = saved.topicStats || state.topicStats;
+        }
+      } catch (e) {}
+      history.replaceState({ view: 'home' }, '', '#home');
+      setLanguage(state.lang, false);
+      renderAll();
+      showView('home', true);
+      document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', handleSectionLinkClick);
+      });
+      window.addEventListener('popstate', handleViewPopState);
+    }
     setTimeout(init, 0);
   </script>
 </body>
