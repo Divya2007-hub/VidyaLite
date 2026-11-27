@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0F172A" />
-  <meta name="description" content="VidyaLite ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â offline-first adaptive learning for rural schools." />
+  <meta name="description" content="VidyaLite - offline-first adaptive learning for rural schools." />
   <link rel="manifest" href="manifest.json" />
   <title>VidyaLite | Learning made simple, anywhere.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,9 +13,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
-    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'], display: ['Plus Jakarta Sans', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'] }, colors: { brand: { indigo: '#1E1B4B', navy: '#0F172A', saffron: '#F59E0B', amber: '#D97706', emerald: '#10B981' } } } } };
+    if (window.tailwind) { tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'], display: ['Plus Jakarta Sans', 'Noto Sans Kannada', 'Noto Sans Devanagari', 'sans-serif'] }, colors: { brand: { indigo: '#1E1B4B', navy: '#0F172A', saffron: '#F59E0B', amber: '#D97706', emerald: '#10B981' } } } } }; }
   </script>
   <style>
+    .hidden { display: none !important; }
+    button, a, [role="button"] { cursor: pointer; }
+    .flex { display: flex; }
     .hero-pattern { background-color: #0F172A; background-image: radial-gradient(rgba(99,102,241,0.16) 1px, transparent 1px), radial-gradient(rgba(245,158,11,0.1) 1px, #0F172A 1px); background-size: 36px 36px; background-position: 0 0, 18px 18px; }
     @keyframes pulseRing { 0% { transform: scale(0.95); opacity: 0.75; } 70% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(0.95); opacity: 0; } }
     .pulse-ring::before { content: ''; position: absolute; inset: -4px; border-radius: 9999px; background: inherit; animation: pulseRing 2s infinite; z-index: -1; }
@@ -88,9 +91,9 @@
           <div class="flex flex-wrap items-center gap-3 mt-8">
             <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Choose language</p>
             <div class="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800" role="group" aria-label="Select Language">
-              <button onclick="setLanguage('en')" id="lang-en" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">English</button>
-              <button onclick="setLanguage('kn')" id="lang-kn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Kannada</button>
-              <button onclick="setLanguage('hi')" id="lang-hi" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Hindi</button>
+              <button onclick="setLanguage('en', true)" id="lang-en" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition">English</button>
+              <button onclick="setLanguage('kn', true)" id="lang-kn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Kannada</button>
+              <button onclick="setLanguage('hi', true)" id="lang-hi" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">Hindi</button>
             </div>
           </div>
         </div>
@@ -136,7 +139,7 @@
           </div>
           <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white border border-slate-200 shadow-sm text-sm font-semibold text-slate-700">
             <i data-lucide="flame" class="w-4 h-4 text-orange-500"></i>
-            <span id="stat-streak">Streak: 4 days</span>
+            <span id="stat-streak">Streak: 0 days</span>
           </div>
         </div>
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm mb-8">
@@ -177,26 +180,26 @@
         </div>
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Daily Goal</p>
+            <p id="stat-label-goal" class="text-xs font-bold uppercase tracking-wider text-slate-400">Daily Goal</p>
             <div class="mt-2 flex items-center gap-3">
-              <div class="flex-1 h-3 rounded-full bg-slate-200 overflow-hidden"><div id="goal-bar" class="h-3 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full" style="width: 70%;"></div></div>
-              <p id="goal-text" class="text-sm font-bold text-slate-800 whitespace-nowrap">7 / 10</p>
+              <div class="flex-1 h-3 rounded-full bg-slate-200 overflow-hidden"><div id="goal-bar" class="h-3 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full" style="width: 0%;"></div></div>
+              <p id="goal-text" class="text-sm font-bold text-slate-800 whitespace-nowrap">0 / 10</p>
             </div>
             <p class="text-xs text-slate-500 mt-2">Keep today's practice consistent.</p>
           </div>
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Progress</p>
-            <p id="stat-progress" class="font-display text-3xl font-extrabold text-slate-900 mt-2">68%</p>
+            <p id="stat-label-progress" class="text-xs font-bold uppercase tracking-wider text-slate-400">Progress</p>
+            <p id="stat-progress" class="font-display text-3xl font-extrabold text-slate-900 mt-2">0%</p>
             <p class="text-xs text-slate-500 mt-2">of assigned lessons completed</p>
           </div>
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Accuracy</p>
-            <p id="stat-accuracy" class="font-display text-3xl font-extrabold text-slate-900 mt-2">80%</p>
+            <p id="stat-label-accuracy" class="text-xs font-bold uppercase tracking-wider text-slate-400">Accuracy</p>
+            <p id="stat-accuracy" class="font-display text-3xl font-extrabold text-slate-900 mt-2">0%</p>
             <p class="text-xs text-slate-500 mt-2">from local practice attempts</p>
           </div>
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Streak</p>
-            <p id="stat-streak" class="font-display text-3xl font-extrabold text-slate-900 mt-2">4 days</p>
+            <p id="stat-label-streak" class="text-xs font-bold uppercase tracking-wider text-slate-400">Streak</p>
+            <p id="stat-streak" class="font-display text-3xl font-extrabold text-slate-900 mt-2">0 days</p>
             <p class="text-xs text-slate-500 mt-2">keep the habit alive</p>
           </div>
         </div>
@@ -204,14 +207,11 @@
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
             <h3 class="font-display font-bold text-lg text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="book-open" class="w-5 h-5 text-amber-500"></i>Recommended Lessons</h3>
             <ul id="recommended-list" class="space-y-3 text-sm text-slate-700">
-              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Fractions Ãƒâ€šÃ‚Â· Easy</span><span class="text-xs font-bold text-emerald-600">Ready</span></li>
-              <li class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200"><span class="font-semibold text-slate-800">Decimals Ãƒâ€šÃ‚Â· Medium</span><span class="text-xs font-bold text-amber-600">Continue</span></li>
             </ul>
           </div>
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
             <h3 class="font-display font-bold text-lg text-slate-900 mb-4 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-5 h-5 text-rose-500"></i>Weak Topics</h3>
             <ul id="weak-list" class="space-y-3 text-sm text-slate-700">
-              <li class="flex items-center justify-between p-3 rounded-2xl bg-rose-50 border border-rose-200"><span class="font-semibold text-rose-800">Fractions</span><span class="text-xs font-bold text-rose-600">Needs practice</span></li>
             </ul>
           </div>
         </div>
@@ -230,7 +230,7 @@
             <p class="text-slate-400 mt-2 max-w-2xl text-sm sm:text-base">Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.</p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
-            <span id="topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Fractions Ãƒâ€šÃ‚Â· Grade 6</span>
+            <span id="topic-tag" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Fractions - Grade 6</span>
             <span id="difficulty-badge" class="text-xs font-sans font-semibold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Medium</span>
           </div>
         </div>
@@ -255,7 +255,7 @@
                   <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
                   <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
                 </div>
-                <span id="audio-caption">Playing cached regional voice packÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</span>
+                <span id="audio-caption">Playing cached regional voice pack</span>
               </div>
               <span class="font-mono text-[11px] text-amber-400">Offline Audio</span>
             </div>
@@ -289,7 +289,7 @@
                   <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center"><i data-lucide="database" class="w-5 h-5"></i></div>
                   <div>
                     <h4 class="font-display font-bold text-base text-white">Local Progress Store</h4>
-                    <p class="text-xs text-slate-400">Saved on-device via IndexedDB</p>
+                    <p class="text-xs text-slate-400">Saved on-device in your browser</p>
                   </div>
                 </div>
                 <span id="packet-size-badge" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-emerald-400">0.4 KB pending</span>
@@ -300,18 +300,31 @@
                   <span id="sync-queue-count">0 pending</span>
                 </div>
                 <pre id="delta-json-preview" class="text-emerald-300 leading-relaxed">{
-  "student_id": "STU_ASHA_06",
-  "elo_rating": 1050,
-  "pending_events": [],
-  "compressed_bytes": 412
+  "student_id": "LOCAL_LEARNER",
+  "elo_rating": 1000,
+  "pending_events": []
 }</pre>
+              </div>
+              <div class="grid grid-cols-3 gap-2 mt-5">
+                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
+                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">ELO</p>
+                  <p id="progress-elo" class="font-display font-extrabold text-white mt-1">1000</p>
+                </div>
+                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
+                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Streak</p>
+                  <p id="progress-streak" class="font-display font-extrabold text-white mt-1">0</p>
+                </div>
+                <div class="bg-slate-900 rounded-xl p-3 border border-slate-800 text-center">
+                  <p class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Accuracy</p>
+                  <p id="progress-acc" class="font-display font-extrabold text-white mt-1">0%</p>
+                </div>
               </div>
               <div class="mt-5 space-y-3">
                 <button onclick="simulateSyncNow()" id="sync-now-btn" class="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm transition shadow-lg shadow-emerald-500/20">
                   <i data-lucide="refresh-cw" id="sync-icon" class="w-4 h-4"></i>
                   <span id="ui-sync">Sync Now</span>
                 </button>
-                <p id="sync-status-msg" class="text-xs text-center text-slate-400">Local sync simulation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â progress is stored in browser IndexedDB (no remote server).</p>
+                <p id="sync-status-msg" class="text-xs text-center text-slate-400">Progress is saved on this device. No remote server is used.</p>
               </div>
             </div>
             <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-3xl p-5 text-xs sm:text-sm text-indigo-200 space-y-2">
@@ -339,19 +352,19 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Students</p>
-            <p id="teacher-class-students" class="font-display text-3xl font-extrabold text-white mt-2">24</p>
+            <p id="teacher-class-students" class="font-display text-3xl font-extrabold text-white mt-2">1</p>
           </div>
           <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Average Accuracy</p>
-            <p id="teacher-avg-accuracy" class="font-display text-3xl font-extrabold text-emerald-400 mt-2">78%</p>
+            <p id="teacher-avg-accuracy" class="font-display text-3xl font-extrabold text-emerald-400 mt-2">0%</p>
           </div>
           <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Lessons Completed</p>
-            <p id="teacher-completion" class="font-display text-3xl font-extrabold text-white mt-2">31%</p>
+            <p id="teacher-completion" class="font-display text-3xl font-extrabold text-white mt-2">0%</p>
           </div>
           <div class="bg-slate-950 border border-slate-800 rounded-3xl p-6 shadow-xl">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Needing Support</p>
-            <p id="teacher-struggling-count" class="font-display text-3xl font-extrabold text-rose-400 mt-2">5</p>
+            <p id="teacher-struggling-count" class="font-display text-3xl font-extrabold text-rose-400 mt-2">0</p>
           </div>
         </div>
         <div class="grid lg:grid-cols-5 gap-6">
@@ -392,11 +405,11 @@
               <div class="grid grid-cols-2 gap-4">
                 <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800">
                   <p class="text-[11px] uppercase tracking-wider text-slate-400">Avg. Accuracy</p>
-                  <p id="teacher-overall-accuracy" class="font-display text-2xl font-extrabold text-emerald-400 mt-1">78%</p>
+                  <p id="teacher-overall-accuracy" class="font-display text-2xl font-extrabold text-emerald-400 mt-1">0%</p>
                 </div>
                 <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800">
                   <p class="text-[11px] uppercase tracking-wider text-slate-400">Lesson Completion</p>
-                  <p id="teacher-completion" class="font-display text-2xl font-extrabold text-white mt-1">31%</p>
+                  <p id="teacher-overall-completion" class="font-display text-2xl font-extrabold text-white mt-1">0%</p>
                 </div>
               </div>
             </div>
@@ -412,7 +425,7 @@
         <p class="font-display font-extrabold text-white">Vidya<span class="text-amber-400">Lite</span></p>
         <p class="text-xs text-slate-400 mt-1">Learning made simple, anywhere.</p>
       </div>
-      <p class="text-xs text-slate-500 text-center sm:text-right max-w-md">Demo builds use local simulations for voice and synchronisation. Adaptive scoring and progress storage run on the device.</p>
+      <p class="text-xs text-slate-500 text-center sm:text-right max-w-md">Voice and sync are simulated locally. Adaptive scoring and progress storage run on this device.</p>
     </div>
   </footer>
   <script>
@@ -421,11 +434,11 @@
       window.addEventListener('load', () => { navigator.serviceWorker.register('./service-worker.js').catch(() => {}); });
     }
     const uiStrings = {
-      en: { welcome: 'Learning made simple, anywhere.', subtitle: 'Offline-first adaptive maths practice for rural classrooms - no internet needed.', startLearning: 'Start Learning', submit: 'Submit Answer', howItWorks: 'How It Works', home: 'Home', student: 'Student Dashboard', learn: 'Learning', teacher: 'Teacher Dashboard', about: 'About', dailyGoal: 'Daily Learning Goal', progress: 'Overall Progress', accuracy: 'Accuracy', streak: 'Learning Streak', recommended: 'Recommended Lessons', weakTopics: 'Weak Topics', classLabel: 'Class', subjectLabel: 'Subject', topicLabel: 'Topic', difficultyLabel: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', questionLabel: 'Question', hint: 'Hint', next: 'Next Question', correct: 'Correct! Great job!', wrong: 'Not quite. Keep practising!', explanation: 'Explanation', listen: 'Listen', voicePlaying: 'Playing...', offlineStatus: 'Offline Mode', onlineStatus: 'Online', syncNow: 'Sync Now', synced: 'Synced', queued: 'pending', teacherDashboard: 'Teacher Dashboard', classOverview: 'Class Overview', heatmap: 'Topic-wise Performance', struggling: 'Students Needing Support', reports: 'Accuracy & Completion Reports', howTitle: 'How VidyaLite works', stepOffline: 'Offline lessons', stepAdaptive: 'Adaptive practice', stepLang: 'Regional languages', stepSync: 'Low-data sync', offlineBanner: 'You are offline - practising from cached lessons.', onlineBanner: 'You are online - progress will sync when possible.' },
-      kn: { welcome: 'Learning made simple, anywhere.', subtitle: 'Offline-first adaptive maths practice for rural classrooms - no internet needed.', startLearning: 'Start Learning', howItWorks: 'How It Works', home: 'Home', student: 'Student Dashboard', learn: 'Learning', teacher: 'Teacher Dashboard', about: 'About', dailyGoal: 'Daily Learning Goal', progress: 'Overall Progress', accuracy: 'Accuracy', streak: 'Learning Streak', recommended: 'Recommended Lessons', weakTopics: 'Weak Topics', classLabel: 'Class', subjectLabel: 'Subject', topicLabel: 'Topic', difficultyLabel: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', questionLabel: 'Question', hint: 'Hint', next: 'Next Question', correct: 'Correct! Great job!', wrong: 'Not quite. Keep practising!', explanation: 'Explanation', listen: 'Listen', voicePlaying: 'Playing...', offlineStatus: 'Offline Mode', onlineStatus: 'Online', syncNow: 'Sync Now', synced: 'Synced', queued: 'pending', teacherDashboard: 'Teacher Dashboard', classOverview: 'Class Overview', heatmap: 'Topic-wise Performance', struggling: 'Students Needing Support', reports: 'Accuracy & Completion Reports', howTitle: 'How VidyaLite works', stepOffline: 'Offline lessons', stepAdaptive: 'Adaptive practice', stepLang: 'Regional languages', stepSync: 'Low-data sync', offlineBanner: 'You are offline - practising from cached lessons.', onlineBanner: 'You are online - progress will sync when possible.' },
-      hi: { welcome: 'Learning made simple, anywhere.', subtitle: 'Offline-first adaptive maths practice for rural classrooms - no internet needed.', startLearning: 'Start Learning', howItWorks: 'How It Works', home: 'Home', student: 'Student Dashboard', learn: 'Learning', teacher: 'Teacher Dashboard', about: 'About', dailyGoal: 'Daily Learning Goal', progress: 'Overall Progress', accuracy: 'Accuracy', streak: 'Learning Streak', recommended: 'Recommended Lessons', weakTopics: 'Weak Topics', classLabel: 'Class', subjectLabel: 'Subject', topicLabel: 'Topic', difficultyLabel: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', questionLabel: 'Question', hint: 'Hint', next: 'Next Question', correct: 'Correct! Great job!', wrong: 'Not quite. Keep practising!', explanation: 'Explanation', listen: 'Listen', voicePlaying: 'Playing...', offlineStatus: 'Offline Mode', onlineStatus: 'Online', syncNow: 'Sync Now', synced: 'Synced', queued: 'pending', teacherDashboard: 'Teacher Dashboard', classOverview: 'Class Overview', heatmap: 'Topic-wise Performance', struggling: 'Students Needing Support', reports: 'Accuracy & Completion Reports', howTitle: 'How VidyaLite works', stepOffline: 'Offline lessons', stepAdaptive: 'Adaptive practice', stepLang: 'Regional languages', stepSync: 'Low-data sync', offlineBanner: 'You are offline - practising from cached lessons.', onlineBanner: 'You are online - progress will sync when possible.' }
+      en: { welcome: 'Learning made simple, anywhere.', subtitle: 'Offline-first adaptive maths practice for rural classrooms - no internet needed.', startLearning: 'Start Learning', submit: 'Submit Answer', howItWorks: 'How It Works', home: 'Home', student: 'Student Dashboard', learn: 'Learning', teacher: 'Teacher Dashboard', about: 'About', dailyGoal: 'Daily Learning Goal', progress: 'Overall Progress', accuracy: 'Accuracy', streak: 'Learning Streak', recommended: 'Recommended Lessons', weakTopics: 'Weak Topics', classLabel: 'Class', subjectLabel: 'Subject', topicLabel: 'Topic', difficultyLabel: 'Difficulty', easy: 'Easy', medium: 'Medium', hard: 'Hard', questionLabel: 'Question', hint: 'Hint', showHint: 'Show Step-by-Step Hint', next: 'Next Question', correct: 'Correct! Great job!', wrong: 'Not quite. Keep practising!', explanation: 'Explanation', listen: 'Listen', voicePlaying: 'Playing...', offlineStatus: 'Offline Mode', onlineStatus: 'Online', syncNow: 'Sync Now', synced: 'Synced', queued: 'pending', teacherDashboard: 'Teacher Dashboard', classOverview: 'Class Overview', heatmap: 'Topic-wise Performance', struggling: 'Students Needing Support', reports: 'Accuracy & Completion Reports', howTitle: 'How VidyaLite works', stepOffline: 'Offline lessons', stepAdaptive: 'Adaptive practice', stepLang: 'Regional languages', stepSync: 'Low-data sync', offlineBanner: 'You are offline - practising from cached lessons.', onlineBanner: 'You are online - progress will sync when possible.' },
+      kn: {"welcome":"ಕಲಿಕೆ ಸುಲಭ, ಎಲ್ಲಿಯಾದರೂ.","subtitle":"ಗ್ರಾಮೀಣ ತರಗತಿಗಳಿಗಾಗಿ ಆಫ್‌ಲೈನ್ ಆಧಾರಿತ ಹೊಂದಾಣಿಕೆಯ ಗಣಿತ ಅಭ್ಯಾಸ - ಇಂಟರ್ನೆಟ್ ಅಗತ್ಯವಿಲ್ಲ.","startLearning":"ಕಲಿಕೆ ಪ್ರಾರಂಭಿಸಿ","submit":"ಉತ್ತರ ಸಲ್ಲಿಸಿ","howItWorks":"ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ","home":"ಮುಖಪುಟ","student":"ವಿದ್ಯಾರ್ಥಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","learn":"ಕಲಿಕೆ","teacher":"ಶಿಕ್ಷಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","about":"ಪರಿಚಯ","dailyGoal":"ದೈನಂದಿನ ಕಲಿಕೆ ಗುರಿ","progress":"ಒಟ್ಟು ಪ್ರಗತಿ","accuracy":"ನಿಖರತೆ","streak":"ಕಲಿಕೆ ಸರಣಿ","recommended":"ಶಿಫಾರಸು ಮಾಡಿದ ಪಾಠಗಳು","weakTopics":"ದುರ್ಬಲ ವಿಷಯಗಳು","classLabel":"ತರಗತಿ","subjectLabel":"ವಿಷಯ","topicLabel":"ವಿಷಯಾಂಶ","difficultyLabel":"ಕಠಿಣತೆ","easy":"ಸುಲಭ","medium":"ಮಧ್ಯಮ","hard":"ಕಠಿಣ","questionLabel":"ಪ್ರಶ್ನೆ","hint":"ಸುಳಿವು","showHint":"ಹಂತ ಹಂತದ ಸುಳಿವು ತೋರಿಸಿ","next":"ಮುಂದಿನ ಪ್ರಶ್ನೆ","correct":"ಸರಿ! ಚೆನ್ನಾಗಿ ಮಾಡಿದ್ದೀರಿ!","wrong":"ಸರಿಯಿಲ್ಲ. ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ!","explanation":"ವಿವರಣೆ","listen":"ಕೇಳಿ","voicePlaying":"ಪ್ಲೇ ಆಗುತ್ತಿದೆ...","offlineStatus":"ಆಫ್‌ಲೈನ್ ಮೋಡ್","onlineStatus":"ಆನ್‌ಲೈನ್","syncNow":"ಈಗ ಸಿಂಕ್ ಮಾಡಿ","synced":"ಸಿಂಕ್ ಆಗಿದೆ","queued":"ಬಾಕಿ","teacherDashboard":"ಶಿಕ್ಷಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್","classOverview":"ತರಗತಿ ಅವಲೋಕನ","heatmap":"ವಿಷಯವಾರು ಕಾರ್ಯಕ್ಷಮತೆ","struggling":"ಬೆಂಬಲ ಬೇಕಾದ ವಿದ್ಯಾರ್ಥಿಗಳು","reports":"ನಿಖರತೆ ಮತ್ತು ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ ವರದಿಗಳು","howTitle":"ವಿದ್ಯಾಲೈಟ್ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ","stepOffline":"ಆಫ್‌ಲೈನ್ ಪಾಠಗಳು","stepAdaptive":"ಹೊಂದಾಣಿಕೆಯ ಅಭ್ಯಾಸ","stepLang":"ಪ್ರಾದೇಶಿಕ ಭಾಷೆಗಳು","stepSync":"ಕಡಿಮೆ ಡೇಟಾ ಸಿಂಕ್","offlineBanner":"ನೀವು ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ - ಕ್ಯಾಶ್ ಮಾಡಿದ ಪಾಠಗಳಿಂದ ಅಭ್ಯಾಸ ಮಾಡಿ.","onlineBanner":"ನೀವು ಆನ್‌ಲೈನ್‌ನಲ್ಲಿದ್ದೀರಿ - ಸಾಧ್ಯವಾದಾಗ ಪ್ರಗತಿ ಸಿಂಕ್ ಆಗುತ್ತದೆ."},
+      hi: {"welcome":"सीखना आसान, कहीं भी।","subtitle":"ग्रामीण कक्षाओं के लिए ऑफ़लाइन-आधारित अनुकूली गणित अभ्यास - इंटरनेट की ज़रूरत नहीं।","startLearning":"सीखना शुरू करें","submit":"उत्तर जमा करें","howItWorks":"यह कैसे काम करता है","home":"होम","student":"छात्र डैशबोर्ड","learn":"सीखें","teacher":"शिक्षक डैशबोर्ड","about":"परिचय","dailyGoal":"दैनिक सीखने का लक्ष्य","progress":"कुल प्रगति","accuracy":"सटीकता","streak":"सीखने की लय","recommended":"सुझाए गए पाठ","weakTopics":"कमज़ोर विषय","classLabel":"कक्षा","subjectLabel":"विषय","topicLabel":"टॉपिक","difficultyLabel":"कठिनाई","easy":"आसान","medium":"मध्यम","hard":"कठिन","questionLabel":"प्रश्न","hint":"संकेत","showHint":"चरण-दर-चरण संकेत दिखाएँ","next":"अगला प्रश्न","correct":"सही! बहुत बढ़िया!","wrong":"सही नहीं। अभ्यास जारी रखें!","explanation":"व्याख्या","listen":"सुनें","voicePlaying":"चल रहा है...","offlineStatus":"ऑफ़लाइन मोड","onlineStatus":"ऑनलाइन","syncNow":"अभी सिंक करें","synced":"सिंक हो गया","queued":"लंबित","teacherDashboard":"शिक्षक डैशबोर्ड","classOverview":"कक्षा अवलोकन","heatmap":"विषय-वार प्रदर्शन","struggling":"सहायता चाहिए वाले छात्र","reports":"सटीकता और पूर्णता रिपोर्ट","howTitle":"विद्यालाइट कैसे काम करता है","stepOffline":"ऑफ़लाइन पाठ","stepAdaptive":"अनुकूली अभ्यास","stepLang":"क्षेत्रीय भाषाएँ","stepSync":"कम-डेटा सिंक","offlineBanner":"आप ऑफ़लाइन हैं - कैश किए गए पाठों से अभ्यास करें।","onlineBanner":"आप ऑनलाइन हैं - संभव होने पर प्रगति सिंक होगी।"},
     };
-    const state = { lang: 'en', role: null, studentName: 'Asha Kumari', grade: 6, subject: 'Maths', topic: 'Fractions', difficulty: 'Medium', elo: 1050, streak: 4, correctCount: 12, attempts: 15, answeredToday: 7, dailyGoal: 10, questions: [], currentQIndex: 0, answered: false, selectedAnswer: null, hintRevealed: false, voicePlaying: false, simulatedOffline: false, pendingSync: false };
+    const state = { lang: 'en', role: null, studentName: 'Learner', grade: 6, subject: 'Maths', topic: 'Fractions', difficulty: 'Medium', elo: 1000, streak: 0, correctCount: 0, attempts: 0, answeredToday: 0, dailyGoal: 10, topicStats: {}, questions: [], currentQIndex: 0, answered: false, selectedAnswer: null, hintRevealed: false, voicePlaying: false, simulatedOffline: false, pendingSync: false };
     const topics = ['Fractions', 'Decimals', 'Algebra', 'Geometry'];
     const questionsByTopic = {
       Fractions: [
@@ -446,10 +459,89 @@
 
     function el(id) { return document.getElementById(id); }
     function t(key) { const l = uiStrings[state.lang] || uiStrings.en; return (l && l[key]) || uiStrings.en[key] || key; }
-    function updateUIStrings() { const w = document.getElementById('ui-welcome'); const s = document.getElementById('ui-subtitle'); const c1 = document.getElementById('cta-start'); const c2 = document.getElementById('cta-how'); const st = document.getElementById('start-learning-btn'); const ls = document.getElementById('login-student-btn'); const lt = document.getElementById('login-teacher-btn'); const dd = document.getElementById('dash-title'); if (w) w.textContent = t('welcome'); if (s) s.textContent = t('subtitle'); if (c1) c1.textContent = t('startLearning'); if (c2) c2.textContent = t('howItWorks'); document.querySelectorAll('[data-nav]').forEach(a => { a.textContent = t(a.getAttribute('data-nav')); }); if (st) st.textContent = t('startLearning'); if (ls) ls.textContent = 'Student Login'; if (lt) lt.textContent = 'Teacher Login'; if (dd) dd.textContent = state.role === 'teacher' ? t('teacherDashboard') : t('student'); }
-    function setLanguage(lang, shouldPersist) { state.lang = lang; if (shouldPersist) { try { localStorage.setItem('vidyalite_lang', lang); } catch (e) {} } const sub = document.getElementById('ui-submit'); if (sub) sub.textContent = t('submit'); updateUIStrings(); renderAll(); }
+    const pageTranslations = {
+      kn: {
+        'Offline-First Adaptive Learning':'ಆಫ್‌ಲೈನ್ ಆಧಾರಿತ ಹೊಂದಾಣಿಕೆಯ ಕಲಿಕೆ','Home':'ಮುಖಪುಟ','Student':'ವಿದ್ಯಾರ್ಥಿ','Learning':'ಕಲಿಕೆ','Teacher':'ಶಿಕ್ಷಕರು','About':'ಪರಿಚಯ','Student Login':'ವಿದ್ಯಾರ್ಥಿ ಲಾಗಿನ್','Teacher Login':'ಶಿಕ್ಷಕರ ಲಾಗಿನ್','Start Learning':'ಕಲಿಕೆ ಪ್ರಾರಂಭಿಸಿ',
+        'How It Works':'ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ','Student Dashboard':'ವಿದ್ಯಾರ್ಥಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್','Teacher Dashboard':'ಶಿಕ್ಷಕರ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್','Continue personalised offline practice.':'ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಆಫ್‌ಲೈನ್ ಅಭ್ಯಾಸವನ್ನು ಮುಂದುವರಿಸಿ.','View class progress & weak topics.':'ತರಗತಿಯ ಪ್ರಗತಿ ಮತ್ತು ದುರ್ಬಲ ವಿಷಯಗಳನ್ನು ವೀಕ್ಷಿಸಿ.','Choose language':'ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+        'Simple by design, powerful when it matters':'ಸರಳ ವಿನ್ಯಾಸ, ಅಗತ್ಯವಾದಾಗ ಶಕ್ತಿಯುತ','Offline Learning':'ಆಫ್‌ಲೈನ್ ಕಲಿಕೆ','Lessons and questions are cached on the device so practice continues even without internet.':'ಪಾಠಗಳು ಮತ್ತು ಪ್ರಶ್ನೆಗಳು ಸಾಧನದಲ್ಲಿ ಸಂಗ್ರಹವಾಗುತ್ತವೆ; ಇಂಟರ್ನೆಟ್ ಇಲ್ಲದಿದ್ದರೂ ಅಭ್ಯಾಸ ಮುಂದುವರಿಯುತ್ತದೆ.','Adaptive Practice':'ಹೊಂದಾಣಿಕೆಯ ಅಭ್ಯಾಸ','Local adaptive scoring adjusts difficulty as the learner answers, keeping practice meaningful.':'ಕಲಿಯುವವರು ಉತ್ತರಿಸುವಾಗ ಸ್ಥಳೀಯ ಹೊಂದಾಣಿಕೆಯ ಅಂಕಗಳಿಕೆ ಕಠಿಣತೆಯನ್ನು ಬದಲಿಸಿ ಅಭ್ಯಾಸವನ್ನು ಪರಿಣಾಮಕಾರಿಯಾಗಿರಿಸುತ್ತದೆ.','Regional Languages':'ಪ್ರಾದೇಶಿಕ ಭಾಷೆಗಳು','Practice and instructions are available in English, Kannada and Hindi.':'ಇಂಗ್ಲಿಷ್, ಕನ್ನಡ ಮತ್ತು ಹಿಂದಿಯಲ್ಲಿ ಅಭ್ಯಾಸ ಹಾಗೂ ಸೂಚನೆಗಳು ಲಭ್ಯವಿವೆ.','Low-Data Sync':'ಕಡಿಮೆ ಡೇಟಾ ಸಿಂಕ್','Tiny progress packets sync only when connectivity returns, keeping data usage minimal.':'ಸಂಪರ್ಕ ಮರಳಿದಾಗ ಮಾತ್ರ ಸಣ್ಣ ಪ್ರಗತಿ ಮಾಹಿತಿಗಳು ಸಿಂಕ್ ಆಗುತ್ತವೆ; ಡೇಟಾ ಬಳಕೆ ಕಡಿಮೆಯಾಗಿರುತ್ತದೆ.',
+        'Pick a class, topic and difficulty to begin today\'s practice.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ಪ್ರಾರಂಭಿಸಲು ತರಗತಿ, ವಿಷಯ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.','Streak: 0 days':'ಸತತ ಅಭ್ಯಾಸ: 0 ದಿನಗಳು','Class':'ತರಗತಿ','Subject':'ವಿಷಯ','Topic':'ವಿಷಯಾಂಶ','Difficulty':'ಕಠಿಣತೆ','Class 5':'5ನೇ ತರಗತಿ','Class 6':'6ನೇ ತರಗತಿ','Class 7':'7ನೇ ತರಗತಿ','Class 8':'8ನೇ ತರಗತಿ','Maths':'ಗಣಿತ','Fractions':'ಭಿನ್ನರಾಶಿಗಳು','Decimals':'ದಶಮಾಂಶಗಳು','Algebra':'ಬೀಜಗಣಿತ','Geometry':'ಜ್ಯಾಮಿತಿ','Easy':'ಸುಲಭ','Medium':'ಮಧ್ಯಮ','Hard':'ಕಠಿಣ',
+        'Daily Goal':'ದೈನಂದಿನ ಗುರಿ','Keep today\'s practice consistent.':'ಇಂದಿನ ಅಭ್ಯಾಸವನ್ನು ನಿರಂತರವಾಗಿ ಮುಂದುವರಿಸಿ.','Progress':'ಪ್ರಗತಿ','of assigned lessons completed':'ನಿಗದಿಪಡಿಸಿದ ಪಾಠಗಳಲ್ಲಿ ಪೂರ್ಣಗೊಂಡದ್ದು','Accuracy':'ನಿಖರತೆ','from local practice attempts':'ಸ್ಥಳೀಯ ಅಭ್ಯಾಸ ಪ್ರಯತ್ನಗಳಿಂದ','Streak':'ಸತತ ಅಭ್ಯಾಸ','keep the habit alive':'ಅಭ್ಯಾಸವನ್ನು ಮುಂದುವರಿಸಿ','Recommended Lessons':'ಶಿಫಾರಸು ಮಾಡಿದ ಪಾಠಗಳು','Weak Topics':'ದುರ್ಬಲ ವಿಷಯಾಂಶಗಳು',
+        'Learning Module':'ಕಲಿಕಾ ವಿಭಾಗ','Interactive Maths Lesson':'ಸಂವಾದಾತ್ಮಕ ಗಣಿತ ಪಾಠ','Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.':'ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ, ತಕ್ಷಣದ ಪ್ರತಿಕ್ರಿಯೆ ಪಡೆಯಿರಿ, ಸುಳಿವುಗಳನ್ನು ತೆರೆಯಿರಿ ಮತ್ತು ಕಠಿಣತೆಯನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹೊಂದಿಸಿ.','Online':'ಆನ್‌ಲೈನ್','Listen':'ಕೇಳಿ','Playing cached regional voice pack':'ಸಂಗ್ರಹಿತ ಪ್ರಾದೇಶಿಕ ಧ್ವನಿ ಪ್ಯಾಕ್ ಪ್ಲೇ ಆಗುತ್ತಿದೆ','Offline Audio':'ಆಫ್‌ಲೈನ್ ಧ್ವನಿ','Submit Answer':'ಉತ್ತರ ಸಲ್ಲಿಸಿ','Next Question':'ಮುಂದಿನ ಪ್ರಶ್ನೆ','Show Step-by-Step Hint':'ಹಂತ ಹಂತದ ಸುಳಿವು ತೋರಿಸಿ',
+        'Local Progress Store':'ಸ್ಥಳೀಯ ಪ್ರಗತಿ ಸಂಗ್ರಹ','Saved on-device in your browser':'ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಸಾಧನದಲ್ಲೇ ಉಳಿಸಲಾಗಿದೆ','0.4 KB pending':'0.4 KB ಬಾಕಿ','0 KB pending':'0 KB ಬಾಕಿ','0 pending':'0 ಬಾಕಿ','1 pending':'1 ಬಾಕಿ','ELO':'ELO','Sync Now':'ಈಗ ಸಿಂಕ್ ಮಾಡಿ','Progress is saved on this device. No remote server is used.':'ಪ್ರಗತಿಯನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ. ದೂರಸ್ಥ ಸರ್ವರ್ ಬಳಸಲಾಗುವುದಿಲ್ಲ.','How Adaptive Difficulty Works:':'ಹೊಂದಾಣಿಕೆಯ ಕಠಿಣತೆ ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ:','Correct answer:':'ಸರಿಯಾದ ಉತ್ತರ:','adaptive rating increases and a harder question is served.':'ಹೊಂದಾಣಿಕೆಯ ರೇಟಿಂಗ್ ಹೆಚ್ಚುತ್ತದೆ ಮತ್ತು ಕಠಿಣ ಪ್ರಶ್ನೆ ನೀಡಲಾಗುತ್ತದೆ.','Incorrect answer:':'ತಪ್ಪಾದ ಉತ್ತರ:','rating adjusts, a hint is unlocked and a weak-topic signal is kept.':'ರೇಟಿಂಗ್ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ, ಸುಳಿವು ತೆರೆಯುತ್ತದೆ ಮತ್ತು ದುರ್ಬಲ ವಿಷಯದ ಸೂಚನೆ ಉಳಿಯುತ್ತದೆ.',
+        'Students':'ವಿದ್ಯಾರ್ಥಿಗಳು','Average Accuracy':'ಸರಾಸರಿ ನಿಖರತೆ','Lessons Completed':'ಪೂರ್ಣಗೊಂಡ ಪಾಠಗಳು','Needing Support':'ಬೆಂಬಲ ಅಗತ್ಯವಿರುವವರು','Topic-wise Performance Heatmap':'ವಿಷಯಾಂಶವಾರು ಸಾಧನೆ ನಕ್ಷೆ','Mastery across grades':'ತರಗತಿಗಳಾದ್ಯಂತ ಪಾಂಡಿತ್ಯ','G5':'5ನೇ ತರಗತಿ','G6':'6ನೇ ತರಗತಿ','G7':'7ನೇ ತರಗತಿ','G8':'8ನೇ ತರಗತಿ','Live insight: local practice progress is aggregated here.':'ತಾಜಾ ಮಾಹಿತಿ: ಸ್ಥಳೀಯ ಅಭ್ಯಾಸದ ಪ್ರಗತಿಯನ್ನು ಇಲ್ಲಿ ಒಟ್ಟುಗೂಡಿಸಲಾಗಿದೆ.','Last sync: local IndexedDB':'ಕೊನೆಯ ಸಿಂಕ್: ಸ್ಥಳೀಯ IndexedDB','Students Needing Support':'ಬೆಂಬಲ ಅಗತ್ಯವಿರುವ ವಿದ್ಯಾರ್ಥಿಗಳು','Select a student from the class list to view details.':'ವಿವರಗಳನ್ನು ನೋಡಲು ತರಗತಿ ಪಟ್ಟಿಯಿಂದ ವಿದ್ಯಾರ್ಥಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.','Accuracy & Completion Reports':'ನಿಖರತೆ ಮತ್ತು ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ ವರದಿಗಳು','Avg. Accuracy':'ಸರಾಸರಿ ನಿಖರತೆ','Lesson Completion':'ಪಾಠ ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ',
+        'Learning made simple, anywhere.':'ಕಲಿಕೆ ಸುಲಭ, ಎಲ್ಲಿಯಾದರೂ.','VidyaLite | Learning made simple, anywhere.':'ವಿದ್ಯಾಲೈಟ್ | ಕಲಿಕೆ ಸುಲಭ, ಎಲ್ಲಿಯಾದರೂ.','Voice and sync are simulated locally. Adaptive scoring and progress storage run on this device.':'ಧ್ವನಿ ಮತ್ತು ಸಿಂಕ್ ಸ್ಥಳೀಯವಾಗಿ ಅನುಕರಿಸಲಾಗುತ್ತವೆ. ಹೊಂದಾಣಿಕೆಯ ಅಂಕಗಳಿಕೆ ಮತ್ತು ಪ್ರಗತಿ ಸಂಗ್ರಹ ಈ ಸಾಧನದಲ್ಲೇ ನಡೆಯುತ್ತವೆ.','Grade':'ತರಗತಿ','Synced - progress is saved on this device.':'ಸಿಂಕ್ ಆಗಿದೆ - ಪ್ರಗತಿಯನ್ನು ಈ ಸಾಧನದಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ.',
+        'New':'ಹೊಸದು','Strong':'ಉತ್ತಮ','Continue':'ಮುಂದುವರಿಸಿ','No weak topics yet - keep practising.':'ಇನ್ನೂ ದುರ್ಬಲ ವಿಷಯಗಳಿಲ್ಲ - ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ.','needs practice':'ಅಭ್ಯಾಸ ಅಗತ್ಯ','no practice yet':'ಇನ್ನೂ ಅಭ್ಯಾಸವಿಲ್ಲ','No practice data yet. Topics with low accuracy will appear here.':'ಇನ್ನೂ ಅಭ್ಯಾಸದ ಮಾಹಿತಿ ಇಲ್ಲ. ಕಡಿಮೆ ನಿಖರತೆಯ ವಿಷಯಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.','accuracy':'ನಿಖರತೆ','days':'ದಿನಗಳು','pending':'ಬಾಕಿ','Synced':'ಸಿಂಕ್ ಆಗಿದೆ','Offline Mode':'ಆಫ್‌ಲೈನ್ ಮೋಡ್','Online':'ಆನ್‌ಲೈನ್','Playing...':'ಪ್ಲೇ ಆಗುತ್ತಿದೆ...','Correct! Great job!':'ಸರಿಯಾಗಿದೆ! ತುಂಬಾ ಚೆನ್ನಾಗಿದೆ!','Not quite. Keep practising!':'ಸರಿಯಾಗಿಲ್ಲ. ಅಭ್ಯಾಸ ಮುಂದುವರಿಸಿ!','Add the numerators: 1 + 2 = 3, so the answer is 3/4.':'ಅಂಶಗಳನ್ನು ಸೇರಿಸಿ: 1 + 2 = 3, ಆದ್ದರಿಂದ ಉತ್ತರ 3/4.','Add the numerators, keep the denominator the same.':'ಅಂಶಗಳನ್ನು ಸೇರಿಸಿ, ಛೇದವನ್ನು ಹಾಗೆಯೇ ಇರಿಸಿ.','2/3 - 1/6 = 4/6 - 1/6 = 3/6 = 1/2.':'2/3 - 1/6 = 4/6 - 1/6 = 3/6 = 1/2.','Convert 2/3 into sixths, then subtract.':'2/3 ಅನ್ನು ಆರನೆಯ ಭಾಗಗಳಾಗಿ ಬದಲಿಸಿ, ನಂತರ ಕಳೆಯಿರಿ.','3/4 - 1/4 = 2/4 = 1/2.':'3/4 - 1/4 = 2/4 = 1/2.','Subtract the numerators directly.':'ಅಂಶಗಳನ್ನು ನೇರವಾಗಿ ಕಳೆಯಿರಿ.','Align the decimal points: 118.50 + 16.75 = 125.25.':'ದಶಮಾಂಶ ಬಿಂದುಗಳನ್ನು ಒಂದೇ ಸಾಲಿನಲ್ಲಿ ಇಡಿ: 118.50 + 16.75 = 125.25.','Add the paise first, then the rupees.':'ಮೊದಲು ಪೈಸೆಗಳನ್ನು ಸೇರಿಸಿ, ನಂತರ ರೂಪಾಯಿಗಳನ್ನು ಸೇರಿಸಿ.','3x = 15, so x = 5. Then 2x + 1 = 11.':'3x = 15, ಆದ್ದರಿಂದ x = 5. ನಂತರ 2x + 1 = 11.','Solve for x first, then substitute.':'ಮೊದಲು x ನ ಮೌಲ್ಯ ಕಂಡುಹಿಡಿದು, ನಂತರ ಬದಲಿಸಿ.','Perimeter = 2 * (30 + 20) = 100 m.':'ಪರಿಧಿ = 2 * (30 + 20) = 100 ಮೀ.','Perimeter of a rectangle is 2 * (length + width).':'ಆಯತದ ಪರಿಧಿ = 2 * (ಉದ್ದ + ಅಗಲ).',
+        'Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much did they eat together?':'ರಾಜು ಒಂದು ರೊಟ್ಟಿಯ 1/4 ಭಾಗ ತಿಂದನು ಮತ್ತು ಮೀನಾ ಅದೇ ರೊಟ್ಟಿಯ 2/4 ಭಾಗ ತಿಂದಳು. ಇಬ್ಬರೂ ಒಟ್ಟಿಗೆ ಎಷ್ಟು ತಿಂದರು?','A water tank is 2/3 full. After watering, 1/6 of the capacity is used. What fraction is still full?':'ನೀರಿನ ಟ್ಯಾಂಕ್ 2/3 ಭಾಗ ತುಂಬಿದೆ. ನೀರು ಬಳಸಿದ ನಂತರ ಸಾಮರ್ಥ್ಯದ 1/6 ಭಾಗ ಖಾಲಿಯಾಯಿತು. ಈಗ ಎಷ್ಟು ಭಾಗ ತುಂಬಿದೆ?','What is 3/4 - 1/4?':'3/4 - 1/4 ಎಷ್ಟು?','A notebook costs 118.50 and a pencil costs 16.75. How much do both cost together?':'ಒಂದು ನೋಟ್‌ಬುಕ್ ಬೆಲೆ 118.50 ಮತ್ತು ಪೆನ್ಸಿಲ್ ಬೆಲೆ 16.75. ಎರಡರ ಒಟ್ಟು ಬೆಲೆ ಎಷ್ಟು?','If 3x + 5 = 20, what is the value of 2x + 1?':'3x + 5 = 20 ಆದರೆ, 2x + 1 ರ ಮೌಲ್ಯ ಎಷ್ಟು?','A rectangular school field is 30 m long and 20 m wide. How much fencing is needed to go around it once?':'ಒಂದು ಆಯತಾಕಾರದ ಶಾಲಾ ಮೈದಾನ 30 ಮೀ ಉದ್ದ ಮತ್ತು 20 ಮೀ ಅಗಲವಿದೆ. ಅದರ ಸುತ್ತ ಒಮ್ಮೆ ಬೇಲಿ ಹಾಕಲು ಎಷ್ಟು ಉದ್ದ ಬೇಕು?'
+      },
+      hi: {
+        'Offline-First Adaptive Learning':'ऑफ़लाइन अनुकूल शिक्षण','Home':'मुखपृष्ठ','Student':'छात्र','Learning':'सीखें','Teacher':'शिक्षक','About':'परिचय','Student Login':'छात्र लॉगिन','Teacher Login':'शिक्षक लॉगिन','Start Learning':'सीखना शुरू करें',
+        'How It Works':'यह कैसे काम करता है','Student Dashboard':'छात्र डैशबोर्ड','Teacher Dashboard':'शिक्षक डैशबोर्ड','Continue personalised offline practice.':'अपनी व्यक्तिगत ऑफ़लाइन अभ्यास जारी रखें।','View class progress & weak topics.':'कक्षा की प्रगति और कमज़ोर विषय देखें।','Choose language':'भाषा चुनें',
+        'Simple by design, powerful when it matters':'डिज़ाइन में सरल, ज़रूरत पर प्रभावी','Offline Learning':'ऑफ़लाइन शिक्षा','Lessons and questions are cached on the device so practice continues even without internet.':'पाठ और प्रश्न डिवाइस में सहेजे जाते हैं, ताकि इंटरनेट के बिना भी अभ्यास जारी रहे।','Adaptive Practice':'अनुकूल अभ्यास','Local adaptive scoring adjusts difficulty as the learner answers, keeping practice meaningful.':'शिक्षार्थी के उत्तरों के अनुसार स्थानीय अनुकूल अंकन कठिनाई बदलता है और अभ्यास को उपयोगी बनाए रखता है।','Regional Languages':'क्षेत्रीय भाषाएँ','Practice and instructions are available in English, Kannada and Hindi.':'अंग्रेज़ी, कन्नड़ और हिंदी में अभ्यास तथा निर्देश उपलब्ध हैं।','Low-Data Sync':'कम डेटा सिंक','Tiny progress packets sync only when connectivity returns, keeping data usage minimal.':'छोटे प्रगति पैकेट कनेक्शन लौटने पर ही सिंक होते हैं, जिससे डेटा का उपयोग कम रहता है।',
+        'Pick a class, topic and difficulty to begin today\'s practice.':'आज का अभ्यास शुरू करने के लिए कक्षा, विषय और कठिनाई चुनें।','Streak: 0 days':'लगातार अभ्यास: 0 दिन','Class':'कक्षा','Subject':'विषय','Topic':'विषय','Difficulty':'कठिनाई','Class 5':'कक्षा 5','Class 6':'कक्षा 6','Class 7':'कक्षा 7','Class 8':'कक्षा 8','Maths':'गणित','Fractions':'भिन्न','Decimals':'दशमलव','Algebra':'बीजगणित','Geometry':'ज्यामिति','Easy':'आसान','Medium':'मध्यम','Hard':'कठिन',
+        'Daily Goal':'दैनिक लक्ष्य','Keep today\'s practice consistent.':'आज का अभ्यास नियमित रखें।','Progress':'प्रगति','of assigned lessons completed':'निर्धारित पाठ पूरे हुए','Accuracy':'सटीकता','from local practice attempts':'स्थानीय अभ्यास प्रयासों से','Streak':'लगातार अभ्यास','keep the habit alive':'अभ्यास जारी रखें','Recommended Lessons':'सुझाए गए पाठ','Weak Topics':'कमज़ोर विषय',
+        'Learning Module':'अध्ययन अनुभाग','Interactive Maths Lesson':'इंटरैक्टिव गणित पाठ','Answer questions, get instant feedback, unlock hints and adapt difficulty automatically.':'प्रश्नों के उत्तर दें, तुरंत प्रतिक्रिया पाएँ, संकेत खोलें और कठिनाई अपने-आप समायोजित करें।','Online':'ऑनलाइन','Listen':'सुनें','Playing cached regional voice pack':'सहेजा गया क्षेत्रीय वॉइस पैक चल रहा है','Offline Audio':'ऑफ़लाइन ऑडियो','Submit Answer':'उत्तर जमा करें','Next Question':'अगला प्रश्न','Show Step-by-Step Hint':'चरण-दर-चरण संकेत दिखाएँ',
+        'Local Progress Store':'स्थानीय प्रगति संग्रह','Saved on-device in your browser':'आपके ब्राउज़र में डिवाइस पर सहेजा गया','0.4 KB pending':'0.4 KB लंबित','0 KB pending':'0 KB लंबित','0 pending':'0 लंबित','1 pending':'1 लंबित','ELO':'ELO','Sync Now':'अभी सिंक करें','Progress is saved on this device. No remote server is used.':'प्रगति इस डिवाइस पर सहेजी जाती है। किसी दूरस्थ सर्वर का उपयोग नहीं होता।','How Adaptive Difficulty Works:':'अनुकूल कठिनाई कैसे काम करती है:','Correct answer:':'सही उत्तर:','adaptive rating increases and a harder question is served.':'अनुकूल रेटिंग बढ़ती है और कठिन प्रश्न दिया जाता है।','Incorrect answer:':'गलत उत्तर:','rating adjusts, a hint is unlocked and a weak-topic signal is kept.':'रेटिंग समायोजित होती है, संकेत खुलता है और कमज़ोर विषय का संकेत सुरक्षित रहता है।',
+        'Students':'छात्र','Average Accuracy':'औसत सटीकता','Lessons Completed':'पूरे किए गए पाठ','Needing Support':'सहायता की ज़रूरत','Topic-wise Performance Heatmap':'विषयवार प्रदर्शन हीटमैप','Mastery across grades':'कक्षाओं के अनुसार दक्षता','G5':'कक्षा 5','G6':'कक्षा 6','G7':'कक्षा 7','G8':'कक्षा 8','Live insight: local practice progress is aggregated here.':'ताज़ा जानकारी: स्थानीय अभ्यास की प्रगति यहाँ जोड़ी जाती है।','Last sync: local IndexedDB':'अंतिम सिंक: स्थानीय IndexedDB','Students Needing Support':'सहायता की ज़रूरत वाले छात्र','Select a student from the class list to view details.':'विवरण देखने के लिए कक्षा सूची से छात्र चुनें।','Accuracy & Completion Reports':'सटीकता और पूर्णता रिपोर्ट','Avg. Accuracy':'औसत सटीकता','Lesson Completion':'पाठ पूर्णता',
+        'Learning made simple, anywhere.':'सीखना आसान, कहीं भी।','VidyaLite | Learning made simple, anywhere.':'विद्यालाइट | सीखना आसान, कहीं भी।','Voice and sync are simulated locally. Adaptive scoring and progress storage run on this device.':'आवाज़ और सिंक स्थानीय रूप से अनुकरण किए जाते हैं। अनुकूल अंकन और प्रगति संग्रह इसी डिवाइस पर होते हैं।','Grade':'कक्षा','Synced - progress is saved on this device.':'सिंक हो गया - प्रगति इस डिवाइस पर सहेजी जाती है।',
+        'New':'नया','Strong':'मज़बूत','Continue':'जारी रखें','No weak topics yet - keep practising.':'अभी कोई कमज़ोर विषय नहीं - अभ्यास जारी रखें।','needs practice':'अभ्यास की ज़रूरत','no practice yet':'अभी अभ्यास नहीं','No practice data yet. Topics with low accuracy will appear here.':'अभी अभ्यास का डेटा नहीं है। कम सटीकता वाले विषय यहाँ दिखेंगे।','accuracy':'सटीकता','days':'दिन','pending':'लंबित','Synced':'सिंक हो गया','Offline Mode':'ऑफ़लाइन मोड','Online':'ऑनलाइन','Playing...':'चल रहा है...','Correct! Great job!':'सही! बहुत बढ़िया!','Not quite. Keep practising!':'सही नहीं। अभ्यास जारी रखें!','Add the numerators: 1 + 2 = 3, so the answer is 3/4.':'अंश जोड़ें: 1 + 2 = 3, इसलिए उत्तर 3/4 है।','Add the numerators, keep the denominator the same.':'अंश जोड़ें और हर को समान रखें।','2/3 - 1/6 = 4/6 - 1/6 = 3/6 = 1/2.':'2/3 - 1/6 = 4/6 - 1/6 = 3/6 = 1/2.','Convert 2/3 into sixths, then subtract.':'2/3 को छठे भागों में बदलें, फिर घटाएँ।','3/4 - 1/4 = 2/4 = 1/2.':'3/4 - 1/4 = 2/4 = 1/2.','Subtract the numerators directly.':'अंशों को सीधे घटाएँ।','Align the decimal points: 118.50 + 16.75 = 125.25.':'दशमलव बिंदुओं को एक सीध में रखें: 118.50 + 16.75 = 125.25.','Add the paise first, then the rupees.':'पहले पैसे जोड़ें, फिर रुपये।','3x = 15, so x = 5. Then 2x + 1 = 11.':'3x = 15, इसलिए x = 5। फिर 2x + 1 = 11।','Solve for x first, then substitute.':'पहले x का मान निकालें, फिर उसे रखें।','Perimeter = 2 * (30 + 20) = 100 m.':'परिमाप = 2 * (30 + 20) = 100 मीटर।','Perimeter of a rectangle is 2 * (length + width).':'आयत का परिमाप = 2 * (लंबाई + चौड़ाई)।',
+        'Raju ate 1/4 of a roti and Meena ate 2/4 of the same roti. How much did they eat together?':'राजू ने रोटी का 1/4 भाग और मीना ने उसी रोटी का 2/4 भाग खाया। दोनों ने मिलकर कितना खाया?','A water tank is 2/3 full. After watering, 1/6 of the capacity is used. What fraction is still full?':'एक पानी की टंकी 2/3 भरी है। पानी देने के बाद क्षमता का 1/6 भाग उपयोग हुआ। अब टंकी का कितना भाग भरा है?','What is 3/4 - 1/4?':'3/4 - 1/4 कितना है?','A notebook costs 118.50 and a pencil costs 16.75. How much do both cost together?':'एक कॉपी की कीमत 118.50 और पेंसिल की कीमत 16.75 है। दोनों की कुल कीमत कितनी है?','If 3x + 5 = 20, what is the value of 2x + 1?':'यदि 3x + 5 = 20, तो 2x + 1 का मान क्या है?','A rectangular school field is 30 m long and 20 m wide. How much fencing is needed to go around it once?':'एक आयताकार स्कूल का मैदान 30 मीटर लंबा और 20 मीटर चौड़ा है। इसके चारों ओर एक बार बाड़ लगाने के लिए कितनी लंबाई चाहिए?'
+      }
+    };
+    const originalTextNodes = new WeakMap();
+    function tr(text) { return (pageTranslations[state.lang] && pageTranslations[state.lang][text]) || text; }
+    function updateUIStrings() {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const parent = node.parentElement;
+        if (!parent || parent.closest('script, style, pre')) continue;
+        if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.nodeValue);
+        const original = originalTextNodes.get(node);
+        const trimmed = original.trim();
+        if (!trimmed) continue;
+        node.nodeValue = original.replace(trimmed, tr(trimmed));
+      }
+      const w = document.getElementById('ui-welcome');
+      const accentWord = 'anywhere';
+      const full = t('welcome');
+      const ai = full.indexOf(accentWord);
+      if (w) {
+        if (ai > -1) {
+          w.innerHTML = '';
+          w.appendChild(document.createTextNode(full.substring(0, ai)));
+          const accent = document.createElement('span');
+          accent.className = 'text-amber-400';
+          accent.textContent = full.substring(ai, ai + accentWord.length);
+          w.appendChild(accent);
+          w.appendChild(document.createTextNode(full.substring(ai + accentWord.length)));
+        } else {
+          w.textContent = full;
+        }
+      }
+      document.querySelectorAll('[data-nav]').forEach(a => { a.textContent = tr(a.getAttribute('data-nav') === 'student' ? 'Student' : a.getAttribute('data-nav') === 'learn' ? 'Learning' : a.getAttribute('data-nav') === 'teacher' ? 'Teacher' : a.getAttribute('data-nav') === 'about' ? 'About' : 'Home'); });
+      ['en', 'kn', 'hi'].forEach(code => {
+        const button = document.getElementById('lang-' + code);
+        if (!button) return;
+        const active = state.lang === code;
+        button.classList.toggle('bg-indigo-600', active);
+        button.classList.toggle('text-white', active);
+        button.classList.toggle('text-slate-400', !active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      document.documentElement.lang = state.lang;
+      document.title = tr('VidyaLite | Learning made simple, anywhere.');
+    }
+    function setLanguage(lang, shouldPersist) {
+      if (!uiStrings[lang]) lang = 'en';
+      state.lang = lang;
+      if (shouldPersist) {
+        try { localStorage.setItem('vidyalite_lang', lang); } catch (e) {}
+      }
+      updateUIStrings();
+      renderAll();
+    }
     function showView(id) { document.querySelectorAll('section').forEach(s => { s.classList.toggle('hidden', s.id !== id); }); }
-    function setRole(role) { state.role = role; const sb = document.getElementById('login-student-btn'); const tb = document.getElementById('login-teacher-btn'); if (sb) { sb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'student' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } if (tb) { tb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'teacher' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } }
+    function setRole(role) { state.role = role; const sb = document.getElementById('login-student-btn'); const tb = document.getElementById('login-teacher-btn'); if (sb) { sb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'student' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } if (tb) { tb.className = 'px-4 py-2 rounded-xl border text-sm font-semibold ' + (role === 'teacher' ? 'border-amber-400 bg-amber-500/10 text-white' : 'border-slate-700 text-slate-200 hover:border-amber-400 hover:text-white'); } updateUIStrings(); renderTeacherDashboard(); showView(role === 'teacher' ? 'teacher' : 'student'); }
     function onClassChange() { state.grade = parseInt(document.getElementById('class-select').value, 10); }
     function onTopicChange() { state.topic = document.getElementById('topic-select').value; state.currentQIndex = 0; renderQuestion(); }
     function onDifficultyChange() { state.difficulty = document.getElementById('difficulty-select').value; renderQuestion(); }
@@ -462,9 +554,9 @@
       const feedback = document.getElementById('feedback-box');
       const hint = document.getElementById('ai-hint-container');
       const grid = document.getElementById('options-grid');
-      if (topicEl) topicEl.textContent = q.topicKey + ' - Grade ' + q.grade;
-      if (badge) badge.textContent = state.difficulty;
-      if (qTitle) qTitle.textContent = q.text;
+      if (topicEl) topicEl.textContent = tr(q.topicKey) + ' - ' + tr('Grade') + ' ' + q.grade;
+      if (badge) badge.textContent = tr(state.difficulty);
+      if (qTitle) qTitle.textContent = tr(q.text);
       if (grid) { grid.innerHTML = ''; q.options.forEach((opt, idx) => { const btn = document.createElement('button'); btn.className = 'w-full text-left px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold hover:border-amber-400 transition'; btn.textContent = String(idx + 1) + '. ' + opt; btn.onclick = () => { state.selectedAnswer = idx; handleOptionSelect(idx); }; grid.appendChild(btn); }); }
       if (feedback) feedback.classList.add('hidden');
       if (hint) hint.classList.add('hidden');
@@ -477,33 +569,42 @@
       state.answered = true;
       state.selectedAnswer = selectedIdx;
       const correct = selectedIdx === q.correctIndex;
+      const st = state.topicStats[q.topicKey] || { correct: 0, attempts: 0 };
+      st.attempts++; if (correct) st.correct++;
+      state.topicStats[q.topicKey] = st;
       const feedback = document.getElementById('feedback-box');
       const title = document.getElementById('feedback-title');
       const desc = document.getElementById('feedback-desc');
       if (feedback) { feedback.classList.remove('hidden'); }
-      if (title) title.textContent = correct ? 'Correct! Great job!' : 'Not quite. Keep practising!';
-      if (desc) desc.textContent = correct ? q.explanation : q.explanation;
-      if (correct) { state.elo += 25; state.correctCount++; state.streak++; state.answeredToday++; state.attempts++; state.difficulty = state.difficulty === 'Easy' ? 'Medium' : (state.difficulty === 'Medium' ? 'Hard' : 'Hard'); }
-      else { state.elo = Math.max(900, state.elo - 20); state.attempts++; state.streak = 0; state.difficulty = state.difficulty === 'Hard' ? 'Medium' : (state.difficulty === 'Easy' ? 'Easy' : 'Easy'); }
-      const db = localStorage.getItem('vidyalite_progress');
-      try { const p = db ? JSON.parse(db) : { elo: 1050, correct: 12, attempts: 15 }; p.elo = state.elo; p.correct = state.correctCount; p.attempts = state.attempts; localStorage.setItem('vidyalite_progress', JSON.stringify(p)); } catch (e) {}
+      if (title) title.textContent = correct ? t('correct') : t('wrong');
+      if (desc) desc.textContent = tr(q.explanation);
+      if (correct) { state.elo += 25; state.correctCount++; state.streak++; state.attempts++; state.difficulty = state.difficulty === 'Easy' ? 'Medium' : (state.difficulty === 'Medium' ? 'Hard' : 'Medium'); }
+      else { state.elo = Math.max(900, state.elo - 20); state.attempts++; state.streak = 0; state.difficulty = state.difficulty === 'Hard' ? 'Medium' : (state.difficulty === 'Medium' ? 'Easy' : 'Easy'); }
+      state.answeredToday++;
+      try { const pr = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null') || {}; pr.elo = state.elo; pr.correct = state.correctCount; pr.attempts = state.attempts; pr.streak = state.streak; pr.answeredToday = state.answeredToday; pr.topicStats = state.topicStats; localStorage.setItem('vidyalite_progress', JSON.stringify(pr)); } catch (e) {}
       state.pendingSync = true;
       updateDeltaPacketUI();
-      renderAll();
+      renderDashboard();
+      renderTeacherDashboard();
+      renderHeatmap();
+      const badgeEl = document.getElementById('difficulty-badge');
+      if (badgeEl) badgeEl.textContent = state.difficulty;
+      const diffSel = document.getElementById('difficulty-select');
+      if (diffSel) diffSel.value = state.difficulty;
     }
     function submitAnswer() { if (state.answered) return; if (state.selectedAnswer === null || state.selectedAnswer === undefined) return; handleOptionSelect(state.selectedAnswer); }
-    function revealAiHint() { const hint = document.getElementById('ai-hint-text'); const cont = document.getElementById('ai-hint-container'); if (!hint || !cont) return; if (state.hintRevealed) { hint.classList.add('hidden'); cont.classList.add('hidden'); state.hintRevealed = false; return; } hint.classList.remove('hidden'); cont.classList.remove('hidden'); state.hintRevealed = true; }
+    function revealAiHint() { const hint = document.getElementById('ai-hint-text'); const cont = document.getElementById('ai-hint-container'); if (!hint || !cont) return; if (state.hintRevealed) { hint.classList.add('hidden'); cont.classList.add('hidden'); state.hintRevealed = false; return; } hint.textContent = tr(getCurrentQuestion().hint); hint.classList.remove('hidden'); cont.classList.remove('hidden'); state.hintRevealed = true; }
     function nextQuestion() { const bank = questionsByTopic[state.topic] || questionsByTopic.Fractions; state.currentQIndex = (state.currentQIndex + 1) % bank.length; renderQuestion(); }
-    function triggerVoiceReadAloud() { const btn = document.getElementById('voice-btn'); const banner = document.getElementById('audio-banner'); const cap = document.getElementById('audio-caption'); const listen = document.getElementById('ui-listen-btn'); if (!btn || !banner || !cap || !listen) return; if (state.voicePlaying) { state.voicePlaying = false; banner.classList.add('hidden'); listen.textContent = 'Listen'; return; } state.voicePlaying = true; banner.classList.remove('hidden'); cap.textContent = 'Playing cached regional voice pack'; listen.textContent = 'Playing'; }
-    function updateNetworkStatusUI() { const offline = !navigator.onLine || state.simulatedOffline; const pill = document.getElementById('network-status-text'); const icon = document.getElementById('network-icon'); const toggle = document.getElementById('offline-sim-toggle'); if (pill) pill.textContent = offline ? 'Offline Mode' : 'Online'; if (icon) icon.className = 'w-3.5 h-3.5 ' + (offline ? 'text-amber-400' : 'text-emerald-400'); if (toggle) toggle.textContent = 'Test Offline: ' + (state.simulatedOffline ? 'ON' : 'OFF'); }
-    function updateDeltaPacketUI() { const cnt = document.getElementById('sync-queue-count'); const badge = document.getElementById('packet-size-badge'); const elo = document.getElementById('progress-elo'); const streak = document.getElementById('progress-streak'); const acc = document.getElementById('progress-acc'); if (cnt) cnt.textContent = state.pendingSync ? '1 pending' : '0 pending'; if (badge) badge.textContent = state.pendingSync ? '0.4 KB pending' : '0.4 KB pending'; if (elo) elo.textContent = String(state.elo); if (streak) streak.textContent = String(state.streak); if (acc) acc.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; }
-    async function simulateSyncNow(isAuto) { state.pendingSync = false; const st = document.getElementById('sync-status-msg'); if (st) st.textContent = 'Local sync simulation - progress is stored in browser IndexedDB (no remote server).'; updateDeltaPacketUI(); }
+    function triggerVoiceReadAloud() { const btn = document.getElementById('voice-btn'); const banner = document.getElementById('audio-banner'); const cap = document.getElementById('audio-caption'); const listen = document.getElementById('ui-listen-btn'); if (!btn || !banner || !cap || !listen) return; if (state.voicePlaying) { state.voicePlaying = false; banner.classList.add('hidden'); banner.classList.remove('flex'); listen.textContent = t('listen'); return; } state.voicePlaying = true; banner.classList.remove('hidden'); banner.classList.add('flex'); cap.textContent = t('voicePlaying'); listen.textContent = t('voicePlaying'); }
+    function updateNetworkStatusUI() { const offline = !navigator.onLine || state.simulatedOffline; const pill = document.getElementById('network-status-text'); const icon = document.getElementById('network-icon'); if (pill) pill.textContent = (offline ? t('offlineStatus') : t('onlineStatus')) + (state.simulatedOffline ? ' (test)' : ''); if (icon) icon.className = 'w-3.5 h-3.5 ' + (offline ? 'text-amber-400' : 'text-emerald-400'); }
+    function updateDeltaPacketUI() { const cnt = document.getElementById('sync-queue-count'); const badge = document.getElementById('packet-size-badge'); const elo = document.getElementById('progress-elo'); const streak = document.getElementById('progress-streak'); const acc = document.getElementById('progress-acc'); const pre = document.getElementById('delta-json-preview'); const accPct = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; if (cnt) cnt.textContent = state.pendingSync ? '1 pending' : '0 pending'; if (badge) badge.textContent = state.pendingSync ? '0.4 KB pending' : '0 KB pending'; if (elo) elo.textContent = String(state.elo); if (streak) streak.textContent = String(state.streak); if (acc) acc.textContent = accPct; if (pre) pre.textContent = JSON.stringify({ student_id: 'LOCAL_LEARNER', elo_rating: state.elo, accuracy: accPct, pending_events: state.pendingSync ? ['answer_submitted'] : [] }, null, 2); }
+    async function simulateSyncNow(isAuto) { state.pendingSync = false; const st = document.getElementById('sync-status-msg'); if (st) st.textContent = tr('Synced - progress is saved on this device.'); updateDeltaPacketUI(); }
     function getHeatCellClass(score) { if (score < 50) return 'bg-rose-500/80'; if (score < 75) return 'bg-amber-500/80'; return 'bg-emerald-500/80'; }
-    function renderHeatmap() { const tb = document.getElementById('heatmap-tbody'); if (!tb) return; tb.innerHTML = ''; topics.forEach(topic => { const bank = questionsByTopic[topic] || []; const row = document.createElement('tr'); const td = document.createElement('td'); td.className = 'px-3 py-3 font-semibold text-slate-200'; td.textContent = topic; row.appendChild(td); let sum = 0; let n = 0; bank.forEach(q => { const correctPct = Math.round((1 - (state.answered && state.currentQIndex === bank.indexOf(q) ? 0 : 0)) * 100); sum += correctPct; n++; }); const acc = n ? Math.round(sum / n) : 70; const cell = document.createElement('td'); cell.className = 'px-3 py-3 text-center font-bold ' + getHeatCellClass(acc); cell.textContent = acc + '%'; row.appendChild(cell); tb.appendChild(row); }); }
-    function renderDashboard() { const gp = document.getElementById('stat-progress'); const ga = document.getElementById('stat-accuracy'); const gs = document.getElementById('stat-streak'); const gt = document.getElementById('goal-text'); if (gp) gp.textContent = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100) + '%'; if (ga) ga.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; if (gs) gs.textContent = state.streak + ' days'; if (gt) gt.textContent = state.answeredToday + ' / ' + state.dailyGoal; }
-    function renderTeacherDashboard() { const ta = document.getElementById('teacher-avg-accuracy'); const tc = document.getElementById('teacher-completion'); const ts = document.getElementById('teacher-struggling-count'); const tn = document.getElementById('teacher-class-students'); if (ta) ta.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; if (tc) tc.textContent = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100) + '%'; if (ts) ts.textContent = '2'; if (tn) tn.textContent = '24'; }
-    function renderAll() { renderDashboard(); renderTeacherDashboard(); renderQuestion(); updateDeltaPacketUI(); }
-    function init() { setLanguage(state.lang, false); renderAll(); showView('home'); document.querySelectorAll('[data-nav]').forEach(a => { a.addEventListener('click', () => { showView(a.getAttribute('data-nav')); }); }); }
+    function renderHeatmap() { const tb = document.getElementById('heatmap-tbody'); if (!tb) return; tb.innerHTML = ''; topics.forEach(function (tp) { const st = state.topicStats[tp] || { correct: 0, attempts: 0 }; const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0; const row = document.createElement('tr'); const td = document.createElement('td'); td.className = 'px-3 py-3 font-semibold text-slate-200'; td.textContent = tr(tp); row.appendChild(td); const cell = document.createElement('td'); cell.colSpan = 4; cell.className = 'px-3 py-3 text-center font-bold ' + (st.attempts ? getHeatCellClass(acc) : 'bg-slate-800 text-slate-400'); cell.textContent = st.attempts ? acc + '% (' + st.correct + '/' + st.attempts + ')' : tr('no practice yet'); row.appendChild(cell); tb.appendChild(row); }); }
+    function renderDashboard() { const gp = document.getElementById('stat-progress'); const ga = document.getElementById('stat-accuracy'); const gt = document.getElementById('goal-text'); const gbar = document.getElementById('goal-bar'); const goalPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100); if (gbar) gbar.style.width = goalPct + '%'; if (gp) gp.textContent = goalPct + '%'; if (ga) ga.textContent = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; document.querySelectorAll('#stat-streak').forEach(el => { el.textContent = state.streak + ' ' + tr('days'); }); if (gt) gt.textContent = state.answeredToday + ' / ' + state.dailyGoal; const rl = document.getElementById('recommended-list'); if (rl) { rl.innerHTML = ''; topics.forEach(function (tp) { const st = state.topicStats[tp] || { correct: 0, attempts: 0 }; const acc = st.attempts ? Math.round((st.correct / st.attempts) * 100) : 0; const li = document.createElement('li'); li.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200'; const label = !st.attempts ? 'New' : (acc >= 75 ? 'Strong' : 'Continue'); const cls = !st.attempts ? 'text-slate-500' : (acc >= 75 ? 'text-emerald-600' : 'text-amber-600'); li.innerHTML = '<span class="font-semibold text-slate-800">' + tr(tp) + '</span><span class="text-xs font-bold ' + cls + '">' + tr(label) + '</span>'; rl.appendChild(li); }); } const wl = document.getElementById('weak-list'); if (wl) { wl.innerHTML = ''; const weak = topics.filter(function (tp) { const st = state.topicStats[tp]; return st && st.attempts > 0 && (st.correct / st.attempts) < 0.6; }); if (!weak.length) { const li = document.createElement('li'); li.className = 'p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500'; li.textContent = tr('No weak topics yet - keep practising.'); wl.appendChild(li); } else { weak.forEach(function (tp) { const st = state.topicStats[tp]; const acc = Math.round((st.correct / st.attempts) * 100); const li = document.createElement('li'); li.className = 'flex items-center justify-between p-3 rounded-2xl bg-rose-50 border border-rose-200'; li.innerHTML = '<span class="font-semibold text-rose-800">' + tr(tp) + '</span><span class="text-xs font-bold text-rose-600">' + acc + '% - ' + tr('needs practice') + '</span>'; wl.appendChild(li); }); } } }
+    function renderTeacherDashboard() { const ta = document.getElementById('teacher-avg-accuracy'); const tc = document.getElementById('teacher-completion'); const ts = document.getElementById('teacher-struggling-count'); const tn = document.getElementById('teacher-class-students'); const toc = document.getElementById('teacher-overall-completion'); const toa = document.getElementById('teacher-overall-accuracy'); const accPct = Math.round((state.correctCount / Math.max(1, state.attempts)) * 100) + '%'; const compPct = Math.round((state.answeredToday / Math.max(1, state.dailyGoal)) * 100) + '%'; if (ta) ta.textContent = accPct; if (toc) toc.textContent = compPct; if (tc) tc.textContent = compPct; if (toa) toa.textContent = accPct; if (tn) tn.textContent = '1'; const tl = document.getElementById('teacher-struggling-list'); if (tl) { tl.innerHTML = ''; const weak = topics.filter(function (tp) { const st = state.topicStats[tp]; return st && st.attempts > 0 && (st.correct / st.attempts) < 0.6; }); if (!weak.length) { const p = document.createElement('p'); p.className = 'text-slate-400 text-xs'; p.textContent = tr('No practice data yet. Topics with low accuracy will appear here.'); tl.appendChild(p); } else { weak.forEach(function (tp) { const st = state.topicStats[tp]; const acc = Math.round((st.correct / st.attempts) * 100); const d = document.createElement('div'); d.className = 'flex items-center justify-between p-3 rounded-2xl bg-slate-900 border border-slate-800'; d.innerHTML = '<span class="font-semibold text-white">' + tr(tp) + '</span><span class="text-xs font-bold ' + (acc < 50 ? 'text-rose-500' : 'text-amber-500') + '">' + acc + '% ' + tr('accuracy') + '</span>'; tl.appendChild(d); }); } if (ts) ts.textContent = String(weak.length); } }
+    function renderAll() { renderDashboard(); renderTeacherDashboard(); renderHeatmap(); renderQuestion(); updateDeltaPacketUI(); }
+    function init() { try { state.lang = localStorage.getItem('vidyalite_lang') || 'en'; } catch (e) {} try { const saved = JSON.parse(localStorage.getItem('vidyalite_progress') || 'null'); if (saved) { state.elo = saved.elo || state.elo; state.correctCount = saved.correct || state.correctCount; state.attempts = saved.attempts || state.attempts; state.streak = saved.streak || state.streak; state.answeredToday = saved.answeredToday || state.answeredToday; state.topicStats = saved.topicStats || state.topicStats; } } catch (e) {} setLanguage(state.lang, false); renderAll(); showView('home'); document.querySelectorAll('[data-nav]').forEach(function (a) { a.addEventListener('click', function () { showView(a.getAttribute('data-nav')); }); }); }
     setTimeout(init, 0);
   </script>
 </body>
